@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Integrated Skill Map</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "error-container": "#ffdad6",
+              "primary-fixed": "#d6e3ff",
+              "inverse-primary": "#a9c7ff",
+              "secondary-container": "#619efe",
+              "on-secondary-fixed": "#001b3e",
+              "on-tertiary-fixed-variant": "#852300",
+              "on-primary-fixed-variant": "#00468c",
+              "on-primary-container": "#ffffff",
+              "surface-bright": "#fbf9f8",
+              "tertiary-fixed-dim": "#ffb59f",
+              "surface-container-lowest": "#ffffff",
+              "on-secondary-fixed-variant": "#00458e",
+              "background": "#fbf9f8",
+              "primary-container": "#0875e1",
+              "on-error-container": "#93000a",
+              "tertiary-fixed": "#ffdbd0",
+              "secondary-fixed-dim": "#aac7ff",
+              "on-error": "#ffffff",
+              "on-background": "#1b1c1c",
+              "secondary": "#015cb9",
+              "on-secondary-container": "#00346e",
+              "primary": "#005db5",
+              "on-primary-fixed": "#001b3d",
+              "tertiary": "#ab3409",
+              "surface": "#fbf9f8",
+              "on-tertiary-container": "#ffffff",
+              "inverse-surface": "#303030",
+              "on-secondary": "#ffffff",
+              "on-surface": "#1b1c1c",
+              "surface-dim": "#dbd9d9",
+              "surface-container-highest": "#e4e2e2",
+              "outline": "#717785",
+              "on-surface-variant": "#414753",
+              "on-primary": "#ffffff",
+              "on-tertiary": "#ffffff",
+              "inverse-on-surface": "#f2f0f0",
+              "tertiary-container": "#cd4c22",
+              "surface-tint": "#005db7",
+              "surface-container": "#f0eded",
+              "error": "#ba1a1a",
+              "secondary-fixed": "#d7e3ff",
+              "primary-fixed-dim": "#a9c7ff",
+              "on-tertiary-fixed": "#3a0a00",
+              "surface-container-low": "#f5f3f3",
+              "surface-container-high": "#eae8e7",
+              "surface-variant": "#e4e2e2",
+              "outline-variant": "#c1c6d5"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        .glass-header {
+            background: rgba(251, 249, 248, 0.8);
+            backdrop-filter: blur(12px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-40 bg-[#f5f3f3] glass-header">
+<div class="flex items-center h-16 px-6 w-full max-w-7xl mx-auto">
+<button class="mr-4 text-[#005db5] active:scale-95 duration-200">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="font-['Inter'] text-xl font-bold tracking-tight text-[#1b1c1c]">Integrated Skill Map</h1>
+<div class="ml-auto">
+<button class="p-2 rounded-full hover:bg-[#f5f3f3] transition-colors">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+</div>
+</div>
+</header>
+<main class="max-w-7xl mx-auto px-4 pt-4">
+<!-- Model Selector Tabs -->
+<div class="flex overflow-x-auto space-x-2 pb-6 scrollbar-hide no-scrollbar">
+<button class="whitespace-nowrap px-5 py-2.5 rounded-full bg-primary text-on-primary font-semibold text-sm shadow-md transition-all active:scale-95">
+                Codex-01
+            </button>
+<button class="whitespace-nowrap px-5 py-2.5 rounded-full bg-surface-container-high text-on-surface-variant font-medium text-sm hover:bg-surface-container-highest transition-all active:scale-95">
+                Claude 3.5
+            </button>
+<button class="whitespace-nowrap px-5 py-2.5 rounded-full bg-surface-container-high text-on-surface-variant font-medium text-sm hover:bg-surface-container-highest transition-all active:scale-95">
+                Gemini Pro
+            </button>
+<button class="whitespace-nowrap px-5 py-2.5 rounded-full bg-surface-container-high text-on-surface-variant font-medium text-sm hover:bg-surface-container-highest transition-all active:scale-95">
+                GPT-4o
+            </button>
+</div>
+<!-- Integrated Hierarchy View -->
+<div class="space-y-8">
+<!-- Category: Manager & Advisor -->
+<section>
+<div class="flex items-center space-x-3 mb-4">
+<div class="w-1.5 h-6 bg-primary rounded-full"></div>
+<h2 class="text-sm font-bold tracking-widest text-on-surface-variant uppercase">Manager / Advisor</h2>
+<span class="text-xs font-medium px-2 py-0.5 rounded bg-primary-fixed text-on-primary-fixed">CORE</span>
+</div>
+<div class="grid gap-4">
+<!-- Skill Card -->
+<div class="bg-surface-container-lowest p-5 rounded-xl shadow-sm border border-outline-variant/15 flex flex-col space-y-3">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-bold text-on-surface text-lg">orchestrator-alpha</h3>
+<p class="text-xs text-outline font-medium tracking-tight mt-0.5">Hierarchy: Root Controller</p>
+</div>
+<span class="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-1 rounded-full uppercase">Active</span>
+</div>
+<div class="grid grid-cols-2 gap-3 pt-2">
+<div class="space-y-1">
+<span class="text-[10px] uppercase text-outline font-bold">Trigger</span>
+<p class="text-sm font-medium text-on-surface-variant">on_init_request</p>
+</div>
+<div class="space-y-1">
+<span class="text-[10px] uppercase text-outline font-bold">Memory Path</span>
+<p class="text-sm font-medium text-on-surface-variant">/root/core/v1</p>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-xl shadow-sm border border-outline-variant/15 flex flex-col space-y-3">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-bold text-on-surface text-lg">context-validator-md</h3>
+<p class="text-xs text-outline font-medium tracking-tight mt-0.5">Hierarchy: Quality Assurance</p>
+</div>
+<span class="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-1 rounded-full uppercase">Active</span>
+</div>
+<div class="grid grid-cols-2 gap-3 pt-2">
+<div class="space-y-1">
+<span class="text-[10px] uppercase text-outline font-bold">Trigger</span>
+<p class="text-sm font-medium text-on-surface-variant">pre_inference</p>
+</div>
+<div class="space-y-1">
+<span class="text-[10px] uppercase text-outline font-bold">Memory Path</span>
+<p class="text-sm font-medium text-on-surface-variant">/shared/ctx/valid</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Category: Specialists -->
+<section>
+<div class="flex items-center space-x-3 mb-4">
+<div class="w-1.5 h-6 bg-secondary-container rounded-full"></div>
+<h2 class="text-sm font-bold tracking-widest text-on-surface-variant uppercase">Specialists</h2>
+<span class="text-xs font-medium px-2 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed">VERTICALS</span>
+</div>
+<div class="grid gap-4">
+<!-- Skill Card -->
+<div class="bg-surface-container-lowest p-5 rounded-xl shadow-sm border border-outline-variant/15 flex flex-col space-y-3 relative overflow-hidden">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-bold text-on-surface text-lg">architect-agent-ko</h3>
+<p class="text-xs text-outline font-medium tracking-tight mt-0.5">Hierarchy: System Design</p>
+</div>
+<span class="bg-blue-100 text-blue-700 text-[10px] font-bold px-2 py-1 rounded-full uppercase">In Dev</span>
+</div>
+<div class="grid grid-cols-2 gap-3 pt-2">
+<div class="space-y-1">
+<span class="text-[10px] uppercase text-outline font-bold">Trigger</span>
+<p class="text-sm font-medium text-on-surface-variant">schema_design</p>
+</div>
+<div class="space-y-1">
+<span class="text-[10px] uppercase text-outline font-bold">Memory Path</span>
+<p class="text-sm font-medium text-on-surface-variant">/dev/arch/current</p>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-xl shadow-sm border border-outline-variant/15 flex flex-col space-y-3">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-bold text-on-surface text-lg">code-refactor-pro</h3>
+<p class="text-xs text-outline font-medium tracking-tight mt-0.5">Hierarchy: Engineering</p>
+</div>
+<span class="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-1 rounded-full uppercase">Active</span>
+</div>
+<div class="grid grid-cols-2 gap-3 pt-2">
+<div class="space-y-1">
+<span class="text-[10px] uppercase text-outline font-bold">Trigger</span>
+<p class="text-sm font-medium text-on-surface-variant">refactor_intent</p>
+</div>
+<div class="space-y-1">
+<span class="text-[10px] uppercase text-outline font-bold">Memory Path</span>
+<p class="text-sm font-medium text-on-surface-variant">/eng/refactor/v2</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Category: System Utilities -->
+<section>
+<div class="flex items-center space-x-3 mb-4">
+<div class="w-1.5 h-6 bg-tertiary-container rounded-full"></div>
+<h2 class="text-sm font-bold tracking-widest text-on-surface-variant uppercase">System Utilities</h2>
+<span class="text-xs font-medium px-2 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed">AUXILIARY</span>
+</div>
+<div class="grid gap-4">
+<!-- Skill Card -->
+<div class="bg-surface-container-lowest p-5 rounded-xl shadow-sm border border-outline-variant/15 flex flex-col space-y-3 opacity-60">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-bold text-on-surface text-lg">log-aggregator-01</h3>
+<p class="text-xs text-outline font-medium tracking-tight mt-0.5">Hierarchy: Maintenance</p>
+</div>
+<span class="bg-surface-container-high text-on-surface-variant text-[10px] font-bold px-2 py-1 rounded-full uppercase">Planned</span>
+</div>
+<div class="grid grid-cols-2 gap-3 pt-2">
+<div class="space-y-1">
+<span class="text-[10px] uppercase text-outline font-bold">Trigger</span>
+<p class="text-sm font-medium text-on-surface-variant">periodic_flush</p>
+</div>
+<div class="space-y-1">
+<span class="text-[10px] uppercase text-outline font-bold">Memory Path</span>
+<p class="text-sm font-medium text-on-surface-variant">/sys/logs/stack</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Detail Insight Section (Bento Style) -->
+<div class="mt-12 grid grid-cols-2 gap-4">
+<div class="col-span-2 bg-primary-container text-on-primary-container p-6 rounded-2xl relative overflow-hidden">
+<div class="relative z-10">
+<span class="text-[10px] font-bold uppercase tracking-widest opacity-80">Network Density</span>
+<h4 class="text-2xl font-bold mt-1">42 Connected Skills</h4>
+<p class="text-sm opacity-90 mt-2 max-w-[200px]">Active skill mesh coverage for Codex-01 model exceeds 85%.</p>
+</div>
+<div class="absolute -right-4 -bottom-4 opacity-20">
+<span class="material-symbols-outlined text-8xl" data-icon="hub">hub</span>
+</div>
+</div>
+<div class="bg-surface-container-low p-4 rounded-2xl flex flex-col justify-between">
+<span class="material-symbols-outlined text-primary" data-icon="memory">memory</span>
+<div>
+<h5 class="text-sm font-bold">2.4GB</h5>
+<p class="text-[10px] text-outline uppercase font-bold">Registry Size</p>
+</div>
+</div>
+<div class="bg-surface-container-low p-4 rounded-2xl flex flex-col justify-between">
+<span class="material-symbols-outlined text-secondary" data-icon="speed">speed</span>
+<div>
+<h5 class="text-sm font-bold">12ms</h5>
+<p class="text-[10px] text-outline uppercase font-bold">Avg Trigger</p>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-3 bg-[#ffffff] shadow-[0_-4px_32px_rgba(27,28,28,0.05)] border-t border-[#f5f3f3]/15 z-50">
+<a class="flex flex-col items-center justify-center text-slate-500 px-3 py-1.5 hover:text-[#005db5] active:scale-90 transition-all duration-150" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="schema">schema</span>
+<span class="font-['Inter'] text-[11px] font-medium tracking-wide uppercase">Models</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-[#619efe]/10 text-[#005db5] rounded-xl px-3 py-1.5 active:scale-90 transition-all duration-150" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="inventory_2" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<span class="font-['Inter'] text-[11px] font-bold tracking-wide uppercase">Registry</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 px-3 py-1.5 hover:text-[#005db5] active:scale-90 transition-all duration-150" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="memory">memory</span>
+<span class="font-['Inter'] text-[11px] font-medium tracking-wide uppercase">Memory</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 px-3 py-1.5 hover:text-[#005db5] active:scale-90 transition-all duration-150" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="settings">settings</span>
+<span class="font-['Inter'] text-[11px] font-medium tracking-wide uppercase">Settings</span>
+</a>
+</nav>
+</body></html>

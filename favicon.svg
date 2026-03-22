@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="LLM Tool Hub favicon">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0875e1"/>
+      <stop offset="52%" stop-color="#00c1e1"/>
+      <stop offset="100%" stop-color="#00dbb4"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="28" fill="url(#bg)"/>
+  <path d="M64 18c4.4 0 8 3.6 8 8v8h10c12.2 0 22 9.8 22 22v24c0 12.2-9.8 22-22 22H46c-12.2 0-22-9.8-22-22V56c0-12.2 9.8-22 22-22h10v-8c0-4.4 3.6-8 8-8Z" fill="#ffffff" fill-opacity=".92"/>
+  <rect x="36" y="48" width="56" height="36" rx="14" fill="#0d335d"/>
+  <circle cx="52" cy="66" r="6" fill="#88ef85"/>
+  <circle cx="76" cy="66" r="6" fill="#f9f871"/>
+  <rect x="52" y="82" width="24" height="6" rx="3" fill="#00dbb4"/>
+  <rect x="16" y="58" width="10" height="8" rx="4" fill="#ffffff" fill-opacity=".78"/>
+  <rect x="102" y="58" width="10" height="8" rx="4" fill="#ffffff" fill-opacity=".78"/>
+</svg>

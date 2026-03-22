@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "Prompt Generator",
+  "version": "0.2.0",
+  "description": "Generate structured prompts with free trials and Pro AI refinement.",
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "https://celebrated-enjoyment-production.up.railway.app/*"
+  ],
+  "action": {
+    "default_title": "Prompt Generator",
+    "default_popup": "popup.html"
+  },
+  "icons": {
+    "16": "assets/icon-180.png",
+    "32": "assets/icon-180.png",
+    "48": "assets/icon-180.png",
+    "128": "assets/icon-180.png"
+  }
+}

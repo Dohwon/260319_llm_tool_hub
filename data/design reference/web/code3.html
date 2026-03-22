@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;family=Inter:wght@300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "outline-variant": "#424754",
+              "error-container": "#93000a",
+              "on-error-container": "#ffdad6",
+              "on-tertiary": "#003824",
+              "primary": "#adc6ff",
+              "tertiary-fixed": "#6ffbbe",
+              "primary-fixed-dim": "#adc6ff",
+              "surface-container-high": "#222a3d",
+              "secondary-container": "#3f465c",
+              "on-surface-variant": "#c2c6d6",
+              "error": "#ffb4ab",
+              "primary-fixed": "#d8e2ff",
+              "surface-bright": "#31394d",
+              "background": "#0b1326",
+              "on-background": "#dae2fd",
+              "on-primary-fixed-variant": "#004395",
+              "on-primary-fixed": "#001a42",
+              "tertiary": "#4edea3",
+              "outline": "#8c909f",
+              "inverse-primary": "#005ac2",
+              "on-error": "#690005",
+              "surface-dim": "#0b1326",
+              "surface-tint": "#adc6ff",
+              "on-secondary-fixed-variant": "#3f465c",
+              "secondary": "#bec6e0",
+              "inverse-surface": "#dae2fd",
+              "on-secondary-fixed": "#131b2e",
+              "on-secondary-container": "#adb4ce",
+              "surface-container-highest": "#2d3449",
+              "inverse-on-surface": "#283044",
+              "on-secondary": "#283044",
+              "surface-container": "#171f33",
+              "on-tertiary-fixed-variant": "#005236",
+              "surface-container-low": "#131b2e",
+              "surface": "#0b1326",
+              "surface-container-lowest": "#060e20",
+              "on-surface": "#dae2fd",
+              "surface-variant": "#2d3449",
+              "on-primary": "#002e6a",
+              "tertiary-container": "#00a572",
+              "tertiary-fixed-dim": "#4edea3",
+              "on-tertiary-fixed": "#002113",
+              "primary-container": "#4d8eff",
+              "on-tertiary-container": "#00311f"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      body {
+        background-color: #0b1326;
+        color: #dae2fd;
+        font-family: 'Inter', sans-serif;
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#0b1326] shadow-[0_32px_32px_0_rgba(173,198,255,0.08)]">
+<div class="flex justify-between items-center px-5.5 h-16 w-full bg-[#131b2e]">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-high overflow-hidden border border-outline-variant/20">
+<img alt="User profile avatar" class="w-full h-full object-cover" data-alt="Close up professional user avatar icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnIDnUR2N9qkGUAdcQG5tOPB-TqddZ4bbGQJpGN0HegG0IdkMWOADEE6LaDiODeL4l0vbU6hJXJ1Hl2UoJNu3BzpiJzx2gAzMduE5nxiY1nNvJEASNeHfCRce-_YXBSyxDBzLmIdX7hrmghWVZRNciVmX16GfaDakEIi0TAxtOx2jBNwJRCMeH5MmRIBo2JAHSKxsjN1z38PQQhooynV3A9FiJhGsCrHc8Ikwjq5mp0IerXbkqMf4gyFR0Wl2rZ5h8eJCqADV5Tmo"/>
+</div>
+<h1 class="text-xl font-bold tracking-tighter text-[#adc6ff] font-headline uppercase">Obsidian Architect</h1>
+</div>
+<button class="text-[#adc6ff] hover:bg-[#171f33] transition-colors p-2 rounded-lg active:scale-95 duration-200">
+<span class="material-symbols-outlined">search</span>
+</button>
+</div>
+</header>
+<main class="pt-24 px-6 max-w-7xl mx-auto">
+<!-- Page Header & Search -->
+<div class="mb-10">
+<h2 class="font-headline text-3xl font-bold text-on-surface mb-2 tracking-tight">Agent Registry</h2>
+<p class="font-body text-on-surface-variant text-sm max-w-2xl">Deploy specialized architectural models and utility tools. Each entity is optimized for specific computational pathways.</p>
+<div class="mt-8 flex flex-col md:flex-row gap-4 items-center">
+<div class="relative w-full md:max-w-md">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-xl py-3 pl-12 pr-4 text-sm text-on-surface focus:ring-1 focus:ring-primary placeholder:text-outline-variant" placeholder="Search models or protocols..." type="text"/>
+</div>
+<div class="flex gap-2 w-full md:w-auto">
+<button class="bg-surface-container px-4 py-2.5 rounded-xl text-xs font-medium text-primary flex items-center gap-2 border border-outline-variant/10 hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+                        All Categories
+                    </button>
+<button class="bg-surface-container px-4 py-2.5 rounded-xl text-xs font-medium text-on-surface-variant flex items-center gap-2 border border-outline-variant/10 hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-sm">sort</span>
+                        Latest
+                    </button>
+</div>
+</div>
+</div>
+<!-- Bento Grid for Tools -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Agent Card 1 -->
+<div class="bg-surface-container rounded-xl p-5 border border-outline-variant/5 hover:bg-surface-container-high transition-all group">
+<div class="flex justify-between items-start mb-6">
+<div class="p-3 bg-surface-container-lowest rounded-xl group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary text-3xl">psychology</span>
+</div>
+<div class="flex items-center gap-1.5 px-2 py-1 bg-tertiary/10 rounded-full">
+<div class="w-1.5 h-1.5 bg-tertiary rounded-full shadow-[0_0_4px_rgba(78,222,163,0.3)]"></div>
+<span class="text-[10px] font-bold text-tertiary uppercase tracking-wider font-label">Operational</span>
+</div>
+</div>
+<h3 class="font-headline text-lg font-bold text-on-surface mb-1 uppercase tracking-wide">Neural Scribe v4</h3>
+<p class="text-sm text-on-surface-variant font-body mb-6 line-clamp-2">High-fidelity documentation architect specialized in converting complex system logs into structured technical manuals.</p>
+<div class="grid grid-cols-2 gap-4 mb-6">
+<div class="bg-surface-container-low p-3 rounded-lg">
+<span class="block text-[10px] uppercase text-outline font-bold tracking-widest mb-1">Latency</span>
+<span class="text-on-surface font-headline font-medium">124ms</span>
+</div>
+<div class="bg-surface-container-low p-3 rounded-lg">
+<span class="block text-[10px] uppercase text-outline font-bold tracking-widest mb-1">Tokens/sec</span>
+<span class="text-on-surface font-headline font-medium">85.2</span>
+</div>
+</div>
+<button class="w-full py-3 bg-gradient-to-r from-primary to-primary-container text-on-primary-container font-bold text-xs rounded-xl hover:opacity-90 transition-opacity flex justify-center items-center gap-2">
+                    View Details
+                    <span class="material-symbols-outlined text-sm">arrow_forward_ios</span>
+</button>
+</div>
+<!-- Agent Card 2 -->
+<div class="bg-surface-container rounded-xl p-5 border border-outline-variant/5 hover:bg-surface-container-high transition-all group">
+<div class="flex justify-between items-start mb-6">
+<div class="p-3 bg-surface-container-lowest rounded-xl group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary text-3xl">terminal</span>
+</div>
+<div class="flex items-center gap-1.5 px-2 py-1 bg-primary/10 rounded-full">
+<div class="w-1.5 h-1.5 bg-primary rounded-full animate-pulse"></div>
+<span class="text-[10px] font-bold text-primary uppercase tracking-wider font-label">Processing</span>
+</div>
+</div>
+<h3 class="font-headline text-lg font-bold text-on-surface mb-1 uppercase tracking-wide">Kernel Overseer</h3>
+<p class="text-sm text-on-surface-variant font-body mb-6 line-clamp-2">Low-level system analysis tool for identifying memory leaks and optimizing thread concurrency in real-time.</p>
+<div class="grid grid-cols-2 gap-4 mb-6">
+<div class="bg-surface-container-low p-3 rounded-lg">
+<span class="block text-[10px] uppercase text-outline font-bold tracking-widest mb-1">Depth</span>
+<span class="text-on-surface font-headline font-medium">Ring 0</span>
+</div>
+<div class="bg-surface-container-low p-3 rounded-lg">
+<span class="block text-[10px] uppercase text-outline font-bold tracking-widest mb-1">Uptime</span>
+<span class="text-on-surface font-headline font-medium">99.9%</span>
+</div>
+</div>
+<button class="w-full py-3 bg-surface-bright text-on-surface font-bold text-xs rounded-xl hover:bg-surface-variant transition-colors flex justify-center items-center gap-2 border border-outline-variant/20">
+                    View Details
+                    <span class="material-symbols-outlined text-sm">arrow_forward_ios</span>
+</button>
+</div>
+<!-- Agent Card 3 -->
+<div class="bg-surface-container rounded-xl p-5 border border-outline-variant/5 hover:bg-surface-container-high transition-all group">
+<div class="flex justify-between items-start mb-6">
+<div class="p-3 bg-surface-container-lowest rounded-xl group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary text-3xl">security</span>
+</div>
+<div class="flex items-center gap-1.5 px-2 py-1 bg-tertiary/10 rounded-full">
+<div class="w-1.5 h-1.5 bg-tertiary rounded-full shadow-[0_0_4px_rgba(78,222,163,0.3)]"></div>
+<span class="text-[10px] font-bold text-tertiary uppercase tracking-wider font-label">Operational</span>
+</div>
+</div>
+<h3 class="font-headline text-lg font-bold text-on-surface mb-1 uppercase tracking-wide">Sentinel Guard</h3>
+<p class="text-sm text-on-surface-variant font-body mb-6 line-clamp-2">Anomaly detection protocol utilizing temporal weighting to identify zero-day vulnerabilities across network nodes.</p>
+<div class="grid grid-cols-2 gap-4 mb-6">
+<div class="bg-surface-container-low p-3 rounded-lg">
+<span class="block text-[10px] uppercase text-outline font-bold tracking-widest mb-1">Protection</span>
+<span class="text-on-surface font-headline font-medium">Grade AA</span>
+</div>
+<div class="bg-surface-container-low p-3 rounded-lg">
+<span class="block text-[10px] uppercase text-outline font-bold tracking-widest mb-1">Alerts</span>
+<span class="text-on-surface font-headline font-medium">0 Today</span>
+</div>
+</div>
+<button class="w-full py-3 bg-surface-bright text-on-surface font-bold text-xs rounded-xl hover:bg-surface-variant transition-colors flex justify-center items-center gap-2 border border-outline-variant/20">
+                    View Details
+                    <span class="material-symbols-outlined text-sm">arrow_forward_ios</span>
+</button>
+</div>
+<!-- Agent Card 4 -->
+<div class="bg-surface-container rounded-xl p-5 border border-outline-variant/5 hover:bg-surface-container-high transition-all group">
+<div class="flex justify-between items-start mb-6">
+<div class="p-3 bg-surface-container-lowest rounded-xl group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary text-3xl">query_stats</span>
+</div>
+<div class="flex items-center gap-1.5 px-2 py-1 bg-error-container/30 rounded-full">
+<div class="w-1.5 h-1.5 bg-error rounded-full"></div>
+<span class="text-[10px] font-bold text-error uppercase tracking-wider font-label">Suspended</span>
+</div>
+</div>
+<h3 class="font-headline text-lg font-bold text-on-surface mb-1 uppercase tracking-wide">Data Weaver</h3>
+<p class="text-sm text-on-surface-variant font-body mb-6 line-clamp-2">Advanced synthesis engine for merging disparate data streams into unified obsidian-grade relational databases.</p>
+<div class="grid grid-cols-2 gap-4 mb-6">
+<div class="bg-surface-container-low p-3 rounded-lg">
+<span class="block text-[10px] uppercase text-outline font-bold tracking-widest mb-1">Throttled</span>
+<span class="text-on-surface font-headline font-medium">True</span>
+</div>
+<div class="bg-surface-container-low p-3 rounded-lg">
+<span class="block text-[10px] uppercase text-outline font-bold tracking-widest mb-1">Last Run</span>
+<span class="text-on-surface font-headline font-medium">2d ago</span>
+</div>
+</div>
+<button class="w-full py-3 bg-surface-bright text-on-surface font-bold text-xs rounded-xl hover:bg-surface-variant transition-colors flex justify-center items-center gap-2 border border-outline-variant/20">
+                    View Details
+                    <span class="material-symbols-outlined text-sm">arrow_forward_ios</span>
+</button>
+</div>
+<!-- Agent Card 5 -->
+<div class="bg-surface-container rounded-xl p-5 border border-outline-variant/5 hover:bg-surface-container-high transition-all group">
+<div class="flex justify-between items-start mb-6">
+<div class="p-3 bg-surface-container-lowest rounded-xl group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary text-3xl">hub</span>
+</div>
+<div class="flex items-center gap-1.5 px-2 py-1 bg-tertiary/10 rounded-full">
+<div class="w-1.5 h-1.5 bg-tertiary rounded-full shadow-[0_0_4px_rgba(78,222,163,0.3)]"></div>
+<span class="text-[10px] font-bold text-tertiary uppercase tracking-wider font-label">Operational</span>
+</div>
+</div>
+<h3 class="font-headline text-lg font-bold text-on-surface mb-1 uppercase tracking-wide">Sync Catalyst</h3>
+<p class="text-sm text-on-surface-variant font-body mb-6 line-clamp-2">Microservices orchestrator that maintains state consistency across distributed architectural layers.</p>
+<div class="grid grid-cols-2 gap-4 mb-6">
+<div class="bg-surface-container-low p-3 rounded-lg">
+<span class="block text-[10px] uppercase text-outline font-bold tracking-widest mb-1">Nodes</span>
+<span class="text-on-surface font-headline font-medium">1,402</span>
+</div>
+<div class="bg-surface-container-low p-3 rounded-lg">
+<span class="block text-[10px] uppercase text-outline font-bold tracking-widest mb-1">Sync Rate</span>
+<span class="text-on-surface font-headline font-medium">99.8%</span>
+</div>
+</div>
+<button class="w-full py-3 bg-surface-bright text-on-surface font-bold text-xs rounded-xl hover:bg-surface-variant transition-colors flex justify-center items-center gap-2 border border-outline-variant/20">
+                    View Details
+                    <span class="material-symbols-outlined text-sm">arrow_forward_ios</span>
+</button>
+</div>
+<!-- Agent Card 6 -->
+<div class="bg-surface-container rounded-xl p-5 border border-outline-variant/5 hover:bg-surface-container-high transition-all group">
+<div class="flex justify-between items-start mb-6">
+<div class="p-3 bg-surface-container-lowest rounded-xl group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary text-3xl">developer_board</span>
+</div>
+<div class="flex items-center gap-1.5 px-2 py-1 bg-tertiary/10 rounded-full">
+<div class="w-1.5 h-1.5 bg-tertiary rounded-full shadow-[0_0_4px_rgba(78,222,163,0.3)]"></div>
+<span class="text-[10px] font-bold text-tertiary uppercase tracking-wider font-label">Operational</span>
+</div>
+</div>
+<h3 class="font-headline text-lg font-bold text-on-surface mb-1 uppercase tracking-wide">Logic Forge</h3>
+<p class="text-sm text-on-surface-variant font-body mb-6 line-clamp-2">Autonomous code generation engine designed for optimizing silicon-level instruction sets for custom architectures.</p>
+<div class="grid grid-cols-2 gap-4 mb-6">
+<div class="bg-surface-container-low p-3 rounded-lg">
+<span class="block text-[10px] uppercase text-outline font-bold tracking-widest mb-1">Efficiency</span>
+<span class="text-on-surface font-headline font-medium">+14.2%</span>
+</div>
+<div class="bg-surface-container-low p-3 rounded-lg">
+<span class="block text-[10px] uppercase text-outline font-bold tracking-widest mb-1">Language</span>
+<span class="text-on-surface font-headline font-medium">ASM/C++</span>
+</div>
+</div>
+<button class="w-full py-3 bg-surface-bright text-on-surface font-bold text-xs rounded-xl hover:bg-surface-variant transition-colors flex justify-center items-center gap-2 border border-outline-variant/20">
+                    View Details
+                    <span class="material-symbols-outlined text-sm">arrow_forward_ios</span>
+</button>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 pb-safe bg-[#0b1326]/90 backdrop-blur-xl border-t border-[#424754]/15">
+<div class="flex justify-around items-center h-20 px-4 w-full">
+<a class="flex flex-col items-center justify-center text-[#94a3b8] px-3 py-1 hover:text-[#adc6ff] active:translate-y-0.5 transition-all" href="#">
+<span class="material-symbols-outlined mb-1">home</span>
+<span class="font-['Inter'] text-[10px] font-medium tracking-tight">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#94a3b8] px-3 py-1 hover:text-[#adc6ff] active:translate-y-0.5 transition-all" href="#">
+<span class="material-symbols-outlined mb-1">subscript</span>
+<span class="font-['Inter'] text-[10px] font-medium tracking-tight">Projects</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#adc6ff] bg-[#171f33] rounded-xl px-3 py-1 active:translate-y-0.5 transition-all" href="#">
+<span class="material-symbols-outlined mb-1">construction</span>
+<span class="font-['Inter'] text-[10px] font-medium tracking-tight">Tools</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#94a3b8] px-3 py-1 hover:text-[#adc6ff] active:translate-y-0.5 transition-all" href="#">
+<span class="material-symbols-outlined mb-1">memory</span>
+<span class="font-['Inter'] text-[10px] font-medium tracking-tight">Memory</span>
+</a>
+</div>
+</nav>
+</body></html>

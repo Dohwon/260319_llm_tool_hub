@@ -1,0 +1,154 @@
+{
+  "owner": "Dowon",
+  "generated_at": "2026-03-19",
+  "canonical_source": "global_memory/memory_profile.json",
+  "summary": "도원의 업무 스타일, 선호 환경, 주요 프로젝트, 전역 메모리 레이어와 툴별 어댑터 정의",
+  "layers": [
+    {
+      "level": "L1",
+      "name": "Canonical Memory",
+      "scope": "global",
+      "summary": "사용자 프로필, 업무 스타일, 환경 선호, 주요 프로젝트를 구조화한 정규화 원본",
+      "contents": [
+        "업무 스타일",
+        "커뮤니케이션 톤",
+        "환경/도구 선호",
+        "현재 집중 프로젝트"
+      ]
+    },
+    {
+      "level": "L2",
+      "name": "Project Runtime Registry",
+      "scope": "cross-project",
+      "summary": "어떤 프로젝트가 어디서 돌고 있는지, 어떤 링크와 배포 위치를 가지는지 기록",
+      "contents": [
+        "runtime location",
+        "visibility",
+        "last verified",
+        "public/internal links"
+      ]
+    },
+    {
+      "level": "L3",
+      "name": "Tool Adapters",
+      "scope": "per-tool",
+      "summary": "각 툴이 읽는 파일명과 포맷에 맞춰 canonical memory를 파생 생성",
+      "contents": [
+        "AGENTS.md",
+        "CLAUDE.md",
+        "GEMINI.md",
+        ".cursor/rules/*.mdc",
+        "Windsurf memory seed"
+      ]
+    },
+    {
+      "level": "L4",
+      "name": "Model-local Memory",
+      "scope": "per-model",
+      "summary": "각 모델 내부에서 long-term / mid-term / short-term으로 유지하는 로컬 메모리 계층",
+      "contents": [
+        "long-term preference cache",
+        "mid-term project context",
+        "short-term active task state"
+      ]
+    },
+    {
+      "level": "L5",
+      "name": "Collaboration Packet",
+      "scope": "human + model handover",
+      "summary": "다른 모델이나 다른 사람에게 넘길 때 반드시 포함해야 하는 전달 패키지",
+      "contents": [
+        "README",
+        "working order",
+        "risk / issue log",
+        "next action",
+        "planner + idea summary"
+      ]
+    }
+  ],
+  "user_profile": {
+    "one_line": "AI 회사에서 LLM/음성(STT) 기반 제품과 데이터 분석, 플랫폼/업무기획을 함께 다루는 실행형 PM",
+    "communication_style": [
+      "한국어 기본, 필요시 영어 용어 혼합",
+      "직설적이고 실무형",
+      "핵심 -> 근거 -> 실행 순서 선호",
+      "모르면 모른다고 하고 확인 방법을 제시"
+    ],
+    "working_style": [
+      "조건 + 관측 + 가설 + 검증 구조 선호",
+      "명령어와 수치, 재현 가능한 근거 선호",
+      "실행 가능한 산출물을 선호",
+      "불필요한 예절보다 정확한 톤 선호"
+    ],
+    "technical_preferences": [
+      "Windows-first, WSL 적극 사용",
+      "Android/Kotlin 관심",
+      "무거운 프레임워크보다 현실적인 구성 선호",
+      "보안/데이터 유출/대화 기록 저장 리스크를 항상 고려"
+    ]
+  },
+  "current_focus": [
+    "Portfolio Homepage 운영 및 확장",
+    "A2A-ready 음성 라우팅 구조 고도화",
+    "Todack 감정 기록/음성 코칭 제품",
+    "모델/툴/메모리 허브 구축"
+  ],
+  "projects": [
+    "portfolio-homepage",
+    "260315_MoE_Prompt_Routing",
+    "Todack",
+    "260319_llm_tool_hub"
+  ],
+  "adapters": [
+    {
+      "tool": "Codex / generic coding agents",
+      "file": "AGENTS.md",
+      "label": "AGENTS.md Export",
+      "summary": "프로젝트 루트나 상위 경로에 두고 여러 코딩 에이전트가 공통으로 읽게 하는 포맷",
+      "usage": [
+        "프로젝트 규칙과 사용자 스타일을 같이 넣기",
+        "가능하면 짧고 실행 지향적으로 유지하기"
+      ]
+    },
+    {
+      "tool": "Claude Code",
+      "file": "CLAUDE.md",
+      "label": "Claude Memory Export",
+      "summary": "Claude Code가 재귀적으로 찾는 메모리 파일",
+      "usage": [
+        "루트 및 하위 디렉터리에 배치 가능",
+        "사용자 스타일과 프로젝트 원칙을 간단히 적기"
+      ]
+    },
+    {
+      "tool": "Gemini CLI",
+      "file": "GEMINI.md",
+      "label": "Gemini Memory Export",
+      "summary": "Gemini CLI 계열에서 프로젝트 컨텍스트 seed로 쓰는 파일",
+      "usage": [
+        "장문 설명보다 핵심 컨텍스트만 유지",
+        "태스크별 로그는 별도 파일로 분리"
+      ]
+    },
+    {
+      "tool": "Cursor",
+      "file": ".cursor/rules/global-memory.mdc",
+      "label": "Cursor Rules Export",
+      "summary": "Cursor Project Rules에 넣는 버전",
+      "usage": [
+        "alwaysApply를 켜거나 관련 globs에 매핑",
+        "AGENTS.md와 함께 두면 충돌을 줄이기 쉽다"
+      ]
+    },
+    {
+      "tool": "Windsurf",
+      "file": "windsurf-global-memory.md",
+      "label": "Windsurf Memory Seed",
+      "summary": "Windsurf Rules/Memory에 붙이는 seed 텍스트",
+      "usage": [
+        "자동 Memories를 덮지 말고 기준 규칙만 제공",
+        "실행 중 생성된 메모리는 별도 관리"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,436 @@
+{
+  "environments": [
+    { "id": "windows", "label": "Windows" },
+    { "id": "wsl-linux", "label": "WSL / Linux" },
+    { "id": "macos", "label": "macOS" },
+    { "id": "web", "label": "Web Only" }
+  ],
+  "tools": {
+    "codex-cli": {
+      "windows": {
+        "mode": "WSL CLI 권장",
+        "steps": [
+          "Windows에 WSL과 Node.js를 준비한다.",
+          "WSL 안에서 `npm install -g @openai/codex`로 설치한다.",
+          "ChatGPT 로그인 또는 OpenAI API key로 인증한다."
+        ]
+      },
+      "wsl-linux": {
+        "mode": "CLI",
+        "steps": [
+          "Node.js 18+ 확인 후 `npm install -g @openai/codex` 실행",
+          "`codex` 실행 후 ChatGPT 로그인 또는 API key 입력",
+          "프로젝트 루트에 AGENTS.md 배치"
+        ]
+      },
+      "macos": {
+        "mode": "CLI / Homebrew",
+        "steps": [
+          "Homebrew 또는 npm으로 Codex 설치",
+          "ChatGPT 로그인 또는 API key 연결",
+          "AGENTS.md와 함께 프로젝트에서 실행"
+        ]
+      },
+      "web": {
+        "mode": "웹 사용",
+        "steps": [
+          "chatgpt.com/codex 사용",
+          "ChatGPT 플랜 로그인 필요",
+          "로컬 파일 규칙은 별도 업로드/설명 필요"
+        ]
+      }
+    },
+    "claude-code": {
+      "windows": {
+        "mode": "WSL CLI 권장",
+        "steps": [
+          "WSL 환경에서 Node.js 18+ 준비",
+          "`npm install -g @anthropic-ai/claude-code` 실행",
+          "`claude` 실행 후 Claude 계정 또는 API key로 로그인"
+        ]
+      },
+      "wsl-linux": {
+        "mode": "CLI",
+        "steps": [
+          "npm 또는 native install 스크립트 사용",
+          "Claude 계정 또는 Console API key 로그인",
+          "프로젝트 루트/상위에 CLAUDE.md 배치"
+        ]
+      },
+      "macos": {
+        "mode": "CLI / native install",
+        "steps": [
+          "npm 또는 공식 install.sh 사용",
+          "로그인 완료 후 `claude` 실행",
+          "CLAUDE.md 재귀 메모리 구조 활용"
+        ]
+      },
+      "web": {
+        "mode": "웹 사용",
+        "steps": [
+          "claude.ai 로그인",
+          "코드 직접 수정은 Claude Code CLI보다 제한적",
+          "설계/비교 용도로는 웹도 가능"
+        ]
+      }
+    },
+    "gemini-cli": {
+      "windows": {
+        "mode": "WSL CLI 권장",
+        "steps": [
+          "WSL 환경에서 Gemini CLI 설치",
+          "Google 로그인 또는 API key 설정",
+          "GEMINI.md 컨텍스트 파일 준비"
+        ]
+      },
+      "wsl-linux": {
+        "mode": "CLI",
+        "steps": [
+          "공식 릴리즈 또는 npm 경로로 설치",
+          "Google 계정 또는 Gemini API key 로그인",
+          "긴 컨텍스트 작업 위주로 사용"
+        ]
+      },
+      "macos": {
+        "mode": "CLI",
+        "steps": [
+          "공식 CLI 설치",
+          "Google 로그인 또는 키 인증",
+          "GEMINI.md와 함께 실행"
+        ]
+      },
+      "web": {
+        "mode": "Gemini Web",
+        "steps": [
+          "gemini.google.com 또는 AI Studio 로그인",
+          "CLI 기능 대신 모델 비교/테스트 위주 사용"
+        ]
+      }
+    },
+    "cursor": {
+      "windows": {
+        "mode": "Desktop App / EXE",
+        "steps": [
+          "Cursor 설치 파일 다운로드 후 설치",
+          "계정 로그인",
+          "프로젝트 열고 `.cursor/rules` 또는 AGENTS.md 추가"
+        ]
+      },
+      "wsl-linux": {
+        "mode": "Desktop App + WSL repo",
+        "steps": [
+          "Cursor 앱 설치",
+          "로컬 또는 WSL 경로의 프로젝트를 연다",
+          "계정 로그인 후 모델/Rules 설정"
+        ]
+      },
+      "macos": {
+        "mode": "Desktop App",
+        "steps": [
+          "Cursor 다운로드 후 설치",
+          "계정 로그인",
+          "Rules와 AGENTS.md 설정"
+        ]
+      },
+      "web": {
+        "mode": "Not recommended",
+        "steps": [
+          "Cursor는 데스크톱 IDE 중심",
+          "웹만으로는 핵심 기능 사용이 어렵다"
+        ]
+      }
+    },
+    "windsurf": {
+      "windows": {
+        "mode": "Desktop App / EXE",
+        "steps": [
+          "Windsurf 설치 파일 실행",
+          "계정 로그인",
+          "Cascade Models, Memories, Rules 설정"
+        ]
+      },
+      "wsl-linux": {
+        "mode": "Desktop App + remote repo",
+        "steps": [
+          "Windsurf 설치",
+          "WSL 또는 로컬 repo 연결",
+          "계정 로그인 후 모델/크레딧 확인"
+        ]
+      },
+      "macos": {
+        "mode": "Desktop App",
+        "steps": [
+          "Windsurf 설치",
+          "계정 로그인",
+          "Memories/Rules 구성"
+        ]
+      },
+      "web": {
+        "mode": "Not recommended",
+        "steps": [
+          "핵심 기능은 데스크톱 IDE 기반",
+          "웹 전용 사용은 적합하지 않다"
+        ]
+      }
+    },
+    "cline": {
+      "windows": {
+        "mode": "VS Code Extension",
+        "steps": [
+          "VS Code 설치",
+          "Cline 확장 설치",
+          "사용할 모델 공급자 API key 설정"
+        ]
+      },
+      "wsl-linux": {
+        "mode": "VS Code Extension",
+        "steps": [
+          "VS Code 또는 VSCodium에 Cline 설치",
+          "MCP 또는 OpenAI-compatible key 설정",
+          "AGENTS.md 컨텍스트 연결"
+        ]
+      },
+      "macos": {
+        "mode": "VS Code Extension",
+        "steps": [
+          "VS Code에 Cline 설치",
+          "공급자 키 설정",
+          "프로젝트 규칙 파일 적용"
+        ]
+      },
+      "web": {
+        "mode": "Not supported",
+        "steps": [
+          "웹 단독 사용보다 IDE 확장 방식이 핵심"
+        ]
+      }
+    },
+    "aider": {
+      "windows": {
+        "mode": "WSL CLI 권장",
+        "steps": [
+          "WSL에 Python 설치",
+          "`python -m pip install aider-install` 후 `aider-install` 실행",
+          "모델 공급자 API key 연결"
+        ]
+      },
+      "wsl-linux": {
+        "mode": "CLI",
+        "steps": [
+          "Python 설치",
+          "`python -m pip install aider-install && aider-install`",
+          "`aider --model ...`로 공급자 선택"
+        ]
+      },
+      "macos": {
+        "mode": "CLI",
+        "steps": [
+          "Python 설치",
+          "aider-install로 설치",
+          "API key 연결"
+        ]
+      },
+      "web": {
+        "mode": "Not supported",
+        "steps": [
+          "Aider는 터미널 기반 툴"
+        ]
+      }
+    },
+    "continue": {
+      "windows": {
+        "mode": "VS Code / JetBrains Extension",
+        "steps": [
+          "Continue 확장 설치",
+          "사용할 모델 공급자 설정",
+          "컨텍스트 provider와 rules 연결"
+        ]
+      },
+      "wsl-linux": {
+        "mode": "IDE Extension",
+        "steps": [
+          "VS Code 또는 JetBrains에 설치",
+          "모델 엔드포인트 연결",
+          "전역 메모리 JSON/Markdown 주입"
+        ]
+      },
+      "macos": {
+        "mode": "IDE Extension",
+        "steps": [
+          "Continue 설치",
+          "모델 설정",
+          "Context provider 구성"
+        ]
+      },
+      "web": {
+        "mode": "Not primary",
+        "steps": [
+          "Continue는 IDE 확장 중심이다"
+        ]
+      }
+    },
+    "openhands": {
+      "windows": {
+        "mode": "WSL / Docker 권장",
+        "steps": [
+          "WSL 또는 Docker 준비",
+          "OpenHands 설치/실행",
+          "사용할 모델 API key 연결"
+        ]
+      },
+      "wsl-linux": {
+        "mode": "Docker / self-host",
+        "steps": [
+          "Docker 또는 공식 설치 경로 준비",
+          "OpenHands 실행",
+          "모델 백엔드와 메모리 seed 연결"
+        ]
+      },
+      "macos": {
+        "mode": "Docker / self-host",
+        "steps": [
+          "Docker 설치",
+          "OpenHands 실행",
+          "모델 설정"
+        ]
+      },
+      "web": {
+        "mode": "Hosted demo if available",
+        "steps": [
+          "주 사용 방식은 self-host 또는 dev stack"
+        ]
+      }
+    },
+    "ollama": {
+      "windows": {
+        "mode": "Desktop App / CLI",
+        "steps": [
+          "Ollama 설치 파일 실행",
+          "모델 다운로드 `ollama pull ...`",
+          "로컬 API로 연결"
+        ]
+      },
+      "wsl-linux": {
+        "mode": "CLI",
+        "steps": [
+          "공식 설치 스크립트 실행",
+          "`ollama serve` 또는 자동 실행",
+          "모델 pull 후 agent에 연결"
+        ]
+      },
+      "macos": {
+        "mode": "Desktop App / CLI",
+        "steps": [
+          "Ollama 설치",
+          "모델 다운로드",
+          "로컬 API 연결"
+        ]
+      },
+      "web": {
+        "mode": "Not applicable",
+        "steps": [
+          "Ollama는 로컬 런타임이다"
+        ]
+      }
+    },
+    "lm-studio": {
+      "windows": {
+        "mode": "Desktop App / EXE",
+        "steps": [
+          "LM Studio 설치",
+          "모델 다운로드",
+          "Local Server 또는 `lms` CLI 사용"
+        ]
+      },
+      "wsl-linux": {
+        "mode": "Desktop app + local server",
+        "steps": [
+          "LM Studio 설치 가능한 데스크톱 환경에서 실행",
+          "Local Server 활성화",
+          "WSL/agent에서 OpenAI-compatible endpoint로 호출"
+        ]
+      },
+      "macos": {
+        "mode": "Desktop App",
+        "steps": [
+          "LM Studio 설치",
+          "모델 다운로드",
+          "Local Server 또는 `lms` CLI 사용"
+        ]
+      },
+      "web": {
+        "mode": "Not applicable",
+        "steps": [
+          "LM Studio는 로컬 GUI/CLI 런타임이다"
+        ]
+      }
+    },
+    "openrouter": {
+      "windows": {
+        "mode": "Web + API key",
+        "steps": [
+          "OpenRouter 계정 생성",
+          "API key 발급",
+          "IDE/CLI에서 base URL과 key 설정"
+        ]
+      },
+      "wsl-linux": {
+        "mode": "Web + API key",
+        "steps": [
+          "계정 생성",
+          "API key 발급",
+          "OpenAI-compatible endpoint로 사용"
+        ]
+      },
+      "macos": {
+        "mode": "Web + API key",
+        "steps": [
+          "계정 생성",
+          "키 발급",
+          "툴에 연결"
+        ]
+      },
+      "web": {
+        "mode": "Web Console",
+        "steps": [
+          "OpenRouter 로그인",
+          "모델 비교 후 key 발급",
+          "실제 작업은 IDE/CLI에 연결"
+        ]
+      }
+    },
+    "openclaw": {
+      "windows": {
+        "mode": "Managed service / self-host",
+        "steps": [
+          "서비스 도입 상담 또는 Mac mini/cloud 구축 선택",
+          "Telegram/WhatsApp 연결",
+          "백엔드 모델과 메모리 정책 설정"
+        ]
+      },
+      "wsl-linux": {
+        "mode": "Self-host / managed",
+        "steps": [
+          "cloud 또는 local host 준비",
+          "연결 앱과 메모리 저장소 설정",
+          "운영 agent 시나리오 구성"
+        ]
+      },
+      "macos": {
+        "mode": "Mac mini self-host / managed",
+        "steps": [
+          "Mac mini 또는 cloud 선택",
+          "서비스 구축",
+          "앱 연결과 메모리 설정"
+        ]
+      },
+      "web": {
+        "mode": "문의 기반 서비스",
+        "steps": [
+          "공식 사이트에서 문의",
+          "웹만으로 바로 쓰는 개발자 툴은 아님"
+        ]
+      }
+    }
+  }
+}

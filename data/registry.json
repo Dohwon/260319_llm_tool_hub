@@ -1,0 +1,1107 @@
+{
+  "generated_at": "2026-03-19",
+  "validation_policy": "2026-03-19 기준 공식 문서 seed, knowledge cutoff는 공개값만 표기하며 overview와 개별 모델 페이지가 충돌하면 개별 페이지를 우선",
+  "operating_principles": [
+    "모델/툴 버전은 공식 문서 또는 공식 저장소 기준으로만 갱신한다.",
+    "추천은 항상 모델 하나가 아니라 툴, 메모리, 배포 위치까지 묶어서 제안한다.",
+    "토큰 윈도우와 rate limit은 요금제/티어 의존 항목이 많으므로 고정 수치와 티어 의존 수치를 구분해 표기한다.",
+    "메모리 공유는 특정 벤더 독점 기능보다 AGENTS.md, CLAUDE.md, GEMINI.md 같은 파일 어댑터 중심으로 설계한다."
+  ],
+  "models": [
+    {
+      "id": "openai-gpt52-family",
+      "provider": "OpenAI",
+      "name": "GPT-5.x / Codex Family",
+      "category": "Closed Frontier",
+      "tags": ["frontier", "coding", "enterprise"],
+      "summary": "공식 문서 기준 최신 flagship은 GPT-5.4, 고추론 라인은 GPT-5 pro, 코딩 전용 최신 축은 GPT-5.3-Codex다. 실제 코딩/에이전트 작업은 5.4, 5.3-Codex, 5.2-Codex, 5 mini 계열을 함께 비교하는 편이 안전하다.",
+      "versions": [
+        {
+          "name": "gpt-5.4",
+          "state": "latest",
+          "context_window": "1.05M",
+          "max_output": "128K",
+          "pricing": "$2.50 / $15 per 1M tokens",
+          "rate_limit": "공식 모델 페이지 기준, 상세 티어는 계정 의존",
+          "access": "OpenAI 계정 + API 키",
+          "login_required": "yes",
+          "knowledge_cutoff": "2025-08-31"
+        },
+        {
+          "name": "gpt-5-pro",
+          "state": "latest-pro",
+          "context_window": "400K",
+          "max_output": "272K",
+          "pricing": "$15 / $120 per 1M tokens",
+          "rate_limit": "Responses API only / 장시간 응답 가능",
+          "access": "OpenAI 계정 + API 키 / Responses API",
+          "login_required": "yes",
+          "knowledge_cutoff": "2024-09-30"
+        },
+        {
+          "name": "gpt-5.3-codex",
+          "state": "latest-coding",
+          "context_window": "400K",
+          "max_output": "128K",
+          "pricing": "$1.75 / $14 per 1M tokens",
+          "rate_limit": "공식 모델 페이지 기준, 상세 티어는 계정 의존",
+          "access": "OpenAI 계정 + API 키 또는 Codex 제품군",
+          "login_required": "yes",
+          "knowledge_cutoff": "2025-08-31"
+        },
+        {
+          "name": "gpt-5.2",
+          "state": "stable",
+          "context_window": "400K",
+          "max_output": "128K",
+          "pricing": "$1.75 / $14 per 1M tokens",
+          "rate_limit": "Tier 1 기준 500 RPM / 500K TPM / 1.5M batch queue",
+          "access": "OpenAI 계정 + API 키 또는 OpenAI 내장 툴",
+          "login_required": "yes",
+          "knowledge_cutoff": "2025-08-31"
+        },
+        {
+          "name": "gpt-5.2-codex",
+          "state": "stable",
+          "context_window": "400K",
+          "max_output": "128K",
+          "pricing": "$1.75 / $14 per 1M tokens",
+          "rate_limit": "Tier 1 기준 500 RPM / 500K TPM / 1.5M batch queue",
+          "access": "OpenAI 계정 + API 키 또는 Codex 제품군",
+          "login_required": "yes",
+          "knowledge_cutoff": "2025-08-31"
+        },
+        {
+          "name": "gpt-5.2-pro",
+          "state": "stable-pro",
+          "context_window": "400K",
+          "max_output": "128K",
+          "pricing": "$21 / $168 per 1M tokens",
+          "rate_limit": "Responses API only / background mode 권장",
+          "access": "OpenAI 계정 + API 키 / Responses API",
+          "login_required": "yes",
+          "knowledge_cutoff": "2025-08-31"
+        },
+        {
+          "name": "gpt-5.1",
+          "state": "previous",
+          "context_window": "400K",
+          "max_output": "128K",
+          "pricing": "$1.25 / $10 per 1M tokens",
+          "rate_limit": "Tier 1 기준 500 RPM / 500K TPM / 1.5M batch queue",
+          "access": "OpenAI 계정 + API 키",
+          "login_required": "yes",
+          "knowledge_cutoff": "2024-09-30"
+        },
+        {
+          "name": "gpt-5.1-codex",
+          "state": "previous-codex",
+          "context_window": "400K",
+          "max_output": "128K",
+          "pricing": "$1.25 / $10 per 1M tokens",
+          "rate_limit": "Tier 1 기준 500 RPM / 500K TPM / 1.5M batch queue",
+          "access": "OpenAI 계정 + API 키 / Responses API",
+          "login_required": "yes",
+          "knowledge_cutoff": "2024-09-30"
+        },
+        {
+          "name": "gpt-5.1-codex-max",
+          "state": "previous-codex-max",
+          "context_window": "400K",
+          "max_output": "128K",
+          "pricing": "$1.25 / $10 per 1M tokens",
+          "rate_limit": "Responses API long-running tasks",
+          "access": "OpenAI 계정 + API 키 / Responses API",
+          "login_required": "yes",
+          "knowledge_cutoff": "2024-09-30"
+        },
+        {
+          "name": "gpt-5",
+          "state": "previous",
+          "context_window": "400K",
+          "max_output": "128K",
+          "pricing": "$1.25 / $10 per 1M tokens",
+          "rate_limit": "Tier 1 기준 500 RPM / 500K TPM / 1.5M batch queue",
+          "access": "OpenAI 계정 + API 키",
+          "login_required": "yes",
+          "knowledge_cutoff": "2024-09-30"
+        },
+        {
+          "name": "gpt-5-codex",
+          "state": "previous-coding",
+          "context_window": "400K",
+          "max_output": "128K",
+          "pricing": "$1.25 / $10 per 1M tokens",
+          "rate_limit": "Responses API 중심, 티어 의존",
+          "access": "OpenAI 계정 + API 키 / Responses API",
+          "login_required": "yes",
+          "knowledge_cutoff": "2024-09-30"
+        },
+        {
+          "name": "gpt-5-mini",
+          "state": "stable",
+          "context_window": "400K",
+          "max_output": "128K",
+          "pricing": "$0.25 / $2 per 1M tokens",
+          "rate_limit": "Tier 1 기준 500 RPM / 500K TPM / 5M batch queue",
+          "access": "OpenAI 계정 + API 키",
+          "login_required": "yes",
+          "knowledge_cutoff": "2024-05-31"
+        },
+        {
+          "name": "gpt-5-nano",
+          "state": "stable",
+          "context_window": "400K",
+          "max_output": "128K",
+          "pricing": "$0.05 / $0.40 per 1M tokens",
+          "rate_limit": "티어 의존, 경량 자동화에 적합",
+          "access": "OpenAI 계정 + API 키",
+          "login_required": "yes",
+          "knowledge_cutoff": "2024-05-31"
+        }
+      ],
+      "strengths": [
+        "코딩/리팩터링/장기 계획형 작업에서 안정적",
+        "400K 컨텍스트로 레포 단위 탐색에 유리",
+        "MCP, tool use, structured outputs 생태계가 성숙"
+      ],
+      "weaknesses": [
+        "클라우드 의존과 과금 부담이 크다",
+        "고성능 버전은 티어와 속도 제한 영향을 크게 받는다",
+        "오프라인/완전 프라이버시 환경에는 부적합"
+      ],
+      "recommended_for": [
+        "대형 코드베이스를 실제로 수정하는 에이전트 작업",
+        "여러 파일을 건드리는 리팩터링과 장기 세션",
+        "툴 호출과 구조화 출력이 중요한 제품 백엔드"
+      ],
+      "memory_fit": "AGENTS.md, MCP, Responses API 기반 워크플로와 잘 맞는다."
+    },
+    {
+      "id": "openai-o-series",
+      "provider": "OpenAI",
+      "name": "o3 / o3-deep-research",
+      "category": "Closed Reasoning",
+      "tags": ["frontier", "enterprise"],
+      "summary": "깊은 분석, 연구, 복합 reasoning에 강한 전용 라인. 빠른 구현보다 분석과 탐색 쪽에 더 적합하다.",
+      "versions": [
+        {
+          "name": "o3",
+          "state": "stable",
+          "context_window": "200K",
+          "max_output": "100K",
+          "pricing": "$2 / $8 per 1M tokens",
+          "rate_limit": "모델 티어별 상이",
+          "access": "OpenAI 계정 + API 키",
+          "login_required": "yes"
+        },
+        {
+          "name": "o3-deep-research",
+          "state": "stable",
+          "context_window": "200K",
+          "max_output": "100K",
+          "pricing": "$10 / $40 per 1M tokens",
+          "rate_limit": "연구형 워크로드 기준 별도 검토 필요",
+          "access": "OpenAI 계정 + API 키",
+          "login_required": "yes"
+        }
+      ],
+      "strengths": [
+        "복잡한 조사와 근거 합성이 강하다",
+        "연구형 태스크에 적합한 추론 특성",
+        "Deep research 흐름과 궁합이 좋다"
+      ],
+      "weaknesses": [
+        "실행 지연이 길 수 있다",
+        "가격이 높다",
+        "빠른 반복 개발에는 과하다"
+      ],
+      "recommended_for": [
+        "시장조사, 정책 분석, 복합 의사결정 정리",
+        "긴 문서와 웹 검색을 결합하는 연구형 작업"
+      ],
+      "memory_fit": "전역 메모리를 긴 분석 프롬프트에 녹여 넣기 좋지만, 실시간 협업용 메모리보다는 조사 컨텍스트에 더 맞는다."
+    },
+    {
+      "id": "anthropic-claude-family",
+      "provider": "Anthropic",
+      "name": "Claude 4.x / Claude Code",
+      "category": "Closed Frontier",
+      "tags": ["frontier", "coding", "enterprise"],
+      "summary": "코드 이해력과 문서형 설명이 강하고, CLAUDE.md 메모리 체계가 명확하다.",
+      "versions": [
+        {
+          "name": "Claude Opus 4.1",
+          "state": "latest-carded",
+          "context_window": "200K",
+          "max_output": "32K",
+          "pricing": "$15 / $75 per 1M tokens",
+          "rate_limit": "플랜/티어 및 cache 모드 의존",
+          "access": "Anthropic Console 또는 Claude 계정",
+          "login_required": "yes"
+        },
+        {
+          "name": "Claude Sonnet 4",
+          "state": "stable",
+          "context_window": "200K",
+          "max_output": "64K",
+          "pricing": "$3 / $15 per 1M tokens",
+          "rate_limit": "플랜/티어 및 cache 모드 의존",
+          "access": "Anthropic Console 또는 Claude 계정",
+          "login_required": "yes"
+        },
+        {
+          "name": "Claude Haiku 3.5",
+          "state": "stable",
+          "context_window": "200K",
+          "max_output": "8K",
+          "pricing": "$0.80 / $4 per 1M tokens",
+          "rate_limit": "플랜/티어 의존",
+          "access": "Anthropic Console 또는 Claude 계정",
+          "login_required": "yes"
+        }
+      ],
+      "strengths": [
+        "코드 설명, 설계 리뷰, 장문 문서 정리에 강함",
+        "CLAUDE.md 재귀 로딩이 명확해 프로젝트 메모리 주입이 쉽다",
+        "터미널형 코딩 툴과 결합 시 생산성이 높다"
+      ],
+      "weaknesses": [
+        "API rate limit이 비교적 빡빡하게 느껴질 수 있다",
+        "대규모 자동화에서는 비용 통제가 필요하다",
+        "공식 장기 메모리는 좋지만 다중 툴 간 통합은 별도 설계가 필요하다"
+      ],
+      "recommended_for": [
+        "설계 중심의 코딩 작업",
+        "문서와 코드가 같이 큰 저장소",
+        "사람이 중간중간 검토하는 고품질 개발 루프"
+      ],
+      "memory_fit": "CLAUDE.md 기반 메모리 공유와 궁합이 가장 좋다."
+    },
+    {
+      "id": "google-gemini-family",
+      "provider": "Google",
+      "name": "Gemini 2.5 Family",
+      "category": "Closed Long Context",
+      "tags": ["frontier", "enterprise"],
+      "summary": "긴 문서, 대형 입력, 멀티모달 처리와 비용 효율을 같이 챙기기 좋다.",
+      "versions": [
+        {
+          "name": "gemini-2.5-pro",
+          "state": "stable",
+          "context_window": "1,048,576",
+          "max_output": "65,536",
+          "pricing": "플랜/과금표 확인 필요",
+          "rate_limit": "preview/latest 여부에 따라 상이",
+          "access": "Google AI Studio 또는 Gemini API 키",
+          "login_required": "yes",
+          "knowledge_cutoff": "2025-01"
+        },
+        {
+          "name": "gemini-2.5-flash",
+          "state": "stable",
+          "context_window": "1,048,576",
+          "max_output": "65,536",
+          "pricing": "플랜/과금표 확인 필요",
+          "rate_limit": "stable/preview에 따라 상이",
+          "access": "Google AI Studio 또는 Gemini API 키",
+          "login_required": "yes",
+          "knowledge_cutoff": "2025-01"
+        },
+        {
+          "name": "gemini-2.5-flash-lite",
+          "state": "stable",
+          "context_window": "1,048,576",
+          "max_output": "65,536",
+          "pricing": "저비용 고처리량용",
+          "rate_limit": "preview는 더 제한적일 수 있음",
+          "access": "Google AI Studio 또는 Gemini API 키",
+          "login_required": "yes",
+          "knowledge_cutoff": "2025-01"
+        }
+      ],
+      "strengths": [
+        "초장문 컨텍스트와 멀티모달 입력이 강함",
+        "문서 분석, 코드베이스 개요, 대량 입력 압축에 적합",
+        "속도/비용 밸런스가 좋은 Lite/Flash/Pro 라인업"
+      ],
+      "weaknesses": [
+        "버전명이 자주 바뀌고 preview/stable 구분을 잘 봐야 한다",
+        "Gemini CLI/도구 생태계 메모리는 아직 통합 설계가 덜 안정적"
+      ],
+      "recommended_for": [
+        "긴 PDF, 긴 로그, 긴 회의록 분석",
+        "큰 컨텍스트를 한 번에 넣어야 하는 평가/정리",
+        "코드와 문서를 섞어 보는 검토 작업"
+      ],
+      "memory_fit": "GEMINI.md와 대용량 컨텍스트를 함께 쓰면 좋지만, 세션 간 기억은 파일 기반으로 보강하는 편이 안전하다."
+    },
+    {
+      "id": "xai-grok-family",
+      "provider": "xAI",
+      "name": "Grok 4 / 4.1",
+      "category": "Closed Realtime",
+      "tags": ["frontier"],
+      "summary": "실시간성, 웹/소셜 맥락, 탐색형 대화에 강점이 있는 라인업.",
+      "versions": [
+        {
+          "name": "Grok 4",
+          "state": "stable",
+          "context_window": "official public docs detail review needed",
+          "max_output": "official public docs detail review needed",
+          "pricing": "서비스/플랜 의존",
+          "rate_limit": "API 문서 기준 별도 확인 필요",
+          "access": "xAI 계정 + API 또는 Grok 서비스 로그인",
+          "login_required": "yes"
+        },
+        {
+          "name": "Grok 4.1",
+          "state": "stable",
+          "context_window": "official public docs detail review needed",
+          "max_output": "official public docs detail review needed",
+          "pricing": "서비스/플랜 의존",
+          "rate_limit": "API 문서 기준 별도 확인 필요",
+          "access": "xAI 계정 + API 또는 Grok 서비스 로그인",
+          "login_required": "yes"
+        }
+      ],
+      "strengths": [
+        "실시간 검색/시의성 맥락과 결합하기 좋다",
+        "탐색형 질의응답과 실험적인 워크플로에 유리"
+      ],
+      "weaknesses": [
+        "정교한 기업형 운영 문서화에는 일관성 검증이 더 필요하다",
+        "공개 API 한도/세부 토큰 정보는 자주 재확인해야 한다"
+      ],
+      "recommended_for": [
+        "실시간 트렌드/뉴스/웹 탐색",
+        "최신성 의존도가 높은 질의"
+      ],
+      "memory_fit": "장기 운영 메모리보다는 실시간 탐색 컨텍스트와 더 잘 맞는다."
+    },
+    {
+      "id": "mistral-frontier-family",
+      "provider": "Mistral",
+      "name": "Mistral Large 3 / Devstral 2 / Ministral 3",
+      "category": "Open-weight + Commercial",
+      "tags": ["open", "coding", "enterprise"],
+      "summary": "상용 API와 오픈 웨이트를 같이 가져갈 수 있어 프라이버시와 배포 자유도가 좋다.",
+      "versions": [
+        {
+          "name": "Mistral Large 3 v25.12",
+          "state": "open",
+          "context_window": "256K",
+          "max_output": "docs page review needed",
+          "pricing": "$0.5 / $1.5 per 1M tokens",
+          "rate_limit": "plan dependent",
+          "access": "Mistral AI Studio 계정 또는 self-host",
+          "login_required": "yes for hosted / no for self-host"
+        },
+        {
+          "name": "Devstral 2 v25.12",
+          "state": "open",
+          "context_window": "128K class recommended locally",
+          "max_output": "deployment dependent",
+          "pricing": "self-host 가능",
+          "rate_limit": "self-host면 infra limit",
+          "access": "Mistral hosted 또는 자체 배포",
+          "login_required": "no for self-host"
+        },
+        {
+          "name": "Ministral 3 8B v25.12",
+          "state": "open",
+          "context_window": "256K",
+          "max_output": "deployment dependent",
+          "pricing": "$0.15 / $0.15 per 1M tokens",
+          "rate_limit": "plan dependent",
+          "access": "hosted 또는 local/edge",
+          "login_required": "no for self-host"
+        }
+      ],
+      "strengths": [
+        "오픈 웨이트라 로컬/프라이빗 배포 선택지가 있다",
+        "코딩과 generalist를 한 벤더 안에서 고르기 쉽다",
+        "Devstral은 SWE agent 용도에 맞게 설계되었다"
+      ],
+      "weaknesses": [
+        "로컬 고성능 운용에는 GPU 요구사항이 크다",
+        "호스팅/셀프호스팅 옵션에 따라 복잡도가 갈린다"
+      ],
+      "recommended_for": [
+        "프라이버시와 커스텀 배포가 중요한 팀",
+        "Open-weight 중심의 agent stack",
+        "Mistral Code/Vibe와 함께 쓰는 개발 환경"
+      ],
+      "memory_fit": "파일 기반 전역 메모리를 self-host model + agent stack에 붙이기 좋다."
+    },
+    {
+      "id": "deepseek-v32-family",
+      "provider": "DeepSeek",
+      "name": "DeepSeek-V3.2 API Family",
+      "category": "Low-cost Reasoning",
+      "tags": ["open", "coding"],
+      "summary": "가격 대비 성능이 강하고 OpenAI 호환 API라 연결이 쉽다.",
+      "versions": [
+        {
+          "name": "deepseek-chat",
+          "state": "DeepSeek-V3.2 non-thinking",
+          "context_window": "128K",
+          "max_output": "default 4K / max 8K",
+          "pricing": "$0.028 cache hit / $0.28 miss / $0.42 output per 1M",
+          "rate_limit": "계정/서비스 상태 의존",
+          "access": "DeepSeek API key",
+          "login_required": "yes"
+        },
+        {
+          "name": "deepseek-reasoner",
+          "state": "DeepSeek-V3.2 thinking",
+          "context_window": "128K",
+          "max_output": "default 32K / max 64K",
+          "pricing": "공식 가격표 주기적 확인 필요",
+          "rate_limit": "계정/서비스 상태 의존",
+          "access": "DeepSeek API key",
+          "login_required": "yes"
+        }
+      ],
+      "strengths": [
+        "매우 낮은 비용으로 reasoning/coding 실험 가능",
+        "OpenAI 호환이라 기존 툴에 붙이기 쉽다",
+        "thinking mode와 non-thinking mode를 나눠 쓰기 좋다"
+      ],
+      "weaknesses": [
+        "서비스 변동과 공용 인프라 영향에 민감할 수 있다",
+        "툴에 따라 reasoning_content 처리 차이가 있다"
+      ],
+      "recommended_for": [
+        "대량 평가, 자동 분류, 비용 민감한 실험",
+        "OpenAI 호환 클라이언트에 빠르게 연결할 때"
+      ],
+      "memory_fit": "파일 기반 메모리와 OpenAI 호환 프록시 조합으로 붙이기 쉽다."
+    },
+    {
+      "id": "qwen3-family",
+      "provider": "Qwen",
+      "name": "Qwen3 / Qwen3-Coder",
+      "category": "Open-weight Frontier",
+      "tags": ["open", "coding"],
+      "summary": "오픈 웨이트 진영에서 코딩과 reasoning 모두 강하고, 로컬/클라우드 선택지가 넓다.",
+      "versions": [
+        {
+          "name": "Qwen3-235B-A22B",
+          "state": "open",
+          "context_window": "128K",
+          "max_output": "deployment dependent",
+          "pricing": "self-host or platform dependent",
+          "rate_limit": "infra dependent",
+          "access": "가중치 다운로드 또는 Qwen Chat",
+          "login_required": "license/platform dependent"
+        },
+        {
+          "name": "Qwen3-30B-A3B",
+          "state": "open",
+          "context_window": "128K",
+          "max_output": "deployment dependent",
+          "pricing": "self-host friendly",
+          "rate_limit": "infra dependent",
+          "access": "가중치 다운로드 또는 platform",
+          "login_required": "no for local"
+        },
+        {
+          "name": "Qwen3-Coder-480B-A35B-Instruct",
+          "state": "open",
+          "context_window": "256K native / 1M extrapolated",
+          "max_output": "deployment dependent",
+          "pricing": "platform or self-host dependent",
+          "rate_limit": "infra dependent",
+          "access": "Alibaba Cloud/DashScope or self-host",
+          "login_required": "no for local"
+        }
+      ],
+      "strengths": [
+        "오픈 모델 중 코딩 에이전트 성능이 강하다",
+        "Qwen Code, Claude Code proxy, Cline 등과 연결 폭이 넓다",
+        "로컬 배포 선택지가 많다"
+      ],
+      "weaknesses": [
+        "운영 안정성은 직접 배포 품질에 좌우된다",
+        "상용 도구 연결 시 설정 난이도가 있다"
+      ],
+      "recommended_for": [
+        "오픈모델 중심의 코딩 에이전트 스택",
+        "비용 통제가 중요한 장기 실험",
+        "로컬/사내 배포가 필요한 조직"
+      ],
+      "memory_fit": "AGENTS.md + 로컬 런타임 + OpenAI 호환 프록시 조합이 잘 맞는다."
+    },
+    {
+      "id": "cohere-command-family",
+      "provider": "Cohere",
+      "name": "Command A / Command A Reasoning",
+      "category": "Enterprise Agent",
+      "tags": ["enterprise"],
+      "summary": "엔터프라이즈형 RAG, agent, multilingual workload에 잘 맞는 라인업.",
+      "versions": [
+        {
+          "name": "command-a-03-2025",
+          "state": "stable",
+          "context_window": "256K",
+          "max_output": "32K",
+          "pricing": "Cohere pricing page 참조",
+          "rate_limit": "plan dependent",
+          "access": "Cohere 계정 + API key",
+          "login_required": "yes"
+        },
+        {
+          "name": "command-a-reasoning-08-2025",
+          "state": "stable",
+          "context_window": "256K",
+          "max_output": "32K",
+          "pricing": "Cohere pricing page 참조",
+          "rate_limit": "plan dependent",
+          "access": "Cohere 계정 + API key",
+          "login_required": "yes"
+        }
+      ],
+      "strengths": [
+        "다국어 enterprise agent/RAG use case에 강하다",
+        "tool use와 reasoning 설명이 명확하다"
+      ],
+      "weaknesses": [
+        "개발자 코딩 툴 생태계에서는 OpenAI/Anthropic만큼 주류는 아니다"
+      ],
+      "recommended_for": [
+        "엔터프라이즈 knowledge assistant",
+        "멀티링구얼 RAG",
+        "비즈니스 문서 질의응답"
+      ],
+      "memory_fit": "사내 지식 메모리와 붙일 때 좋지만, IDE 코딩 메모리 생태계는 별도 툴이 필요하다."
+    },
+    {
+      "id": "meta-llama4-family",
+      "provider": "Meta",
+      "name": "Llama 4 Scout / Maverick",
+      "category": "Open-weight Frontier",
+      "tags": ["open"],
+      "summary": "Meta의 Llama 4 계열. 초장문 컨텍스트와 멀티모달 오픈 배포 후보.",
+      "versions": [
+        {
+          "name": "Llama 4 Scout",
+          "state": "open",
+          "context_window": "10M",
+          "max_output": "deployment dependent",
+          "pricing": "self-host or provider dependent",
+          "rate_limit": "infra dependent",
+          "access": "Meta Llama license acceptance 필요",
+          "login_required": "license acceptance required"
+        },
+        {
+          "name": "Llama 4 Maverick",
+          "state": "open",
+          "context_window": "1M",
+          "max_output": "deployment dependent",
+          "pricing": "self-host or provider dependent",
+          "rate_limit": "infra dependent",
+          "access": "Meta Llama license acceptance 필요",
+          "login_required": "license acceptance required"
+        }
+      ],
+      "strengths": [
+        "오픈 배포 가능한 초장문 컨텍스트 후보",
+        "멀티모달과 MoE 구조",
+        "자체 인프라 통제에 유리"
+      ],
+      "weaknesses": [
+        "하드웨어 요구사항이 매우 높다",
+        "실제 운영 난이도가 높다"
+      ],
+      "recommended_for": [
+        "대규모 사내 인프라를 가진 팀",
+        "완전한 프라이빗 추론 스택"
+      ],
+      "memory_fit": "자체 메모리 저장소와 완전히 통제된 사내 스택에 맞는다."
+    }
+  ],
+  "tools": [
+    {
+      "id": "codex-cli",
+      "name": "Codex CLI",
+      "class": "terminal agent",
+      "release_channel": "GitHub releases / npm",
+      "version_label": "rolling",
+      "summary": "터미널 중심 대형 코드베이스 수정에 강한 OpenAI 코딩 에이전트.",
+      "best_with": ["GPT-5.3-Codex", "GPT-5.4", "GPT-5.2-Codex"],
+      "strengths": [
+        "장기 세션과 대형 레포 탐색",
+        "강한 도구 통합과 실행 흐름",
+        "AGENTS.md 친화적"
+      ],
+      "weaknesses": [
+        "클라우드 로그인/플랜 또는 API 비용 필요",
+        "로컬 오프라인 실행 불가"
+      ],
+      "recommended_for": [
+        "실제 코드 수정, 테스트, 검증까지 이어지는 작업",
+        "프로젝트 규칙이 명확한 저장소"
+      ],
+      "memory_bridge": "프로젝트 AGENTS.md와 전역 메모리 export를 함께 사용.",
+      "login_required": "ChatGPT 로그인 또는 OpenAI API key",
+      "quota_notes": "ChatGPT 플랜 또는 API usage tier 의존"
+    },
+    {
+      "id": "claude-code",
+      "name": "Claude Code",
+      "class": "terminal agent",
+      "release_channel": "rolling",
+      "version_label": "rolling",
+      "summary": "코드 설명, 점진적 설계, CLI 작업에 강한 Anthropic 터미널 에이전트.",
+      "best_with": ["Claude Sonnet 4", "Claude Opus 4.1"],
+      "strengths": [
+        "CLAUDE.md 메모리 체계가 명확",
+        "문서-코드 혼합 작업에 강함",
+        "차분한 설계/리뷰 루프"
+      ],
+      "weaknesses": [
+        "사용량 제한과 요금 관리 필요",
+        "대규모 자동화는 rate limit 영향을 받기 쉬움"
+      ],
+      "recommended_for": [
+        "설계 품질이 중요한 개발",
+        "사람이 중간 검토하는 pair programming"
+      ],
+      "memory_bridge": "전역 source_of_truth에서 CLAUDE.md를 생성해 재귀 로딩.",
+      "login_required": "Claude 계정 또는 Anthropic API key",
+      "quota_notes": "Anthropic plan / API tier dependent"
+    },
+    {
+      "id": "gemini-cli",
+      "name": "Gemini CLI",
+      "class": "terminal agent",
+      "release_channel": "GitHub releases / npm",
+      "version_label": "rolling",
+      "summary": "Google 계열 모델을 터미널에서 다루는 CLI. 긴 컨텍스트 활용에 유리.",
+      "best_with": ["gemini-2.5-pro", "gemini-2.5-flash"],
+      "strengths": [
+        "긴 컨텍스트 모델과 잘 맞음",
+        "GEMINI.md 기반 프로젝트 컨텍스트 패턴"
+      ],
+      "weaknesses": [
+        "메모리/규칙 생태계는 Cursor/Claude Code보다 덜 성숙",
+        "릴리즈 안정성은 재확인이 필요"
+      ],
+      "recommended_for": [
+        "긴 문서와 함께 코드를 보는 작업",
+        "Google AI Studio 중심 워크플로"
+      ],
+      "memory_bridge": "GEMINI.md 어댑터를 전역 메모리에서 생성.",
+      "login_required": "Google 로그인 또는 Gemini API key",
+      "quota_notes": "Google AI Studio/API tier dependent"
+    },
+    {
+      "id": "cursor",
+      "name": "Cursor",
+      "class": "IDE agent",
+      "release_channel": "desktop rolling",
+      "version_label": "1.x / 2.x channel",
+      "summary": "IDE 일체형 AI 개발 환경. Rules와 AGENTS.md를 함께 쓸 수 있다.",
+      "best_with": ["Claude", "GPT-5.x", "Gemini", "DeepSeek"],
+      "strengths": [
+        "IDE 통합도가 높다",
+        "Project Rules, User Rules, AGENTS.md 지원",
+        "멀티 모델 전환이 쉽다"
+      ],
+      "weaknesses": [
+        "계정/크레딧 관리 필요",
+        "장기 메모리는 규칙 설계 품질에 좌우됨"
+      ],
+      "recommended_for": [
+        "IDE에서 바로 수정하고 싶은 웹/앱 개발",
+        "팀 단위 코드베이스 작업"
+      ],
+      "memory_bridge": ".cursor/rules + AGENTS.md 동시 배치.",
+      "login_required": "Cursor 계정 로그인 필요",
+      "quota_notes": "plan/credit/model routing dependent"
+    },
+    {
+      "id": "windsurf",
+      "name": "Windsurf",
+      "class": "IDE agent",
+      "release_channel": "desktop rolling",
+      "version_label": "1.13.x line observed",
+      "summary": "Cascade 중심의 IDE. Memories와 Rules가 분리되어 있어 세션형 협업에 유리하다.",
+      "best_with": ["GPT-5.3-Codex", "Gemini", "Claude", "DeepSeek"],
+      "strengths": [
+        "자동 Memories + 수동 Rules 구조",
+        "미리보기와 실행 흐름 연동",
+        "모델 라우팅 선택 폭"
+      ],
+      "weaknesses": [
+        "크레딧/모델별 비용 체계가 복잡할 수 있다",
+        "자동 생성 memory 품질은 관리가 필요하다"
+      ],
+      "recommended_for": [
+        "빠르게 화면 확인하며 개발하는 웹 프로젝트",
+        "여러 세션 문맥을 IDE 안에서 붙잡고 싶은 경우"
+      ],
+      "memory_bridge": "전역 메모리에서 Windsurf Rules/Memory seed 파일 생성.",
+      "login_required": "Windsurf 계정 로그인 필요",
+      "quota_notes": "prompt credits / model-specific billing dependent"
+    },
+    {
+      "id": "cline",
+      "name": "Cline",
+      "class": "IDE extension agent",
+      "release_channel": "GitHub releases / extension",
+      "version_label": "rolling",
+      "summary": "승인 기반 툴 호출과 MCP 연동이 강한 VS Code 계열 에이전트.",
+      "best_with": ["OpenAI", "Anthropic", "Qwen3-Coder", "DeepSeek"],
+      "strengths": [
+        "권한 기반 실행 통제가 명확",
+        "MCP 확장성이 강함",
+        "OpenAI 호환 모델 연결이 쉽다"
+      ],
+      "weaknesses": [
+        "기본 메모리는 직접 설계해야 한다",
+        "모델 품질은 백엔드 선택에 크게 의존"
+      ],
+      "recommended_for": [
+        "MCP 중심 툴 오케스트레이션",
+        "승인/보안 제어를 세밀하게 가져가고 싶은 개발"
+      ],
+      "memory_bridge": "AGENTS.md 또는 별도 context file을 명시적으로 주입.",
+      "login_required": "확장 설치는 무로그인 가능, 실제 모델 사용은 API key 필요",
+      "quota_notes": "연결한 모델 공급자 quota를 그대로 따름"
+    },
+    {
+      "id": "aider",
+      "name": "Aider",
+      "class": "terminal pair programmer",
+      "release_channel": "PyPI / GitHub",
+      "version_label": "rolling",
+      "summary": "터미널 기반 pair programming. 여러 모델을 빠르게 바꿔가며 쓰기 좋다.",
+      "best_with": ["Claude", "GPT", "DeepSeek", "local models"],
+      "strengths": [
+        "가볍고 빠르다",
+        "git 중심 워크플로와 잘 맞는다",
+        "여러 백엔드 모델을 쉽게 바꾼다"
+      ],
+      "weaknesses": [
+        "IDE형 시각화/메모리 체계는 약하다",
+        "대형 장기 세션은 상위 에이전트보다 불편할 수 있다"
+      ],
+      "recommended_for": [
+        "빠른 코드 수정",
+        "가벼운 개인 프로젝트",
+        "다양한 API 모델 비교"
+      ],
+      "memory_bridge": "AGENTS.md와 요약 노트를 수동으로 함께 주입하는 편이 좋다.",
+      "login_required": "도구 자체는 무로그인, 연결 모델 API key 필요",
+      "quota_notes": "연결한 공급자 quota 의존"
+    },
+    {
+      "id": "continue",
+      "name": "Continue",
+      "class": "IDE extension",
+      "release_channel": "hub / extension",
+      "version_label": "rolling",
+      "summary": "커스텀 모델, rules, context provider를 세밀하게 조립하기 좋은 오픈형 IDE 어시스턴트.",
+      "best_with": ["OpenAI", "Anthropic", "Mistral", "local models"],
+      "strengths": [
+        "커스텀 모델과 컨텍스트 공급자 연결이 좋다",
+        "기업/사내 구성에 유연하다"
+      ],
+      "weaknesses": [
+        "기본 세팅이 다소 손이 간다",
+        "즉시 생산성은 Cursor/Windsurf보다 낮을 수 있다"
+      ],
+      "recommended_for": [
+        "사내 모델과 IDE를 붙이고 싶은 팀",
+        "오픈형 커스텀 AI 코딩 환경"
+      ],
+      "memory_bridge": "정규화된 메모리 JSON/Markdown을 context provider로 연결하기 좋다.",
+      "login_required": "도구 자체는 무로그인 가능, 연결한 모델에 따라 로그인/API key 필요",
+      "quota_notes": "연결 백엔드 quota 의존"
+    },
+    {
+      "id": "openhands",
+      "name": "OpenHands",
+      "class": "autonomous coding agent",
+      "release_channel": "open source rolling",
+      "version_label": "rolling",
+      "summary": "더 자율적인 소프트웨어 엔지니어 에이전트 실험에 적합한 오픈소스 플랫폼.",
+      "best_with": ["Claude", "GPT", "Qwen", "DeepSeek"],
+      "strengths": [
+        "자율성 높은 작업 흐름",
+        "실험/연구용 에이전트 플랫폼으로 유연"
+      ],
+      "weaknesses": [
+        "운영 난이도와 안정성 검증 필요",
+        "실무 투입 전 guardrail 설계 필요"
+      ],
+      "recommended_for": [
+        "연구형 autonomous agent 실험",
+        "자율 계획-실행 루프 검증"
+      ],
+      "memory_bridge": "전역 메모리를 system prompt 또는 repo seed로 주입.",
+      "login_required": "자체 호스팅은 무로그인 가능, 연결 모델 API key 필요",
+      "quota_notes": "연결 백엔드와 인프라 리소스 의존"
+    },
+    {
+      "id": "ollama",
+      "name": "Ollama",
+      "class": "local runtime",
+      "release_channel": "desktop / CLI",
+      "version_label": "rolling",
+      "summary": "로컬 모델 실행의 표준 축. 로그인 없이 빠르게 오픈 모델을 돌릴 수 있다.",
+      "best_with": ["Qwen3", "Llama", "Mistral", "DeepSeek distill"],
+      "strengths": [
+        "무로그인 로컬 실행",
+        "배포와 호출이 단순",
+        "프라이버시 친화적"
+      ],
+      "weaknesses": [
+        "GPU/메모리 한계에 크게 좌우",
+        "초대형 모델 성능은 클라우드에 밀린다"
+      ],
+      "recommended_for": [
+        "개인 메모리 보호가 중요한 실험",
+        "사내망/오프라인 환경"
+      ],
+      "memory_bridge": "전역 메모리를 파일로 두고 agent layer가 읽게 구성.",
+      "login_required": "no",
+      "quota_notes": "하드웨어 자원 한도만 받음"
+    },
+    {
+      "id": "lm-studio",
+      "name": "LM Studio",
+      "class": "local runtime",
+      "release_channel": "desktop / CLI",
+      "version_label": "lms CLI v0.0.47 observed",
+      "summary": "로컬 모델 다운로드, 서버 실행, CLI 조작을 GUI와 함께 제공하는 로컬 런타임.",
+      "best_with": ["Qwen3", "Llama", "Mistral", "Gemma"],
+      "strengths": [
+        "GUI + CLI가 같이 있어 진입이 쉽다",
+        "로컬 API 서버를 쉽게 띄울 수 있다"
+      ],
+      "weaknesses": [
+        "대형 모델은 결국 하드웨어 제약을 받는다"
+      ],
+      "recommended_for": [
+        "로컬 모델 비교와 데모",
+        "사내 데스크탑 환경"
+      ],
+      "memory_bridge": "agent wrapper가 전역 메모리 파일을 선주입하도록 구성.",
+      "login_required": "no",
+      "quota_notes": "하드웨어 자원 한도만 받음"
+    },
+    {
+      "id": "openrouter",
+      "name": "OpenRouter",
+      "class": "model gateway",
+      "release_channel": "hosted",
+      "version_label": "rolling",
+      "summary": "여러 모델 공급자를 하나의 OpenAI 호환 인터페이스로 묶는 게이트웨이.",
+      "best_with": ["OpenAI", "Anthropic", "DeepSeek", "Qwen", "Mistral"],
+      "strengths": [
+        "멀티 벤더 라우팅이 쉽다",
+        "비교 실험과 fallback 설계에 유리"
+      ],
+      "weaknesses": [
+        "벤더별 실제 한도와 게이트웨이 한도를 모두 봐야 한다",
+        "민감 데이터는 추가 검토 필요"
+      ],
+      "recommended_for": [
+        "모델 fallback과 비용 비교",
+        "한 앱에서 여러 벤더를 오케스트레이션"
+      ],
+      "memory_bridge": "전역 메모리 파일은 그대로 쓰고, 공급자 전환만 게이트웨이에서 처리.",
+      "login_required": "OpenRouter 계정 + key",
+      "quota_notes": "OpenRouter credit + downstream model availability"
+    },
+    {
+      "id": "openclaw",
+      "name": "OpenClaw",
+      "class": "memory-first ops agent",
+      "release_channel": "service implementation",
+      "version_label": "rolling",
+      "summary": "메모리와 멀티유저 운영 자동화에 초점을 둔 AI agent service.",
+      "best_with": ["Claude", "GPT", "custom backends"],
+      "strengths": [
+        "persistent memory를 전면에 둔다",
+        "Telegram/WhatsApp 등 운영 자동화 시나리오에 맞다"
+      ],
+      "weaknesses": [
+        "개발용 코딩 에이전트보다는 운영 비서 성격이 강하다",
+        "툴/모델 내부 동작은 구축 방식에 따라 다르다"
+      ],
+      "recommended_for": [
+        "개인/팀 운영 비서",
+        "멀티유저 메모리형 agent"
+      ],
+      "memory_bridge": "전역 메모리 저장소와 가장 직접적으로 연결되는 유형.",
+      "login_required": "service onboarding required",
+      "quota_notes": "구축 방식과 연결 모델에 따라 다름"
+    }
+  ],
+  "sources": [
+    {
+      "label": "OpenAI Models Overview",
+      "url": "https://developers.openai.com/api/docs/models",
+      "note": "GPT-5.4, GPT-5 pro, GPT-5.3-Codex, GPT-5 mini/nano 비교"
+    },
+    {
+      "label": "OpenAI GPT-5.4",
+      "url": "https://developers.openai.com/api/docs/models/gpt-5.4",
+      "note": "1M context, 128K output, Aug 31 2025 cutoff"
+    },
+    {
+      "label": "OpenAI GPT-5 Pro",
+      "url": "https://platform.openai.com/docs/models/gpt-5-pro/",
+      "note": "400K context, 272K output, Sep 30 2024 cutoff"
+    },
+    {
+      "label": "OpenAI GPT-5.3-Codex",
+      "url": "https://developers.openai.com/api/docs/models/gpt-5.3-codex",
+      "note": "코딩 전용 최신 축, 400K context, Aug 31 2025 cutoff"
+    },
+    {
+      "label": "OpenAI GPT-5.2",
+      "url": "https://developers.openai.com/api/docs/models/gpt-5.2",
+      "note": "400K context, 128K output, Aug 31 2025 cutoff"
+    },
+    {
+      "label": "OpenAI GPT-5.2-Codex",
+      "url": "https://developers.openai.com/api/docs/models/gpt-5.2-codex",
+      "note": "코딩 최적화 라인, 400K context, Aug 31 2025 cutoff"
+    },
+    {
+      "label": "OpenAI GPT-5 Mini",
+      "url": "https://developers.openai.com/api/docs/models/gpt-5-mini",
+      "note": "저비용 소형 라인. overview와 개별 페이지의 cutoff 표기가 다를 수 있어 개별 페이지 값을 우선"
+    },
+    {
+      "label": "OpenAI GPT-5.1-Codex",
+      "url": "https://developers.openai.com/api/docs/models/gpt-5.1-codex",
+      "note": "400K context, 128K output, Sep 30 2024 cutoff"
+    },
+    {
+      "label": "Anthropic Models Overview",
+      "url": "https://docs.anthropic.com/en/docs/about-claude/models/overview",
+      "note": "Claude Opus 4.1, Sonnet 4, Haiku 3.5 비교"
+    },
+    {
+      "label": "Anthropic Pricing",
+      "url": "https://docs.anthropic.com/en/docs/about-claude/pricing",
+      "note": "Claude Opus 4.1 / Sonnet 4 / Haiku 3.5 가격표"
+    },
+    {
+      "label": "Claude Code Memory",
+      "url": "https://docs.anthropic.com/ko/docs/claude-code/memory",
+      "note": "CLAUDE.md 메모리 탐색 규칙"
+    },
+    {
+      "label": "Gemini Models",
+      "url": "https://ai.google.dev/gemini-api/docs/models/gemini",
+      "note": "2.5 Pro/Flash/Flash-Lite의 1,048,576 input / 65,536 output"
+    },
+    {
+      "label": "DeepSeek Models & Pricing",
+      "url": "https://api-docs.deepseek.com/quick_start/pricing",
+      "note": "DeepSeek-V3.2, 128K context, output limits"
+    },
+    {
+      "label": "DeepSeek First API Call",
+      "url": "https://api-docs.deepseek.com/",
+      "note": "deepseek-chat / deepseek-reasoner가 V3.2에 매핑됨"
+    },
+    {
+      "label": "Mistral Models",
+      "url": "https://docs.mistral.ai/getting-started/models",
+      "note": "Mistral Large 3, Devstral 2, Medium 3.1, Ministral 3"
+    },
+    {
+      "label": "Mistral Large 3 Model Page",
+      "url": "https://docs.mistral.ai/models/mistral-large-3-25-12",
+      "note": "256K context와 per-token pricing"
+    },
+    {
+      "label": "Qwen3",
+      "url": "https://qwenlm.github.io/blog/qwen3/",
+      "note": "Qwen3 family context table"
+    },
+    {
+      "label": "Qwen3-Coder",
+      "url": "https://qwenlm.github.io/blog/qwen3-coder/",
+      "note": "256K native / 1M extrapolated, Qwen Code"
+    },
+    {
+      "label": "Cohere Command A",
+      "url": "https://docs.cohere.com/v1/docs/command-a",
+      "note": "256K context, 32K output"
+    },
+    {
+      "label": "Cohere Command A Reasoning",
+      "url": "https://docs.cohere.com/changelog/2025-08-21-command-a-reasoning",
+      "note": "agentic reasoning 라인업"
+    },
+    {
+      "label": "xAI Docs Overview",
+      "url": "https://docs.x.ai/docs",
+      "note": "Grok API와 early access 모델 공지"
+    },
+    {
+      "label": "xAI Grok 4.1",
+      "url": "https://x.ai/news/grok-4-1/",
+      "note": "Grok 4.1 릴리즈"
+    },
+    {
+      "label": "OpenAI AGENTS.md Spec",
+      "url": "https://github.com/openai/agents.md",
+      "note": "툴 간 공유 가능한 open instruction format"
+    },
+    {
+      "label": "Cursor Rules",
+      "url": "https://docs.cursor.com/de/context/rules",
+      "note": "Project Rules, User Rules, AGENTS.md 지원"
+    },
+    {
+      "label": "Windsurf Memories",
+      "url": "https://docs.windsurf.com/fr/windsurf/cascade/memories",
+      "note": "Memories + Rules 구조"
+    },
+    {
+      "label": "Windsurf Changelog",
+      "url": "https://windsurf.com/changelog",
+      "note": "GPT-5.2-Codex 지원과 버전 라인"
+    },
+    {
+      "label": "OpenAI Codex Repository",
+      "url": "https://github.com/openai/codex",
+      "note": "Codex CLI 설치/릴리즈 기준"
+    },
+    {
+      "label": "Claude Code Quickstart",
+      "url": "https://docs.anthropic.com/en/docs/claude-code/quickstart",
+      "note": "Claude Code 설치/로그인 흐름"
+    },
+    {
+      "label": "Aider Chat Modes",
+      "url": "https://aider.chat/docs/usage/modes.html",
+      "note": "Aider architect/code/ask mode"
+    },
+    {
+      "label": "LM Studio CLI",
+      "url": "https://lmstudio.ai/docs/cli",
+      "note": "로컬 런타임 CLI와 무로그인 로컬 사용"
+    },
+    {
+      "label": "Ollama Library",
+      "url": "https://www.ollama.com/library",
+      "note": "로컬 모델 실행용 라이브러리 인덱스"
+    },
+    {
+      "label": "OpenClaw",
+      "url": "https://openclawagent.io/",
+      "note": "persistent memory, multi-user agent 설명"
+    }
+  ]
+}

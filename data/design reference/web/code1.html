@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "outline-variant": "#424754",
+            "error-container": "#93000a",
+            "on-error-container": "#ffdad6",
+            "on-tertiary": "#003824",
+            "primary": "#adc6ff",
+            "tertiary-fixed": "#6ffbbe",
+            "primary-fixed-dim": "#adc6ff",
+            "surface-container-high": "#222a3d",
+            "secondary-container": "#3f465c",
+            "on-surface-variant": "#c2c6d6",
+            "error": "#ffb4ab",
+            "primary-fixed": "#d8e2ff",
+            "surface-bright": "#31394d",
+            "background": "#0b1326",
+            "on-background": "#dae2fd",
+            "on-primary-fixed-variant": "#004395",
+            "on-primary-fixed": "#001a42",
+            "tertiary": "#4edea3",
+            "outline": "#8c909f",
+            "inverse-primary": "#005ac2",
+            "on-error": "#690005",
+            "surface-dim": "#0b1326",
+            "surface-tint": "#adc6ff",
+            "on-secondary-fixed-variant": "#3f465c",
+            "secondary": "#bec6e0",
+            "inverse-surface": "#dae2fd",
+            "on-secondary-fixed": "#131b2e",
+            "on-secondary-container": "#adb4ce",
+            "surface-container-highest": "#2d3449",
+            "inverse-on-surface": "#283044",
+            "on-secondary": "#283044",
+            "surface-container": "#171f33",
+            "on-tertiary-fixed-variant": "#005236",
+            "surface-container-low": "#131b2e",
+            "surface": "#0b1326",
+            "surface-container-lowest": "#060e20",
+            "on-surface": "#dae2fd",
+            "surface-variant": "#2d3449",
+            "on-primary": "#002e6a",
+            "tertiary-container": "#00a572",
+            "tertiary-fixed-dim": "#4edea3",
+            "on-tertiary-fixed": "#002113",
+            "primary-container": "#4d8eff",
+            "on-tertiary-container": "#00311f"
+          },
+          fontFamily: {
+            "headline": ["Space Grotesk"],
+            "body": ["Inter"],
+            "label": ["Inter"]
+          },
+          borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #0b1326;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #424754;
+      border-radius: 10px;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body selection:bg-primary/30 min-h-screen">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#0b1326] dark:bg-[#0b1326] shadow-[0_32px_32px_0_rgba(173,198,255,0.08)]">
+<div class="flex justify-between items-center px-5.5 h-16 w-full max-w-7xl mx-auto">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-high border border-outline-variant/20 overflow-hidden">
+<img alt="User profile avatar" data-alt="Cyberpunk style user profile avatar placeholder" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCyyeL6DATJYJwXbl4FJd6Benk9i-b_ehNDgvHpt7lEcH0kMfc9Ra1ohMdu1Pdgkfv317griwW_afTxm-Hq5EvY9wDaKmLy5BqcqkSJdYqZrTgb5p8-9UYhwCRVntVNjUagqiZTIzFY8BSBJRlH5ceVoR0-DpymuykkN3D_gdUrwm5_Fb7EJVd39Y0T-Podd4Hr_OGBUajiMxj1VOYSubZBwkWMaNfZWovntASTWlXuZGDF5EKM67qLAGlyBwMscXdcyIeoyhtcFsE"/>
+</div>
+<h1 class="text-xl font-bold tracking-tighter text-[#adc6ff] font-['Space_Grotesk'] uppercase text-sm font-bold tracking-wide">Obsidian Architect</h1>
+</div>
+<button class="text-[#adc6ff] hover:bg-[#171f33] transition-colors p-2 rounded-xl active:scale-95 duration-200">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="pt-24 pb-32 px-6 max-w-7xl mx-auto">
+<!-- Header Section -->
+<section class="mb-10">
+<div class="flex items-center gap-2 mb-2">
+<span class="text-primary font-headline text-xs tracking-widest uppercase">System Recommendation</span>
+<div class="h-px flex-1 bg-gradient-to-r from-outline-variant/30 to-transparent"></div>
+</div>
+<h2 class="font-headline text-4xl md:text-5xl font-bold tracking-tight text-on-surface mb-4">
+        Recommendation for <span class="text-transparent bg-clip-text bg-gradient-to-br from-primary to-primary-container">Quantum Nexus</span>
+</h2>
+<p class="text-on-surface-variant max-w-2xl text-lg leading-relaxed">
+        Based on your current project parameters, we've identified 3 specialized tools that optimize for high-frequency data processing and narrative architectural integrity.
+      </p>
+</section>
+<!-- Bento-ish Grid for Comparison -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Tool Card A -->
+<div class="bg-surface-container rounded-xl p-5.5 relative flex flex-col group transition-all duration-300 hover:bg-surface-container-high border-t border-primary/5">
+<div class="flex justify-between items-start mb-6">
+<div class="p-3 bg-surface-container-low rounded-xl">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="monitoring">monitoring</span>
+</div>
+<span class="bg-primary/10 text-primary text-[10px] font-bold tracking-widest uppercase px-2 py-1 rounded">Efficiency 98%</span>
+</div>
+<h3 class="font-headline text-2xl font-bold text-on-surface mb-1">Aether Analytics</h3>
+<p class="text-primary font-medium text-sm mb-6">Best for data analysis</p>
+<div class="space-y-4 mb-8 flex-1">
+<div>
+<p class="text-[10px] uppercase tracking-wider text-on-surface-variant/60 font-bold mb-2">Pros</p>
+<ul class="space-y-2">
+<li class="flex items-start gap-2 text-sm">
+<span class="material-symbols-outlined text-tertiary text-lg" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-on-surface/90">Real-time telemetry streams</span>
+</li>
+<li class="flex items-start gap-2 text-sm">
+<span class="material-symbols-outlined text-tertiary text-lg" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-on-surface/90">Predictive latency modeling</span>
+</li>
+</ul>
+</div>
+<div>
+<p class="text-[10px] uppercase tracking-wider text-on-surface-variant/60 font-bold mb-2">Cons</p>
+<ul class="space-y-2">
+<li class="flex items-start gap-2 text-sm">
+<span class="material-symbols-outlined text-error text-lg" style="font-variation-settings: 'FILL' 1;">cancel</span>
+<span class="text-on-surface-variant">High computational overhead</span>
+</li>
+</ul>
+</div>
+</div>
+<button class="w-full bg-gradient-to-br from-primary to-primary-container text-on-primary-container font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-transform active:scale-[0.98]">
+<span>Select Aether</span>
+<span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+<!-- Tool Card B (Featured) -->
+<div class="bg-surface-container-high rounded-xl p-5.5 relative flex flex-col group transition-all duration-300 ring-1 ring-primary/20 shadow-[0_20px_40px_-15px_rgba(173,198,255,0.15)] overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-tertiary to-primary"></div>
+<div class="flex justify-between items-start mb-6">
+<div class="p-3 bg-primary/10 rounded-xl">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="auto_awesome" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<span class="bg-tertiary/10 text-tertiary text-[10px] font-bold tracking-widest uppercase px-2 py-1 rounded">Architect's Choice</span>
+</div>
+<h3 class="font-headline text-2xl font-bold text-on-surface mb-1">Lexis Synthesizer</h3>
+<p class="text-primary font-medium text-sm mb-6">Best for creative writing</p>
+<div class="space-y-4 mb-8 flex-1">
+<div>
+<p class="text-[10px] uppercase tracking-wider text-on-surface-variant/60 font-bold mb-2">Pros</p>
+<ul class="space-y-2">
+<li class="flex items-start gap-2 text-sm">
+<span class="material-symbols-outlined text-tertiary text-lg" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-on-surface/90">Deep semantic mapping</span>
+</li>
+<li class="flex items-start gap-2 text-sm">
+<span class="material-symbols-outlined text-tertiary text-lg" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-on-surface/90">Multi-tone voice synthesis</span>
+</li>
+<li class="flex items-start gap-2 text-sm">
+<span class="material-symbols-outlined text-tertiary text-lg" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-on-surface/90">Zero-lag drafting environment</span>
+</li>
+</ul>
+</div>
+<div>
+<p class="text-[10px] uppercase tracking-wider text-on-surface-variant/60 font-bold mb-2">Cons</p>
+<ul class="space-y-2">
+<li class="flex items-start gap-2 text-sm">
+<span class="material-symbols-outlined text-error text-lg" style="font-variation-settings: 'FILL' 1;">cancel</span>
+<span class="text-on-surface-variant">Limited offline capabilities</span>
+</li>
+</ul>
+</div>
+</div>
+<button class="w-full bg-gradient-to-br from-primary to-primary-container text-on-primary-container font-extrabold py-4 px-4 rounded-xl flex items-center justify-center gap-2 transition-transform active:scale-[0.98] shadow-lg shadow-primary/10">
+<span class="material-symbols-outlined" data-icon="rocket_launch" style="font-variation-settings: 'FILL' 1;">rocket_launch</span>
+<span>Launch with Shared Memory</span>
+</button>
+</div>
+<!-- Tool Card C -->
+<div class="bg-surface-container rounded-xl p-5.5 relative flex flex-col group transition-all duration-300 hover:bg-surface-container-high border-t border-primary/5">
+<div class="flex justify-between items-start mb-6">
+<div class="p-3 bg-surface-container-low rounded-xl">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="architecture">architecture</span>
+</div>
+<span class="bg-primary/10 text-primary text-[10px] font-bold tracking-widest uppercase px-2 py-1 rounded">Stability 94%</span>
+</div>
+<h3 class="font-headline text-2xl font-bold text-on-surface mb-1">Void Mapper</h3>
+<p class="text-primary font-medium text-sm mb-6">Best for infrastructure</p>
+<div class="space-y-4 mb-8 flex-1">
+<div>
+<p class="text-[10px] uppercase tracking-wider text-on-surface-variant/60 font-bold mb-2">Pros</p>
+<ul class="space-y-2">
+<li class="flex items-start gap-2 text-sm">
+<span class="material-symbols-outlined text-tertiary text-lg" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-on-surface/90">Immutable blueprint storage</span>
+</li>
+<li class="flex items-start gap-2 text-sm">
+<span class="material-symbols-outlined text-tertiary text-lg" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-on-surface/90">Automatic node healing</span>
+</li>
+</ul>
+</div>
+<div>
+<p class="text-[10px] uppercase tracking-wider text-on-surface-variant/60 font-bold mb-2">Cons</p>
+<ul class="space-y-2">
+<li class="flex items-start gap-2 text-sm">
+<span class="material-symbols-outlined text-error text-lg" style="font-variation-settings: 'FILL' 1;">cancel</span>
+<span class="text-on-surface-variant">Steep learning curve</span>
+</li>
+<li class="flex items-start gap-2 text-sm">
+<span class="material-symbols-outlined text-error text-lg" style="font-variation-settings: 'FILL' 1;">cancel</span>
+<span class="text-on-surface-variant">Legacy protocol friction</span>
+</li>
+</ul>
+</div>
+</div>
+<button class="w-full bg-gradient-to-br from-primary to-primary-container text-on-primary-container font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-transform active:scale-[0.98]">
+<span>Select Void</span>
+<span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Comparative Table Section (Editorial Depth) -->
+<section class="mt-16">
+<h3 class="font-headline text-xl font-bold text-on-surface mb-6 flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="compare_arrows">compare_arrows</span>
+        Technical Specifications
+      </h3>
+<div class="overflow-x-auto rounded-xl bg-surface-container-low p-1">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-highest">
+<th class="p-4 label-md uppercase tracking-[0.05em] text-on-surface-variant font-bold rounded-tl-xl">Feature</th>
+<th class="p-4 label-md uppercase tracking-[0.05em] text-on-surface-variant font-bold">Aether</th>
+<th class="p-4 label-md uppercase tracking-[0.05em] text-on-surface-variant font-bold">Lexis</th>
+<th class="p-4 label-md uppercase tracking-[0.05em] text-on-surface-variant font-bold rounded-tr-xl">Void</th>
+</tr>
+</thead>
+<tbody class="text-sm">
+<tr class="bg-surface-container">
+<td class="p-4 font-medium text-on-surface">Neural Integration</td>
+<td class="p-4 text-on-surface-variant">L1 Interface</td>
+<td class="p-4 text-primary font-bold">Deep Direct</td>
+<td class="p-4 text-on-surface-variant">L2 Bridge</td>
+</tr>
+<tr class="bg-surface-container-low">
+<td class="p-4 font-medium text-on-surface">Memory Leakage</td>
+<td class="p-4 text-error">0.04%</td>
+<td class="p-4 text-tertiary">0.001%</td>
+<td class="p-4 text-tertiary">0.005%</td>
+</tr>
+<tr class="bg-surface-container">
+<td class="p-4 font-medium text-on-surface">Update Cycle</td>
+<td class="p-4 text-on-surface-variant">Weekly</td>
+<td class="p-4 text-on-surface-variant">Real-time</td>
+<td class="p-4 text-on-surface-variant">Monthly</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 pb-safe bg-[#0b1326]/90 backdrop-blur-xl border-t border-[#424754]/15">
+<div class="flex justify-around items-center h-20 px-4 w-full max-w-7xl mx-auto">
+<a class="flex flex-col items-center justify-center text-[#94a3b8] px-3 py-1 hover:text-[#adc6ff] transition-all active:translate-y-0.5" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="home">home</span>
+<span class="font-['Inter'] text-[10px] font-medium tracking-tight">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#94a3b8] px-3 py-1 hover:text-[#adc6ff] transition-all active:translate-y-0.5" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="Suffix">subscript</span>
+<span class="font-['Inter'] text-[10px] font-medium tracking-tight">Projects</span>
+</a>
+<!-- Active Tab: Tools -->
+<a class="flex flex-col items-center justify-center text-[#adc6ff] bg-[#171f33] rounded-xl px-3 py-1 transition-all active:translate-y-0.5" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="construction">construction</span>
+<span class="font-['Inter'] text-[10px] font-medium tracking-tight">Tools</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#94a3b8] px-3 py-1 hover:text-[#adc6ff] transition-all active:translate-y-0.5" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="memory">memory</span>
+<span class="font-['Inter'] text-[10px] font-medium tracking-tight">Memory</span>
+</a>
+</div>
+</nav>
+<!-- Decorative Accent -->
+<div class="fixed top-0 right-0 w-[40vw] h-[353px] bg-primary/5 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2 pointer-events-none -z-10"></div>
+<div class="fixed bottom-0 left-0 w-[30vw] h-[265px] bg-tertiary/5 blur-[100px] rounded-full translate-y-1/2 -translate-x-1/2 pointer-events-none -z-10"></div>
+</body></html>

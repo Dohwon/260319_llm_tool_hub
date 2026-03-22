@@ -1,0 +1,21 @@
+{
+  "users": {},
+  "license_codes": {},
+  "updated_at": 1774170359,
+  "extension_clients": {
+    "pg_testclient1": {
+      "plan": "free",
+      "prompt_studio_used": 0,
+      "redeemed_codes": [],
+      "created_at": 1774170357,
+      "updated_at": 1774170359
+    },
+    "pt_testclient1": {
+      "plan": "free",
+      "prompt_studio_used": 0,
+      "redeemed_codes": [],
+      "created_at": 1774170358,
+      "updated_at": 1774170358
+    }
+  }
+}

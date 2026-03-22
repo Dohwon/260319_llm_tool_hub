@@ -1,0 +1,18 @@
+{
+  "generated_at": "2026-03-19",
+  "adapters": [
+    "AGENTS.md",
+    "CLAUDE.md",
+    "GEMINI.md",
+    ".cursor/rules/global-memory.mdc",
+    "windsurf-global-memory.md"
+  ],
+  "projects": [
+    "portfolio-homepage",
+    "llm-tool-hub",
+    "moe-prompt-routing",
+    "desktop-scheduler",
+    "todack",
+    "gemini-multiturn-tester-v3"
+  ]
+}

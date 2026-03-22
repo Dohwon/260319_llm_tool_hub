@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prompt Generator</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <p class="eyebrow">Prompt Generator</p>
+      <h1>Turn rough requests into usable prompts</h1>
+      <p class="hero-copy">Free for 3 AI generations. Then upgrade to Pro for $4.99/month or $39/year with a 300-use monthly cap.</p>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Access</h2>
+        <span id="plan-badge" class="pill">Free</span>
+      </div>
+      <div class="access-grid">
+        <div class="stat-card">
+          <span class="stat-label">This Month</span>
+          <strong id="quota-value">3 / 3</strong>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Limit</span>
+          <strong id="runtime-value">Not connected</strong>
+        </div>
+      </div>
+      <p id="access-message" class="meta">Checking access status...</p>
+      <label class="field">
+        <span>Pro code</span>
+        <div class="inline-row">
+          <input id="redeem-code" type="text" placeholder="Enter upgrade code">
+          <button id="redeem-button" class="ghost-button" type="button">Redeem</button>
+        </div>
+      </label>
+      <a id="checkout-link" class="primary-link" href="#" target="_blank" rel="noreferrer">Upgrade to Pro</a>
+    </section>
+
+    <section class="panel">
+      <h2>Build</h2>
+      <label class="field">
+        <span>Goal</span>
+        <textarea id="goal" rows="3" placeholder="Example: Turn a rough product idea into a launch-ready planning prompt."></textarea>
+      </label>
+      <label class="field">
+        <span>What should the AI do?</span>
+        <textarea id="task" rows="3" placeholder="Example: Analyze the idea, point out weak spots, and propose a first MVP."></textarea>
+      </label>
+      <label class="field">
+        <span>What result do you want?</span>
+        <textarea id="result-shape" rows="3" placeholder="Example: Return a concise step-by-step plan with priorities and risks."></textarea>
+      </label>
+      <label class="field">
+        <span>Context</span>
+        <textarea id="context" rows="4" placeholder="Paste notes, copied text, or background info that the AI should use."></textarea>
+      </label>
+      <div class="grid">
+        <label class="field">
+          <span>Tone</span>
+          <select id="tone">
+            <option value="direct">Direct</option>
+            <option value="friendly">Friendly</option>
+            <option value="executive">Executive</option>
+            <option value="technical">Technical</option>
+            <option value="creative">Creative</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Output format</span>
+          <select id="output-format">
+            <option value="bullets">Bullet list</option>
+            <option value="markdown">Markdown sections</option>
+            <option value="json">JSON</option>
+            <option value="table">Table</option>
+            <option value="step-by-step">Step by step</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Audience</span>
+          <select id="audience">
+            <option value="general">General user</option>
+            <option value="manager">Manager</option>
+            <option value="developer">Developer</option>
+            <option value="designer">Designer</option>
+            <option value="customer">Customer</option>
+          </select>
+        </label>
+      </div>
+
+      <label class="field">
+        <span>Constraints</span>
+        <textarea id="constraints" rows="3" placeholder="Example: Keep it under 200 words. Ask clarifying questions only if critical."></textarea>
+      </label>
+
+      <label class="checkbox-row">
+        <input id="include-checklist" type="checkbox" checked>
+        <span>Add a quick self-check at the end</span>
+      </label>
+
+      <button id="generate" class="primary-button" type="button">Generate with AI</button>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Result</h2>
+        <button id="copy-result" class="ghost-button" type="button">Copy</button>
+      </div>
+      <textarea id="result" rows="13" readonly placeholder="Your prompt will appear here."></textarea>
+      <p id="status" class="status">No prompt generated yet.</p>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Recent</h2>
+        <button id="clear-history" class="ghost-button" type="button">Clear</button>
+      </div>
+      <div id="history" class="history-list">
+        <p class="empty">No recent prompts yet.</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="popup.js"></script>
+</body>
+</html>

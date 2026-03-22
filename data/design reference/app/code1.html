@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Manager - Context &amp; Personalization</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container-low": "#f5f3f3",
+              "primary-fixed": "#d6e3ff",
+              "primary": "#005db5",
+              "on-secondary": "#ffffff",
+              "tertiary-container": "#cd4c22",
+              "surface-container-lowest": "#ffffff",
+              "on-secondary-fixed": "#001b3e",
+              "surface-container": "#f0eded",
+              "on-secondary-container": "#00346e",
+              "surface": "#fbf9f8",
+              "on-primary": "#ffffff",
+              "primary-fixed-dim": "#a9c7ff",
+              "on-primary-fixed": "#001b3d",
+              "secondary": "#015cb9",
+              "on-secondary-fixed-variant": "#00458e",
+              "surface-container-highest": "#e4e2e2",
+              "surface-tint": "#005db7",
+              "on-tertiary": "#ffffff",
+              "on-tertiary-fixed": "#3a0a00",
+              "tertiary-fixed-dim": "#ffb59f",
+              "outline-variant": "#c1c6d5",
+              "on-tertiary-container": "#ffffff",
+              "on-error": "#ffffff",
+              "tertiary-fixed": "#ffdbd0",
+              "on-surface": "#1b1c1c",
+              "on-error-container": "#93000a",
+              "on-tertiary-fixed-variant": "#852300",
+              "inverse-primary": "#a9c7ff",
+              "background": "#fbf9f8",
+              "error-container": "#ffdad6",
+              "outline": "#717785",
+              "surface-container-high": "#eae8e7",
+              "surface-dim": "#dbd9d9",
+              "primary-container": "#0875e1",
+              "on-primary-container": "#ffffff",
+              "error": "#ba1a1a",
+              "on-background": "#1b1c1c",
+              "tertiary": "#ab3409",
+              "secondary-container": "#619efe",
+              "on-surface-variant": "#414753",
+              "inverse-surface": "#303030",
+              "inverse-on-surface": "#f2f0f0",
+              "secondary-fixed": "#d7e3ff",
+              "secondary-fixed-dim": "#aac7ff",
+              "surface-bright": "#fbf9f8",
+              "surface-variant": "#e4e2e2",
+              "on-primary-fixed-variant": "#00468c"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen pb-28">
+<!-- Top App Bar -->
+<header class="fixed top-0 w-full z-50 flex items-center justify-between px-6 h-16 bg-[#fbf9f8] dark:bg-slate-950">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#005db5] dark:text-[#0875e1] text-2xl" data-icon="account_tree">account_tree</span>
+<h1 class="font-['Inter'] tracking-tight text-[#1b1c1c] dark:text-slate-100 text-xl font-bold">AI Manager</h1>
+</div>
+<div class="h-8 w-8 rounded-full bg-primary-fixed flex items-center justify-center overflow-hidden">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="User profile avatar placeholder" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbcMfieSi8q0PnknaiRDLvwmYb7VckuyjDASz9XxK9-LecKweuIYwAAZYzLHDNgIfDKAFgMjcctJ3nCOdoNx7DtwHslz-71AhYbjun8IOCv-WdlSA7HZ3LroYzWXiKX1XtLZmTakr23shg6XZzN89xgLXMJBZbu_5B_2KJjLiFs9ssd02nSdQUrx2M0mWg2w1I5X97E_J2z7FwWe4kSIQgHp33X7lOOY1fflJpULIyCzXiUWvyQLQsuWo8YQoQLU2y4j7EbKrZP7Q"/>
+</div>
+</header>
+<main class="pt-20 px-4 space-y-8 max-w-md mx-auto">
+<!-- User Profile Header -->
+<section class="space-y-4">
+<div class="flex items-end justify-between">
+<div class="space-y-1">
+<p class="text-label-sm font-medium text-outline uppercase tracking-widest text-[10px]">Current Profile</p>
+<h2 class="text-3xl font-extrabold tracking-tight text-on-surface">Alex Rivera</h2>
+<p class="text-on-surface-variant font-medium">Senior Solutions Architect</p>
+</div>
+<div class="bg-primary-container/10 border border-primary-container/20 px-3 py-1.5 rounded-full flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px] text-primary" data-icon="bolt" style="font-variation-settings: 'FILL' 1;">bolt</span>
+<span class="text-[11px] font-bold text-primary uppercase tracking-wider">Concise &amp; Technical</span>
+</div>
+</div>
+<!-- Global Memory Health Indicator -->
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm border border-outline-variant/10 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="relative flex items-center justify-center">
+<svg class="w-10 h-10 transform -rotate-90">
+<circle class="text-surface-container-highest" cx="20" cy="20" fill="transparent" r="18" stroke="currentColor" stroke-width="3"></circle>
+<circle class="text-primary" cx="20" cy="20" fill="transparent" r="18" stroke="currentColor" stroke-dasharray="113" stroke-dashoffset="18" stroke-width="3"></circle>
+</svg>
+<span class="absolute text-[10px] font-bold">84%</span>
+</div>
+<div>
+<p class="text-sm font-semibold">Global Memory Health</p>
+<p class="text-[11px] text-on-surface-variant">Optimal sync across 4 agents</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline" data-icon="memory">memory</span>
+</div>
+</section>
+<!-- Tendencies & Insights (Bento Style) -->
+<section class="space-y-4">
+<h3 class="text-sm font-bold uppercase tracking-[0.15em] text-outline">Learned Tendencies</h3>
+<div class="grid grid-cols-2 gap-3">
+<div class="col-span-1 bg-surface-container-low p-4 rounded-2xl flex flex-col justify-between aspect-square">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="code">code</span>
+<p class="text-sm font-semibold leading-tight">Prefers Python for Backend</p>
+</div>
+<div class="col-span-1 bg-tertiary-fixed text-on-tertiary-fixed p-4 rounded-2xl flex flex-col justify-between aspect-square">
+<span class="material-symbols-outlined text-tertiary text-3xl" data-icon="architecture">architecture</span>
+<p class="text-sm font-semibold leading-tight">Favors High Context for Planning</p>
+</div>
+<div class="col-span-2 bg-secondary-fixed text-on-secondary-fixed p-4 rounded-2xl flex items-center gap-4">
+<span class="material-symbols-outlined text-secondary text-3xl" data-icon="summarize" style="font-variation-settings: 'FILL' 1;">summarize</span>
+<div class="flex-1">
+<p class="text-sm font-bold">Automatic Executive Summaries</p>
+<p class="text-[11px] opacity-70">Learned from Project Phoenix workflow</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Work History Section -->
+<section class="space-y-4">
+<div class="flex items-center justify-between">
+<h3 class="text-sm font-bold uppercase tracking-[0.15em] text-outline">Work History</h3>
+<button class="text-primary text-xs font-bold uppercase tracking-wider">View All</button>
+</div>
+<div class="space-y-3">
+<!-- Project 1 -->
+<div class="bg-surface-container-lowest p-4 rounded-xl flex items-center gap-4 group active:scale-[0.98] transition-all">
+<div class="h-10 w-10 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="rocket_launch">rocket_launch</span>
+</div>
+<div class="flex-1">
+<h4 class="text-sm font-bold">Project Phoenix</h4>
+<div class="flex items-center gap-2 mt-1">
+<span class="text-[10px] bg-surface-container-highest px-1.5 py-0.5 rounded text-on-surface-variant font-medium">GPT-4o</span>
+<span class="text-[10px] bg-surface-container-highest px-1.5 py-0.5 rounded text-on-surface-variant font-medium">Claude 3.5</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline-variant" data-icon="chevron_right">chevron_right</span>
+</div>
+<!-- Project 2 -->
+<div class="bg-surface-container-lowest p-4 rounded-xl flex items-center gap-4 group active:scale-[0.98] transition-all">
+<div class="h-10 w-10 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="database">database</span>
+</div>
+<div class="flex-1">
+<h4 class="text-sm font-bold">Data Pipeline Alpha</h4>
+<div class="flex items-center gap-2 mt-1">
+<span class="text-[10px] bg-surface-container-highest px-1.5 py-0.5 rounded text-on-surface-variant font-medium">GPT-4o</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline-variant" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+</section>
+<!-- Configuration Settings -->
+<section class="space-y-4">
+<h3 class="text-sm font-bold uppercase tracking-[0.15em] text-outline">Configuration</h3>
+<div class="bg-surface-container-lowest rounded-2xl overflow-hidden">
+<div class="p-4 flex items-center justify-between border-b border-surface-container">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="sync">sync</span>
+<div>
+<p class="text-sm font-semibold">Auto-Memory Sync</p>
+<p class="text-[11px] text-on-surface-variant">Update global context in real-time</p>
+</div>
+</div>
+<div class="w-10 h-6 bg-primary rounded-full p-1 flex justify-end">
+<div class="w-4 h-4 bg-white rounded-full"></div>
+</div>
+</div>
+<div class="p-4 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="auto_awesome">auto_awesome</span>
+<div>
+<p class="text-sm font-semibold">Dynamic Agent Switching</p>
+<p class="text-[11px] text-on-surface-variant">Let AI pick the best model for tasks</p>
+</div>
+</div>
+<div class="w-10 h-6 bg-surface-container-highest rounded-full p-1 flex justify-start">
+<div class="w-4 h-4 bg-white rounded-full shadow-sm"></div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-t border-slate-100 dark:border-slate-800 shadow-[0_-4px_20px_rgba(0,0,0,0.04)] rounded-t-2xl">
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-[#005db5] dark:hover:text-[#0875e1] active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="smart_toy">smart_toy</span>
+<span class="font-['Inter'] text-[11px] font-medium uppercase tracking-wider mt-1">Agents</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-[#005db5] dark:hover:text-[#0875e1] active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-['Inter'] text-[11px] font-medium uppercase tracking-wider mt-1">History</span>
+</a>
+<!-- Active: Context -->
+<a class="flex flex-col items-center justify-center text-[#005db5] dark:text-[#0875e1] bg-[#619efe]/10 rounded-xl px-3 py-1 active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="psychology" style="font-variation-settings: 'FILL' 1;">psychology</span>
+<span class="font-['Inter'] text-[11px] font-medium uppercase tracking-wider mt-1">Context</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-[#005db5] dark:hover:text-[#0875e1] active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-['Inter'] text-[11px] font-medium uppercase tracking-wider mt-1">Settings</span>
+</a>
+</nav>
+</body></html>

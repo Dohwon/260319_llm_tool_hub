@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Obsidian Architect - Shared Memory Hub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "outline-variant": "#424754",
+              "error-container": "#93000a",
+              "on-error-container": "#ffdad6",
+              "on-tertiary": "#003824",
+              "primary": "#adc6ff",
+              "tertiary-fixed": "#6ffbbe",
+              "primary-fixed-dim": "#adc6ff",
+              "surface-container-high": "#222a3d",
+              "secondary-container": "#3f465c",
+              "on-surface-variant": "#c2c6d6",
+              "error": "#ffb4ab",
+              "primary-fixed": "#d8e2ff",
+              "surface-bright": "#31394d",
+              "background": "#0b1326",
+              "on-background": "#dae2fd",
+              "on-primary-fixed-variant": "#004395",
+              "on-primary-fixed": "#001a42",
+              "tertiary": "#4edea3",
+              "outline": "#8c909f",
+              "inverse-primary": "#005ac2",
+              "on-error": "#690005",
+              "surface-dim": "#0b1326",
+              "surface-tint": "#adc6ff",
+              "on-secondary-fixed-variant": "#3f465c",
+              "secondary": "#bec6e0",
+              "inverse-surface": "#dae2fd",
+              "on-secondary-fixed": "#131b2e",
+              "on-secondary-container": "#adb4ce",
+              "surface-container-highest": "#2d3449",
+              "inverse-on-surface": "#283044",
+              "on-secondary": "#283044",
+              "surface-container": "#171f33",
+              "on-tertiary-fixed-variant": "#005236",
+              "surface-container-low": "#131b2e",
+              "surface": "#0b1326",
+              "surface-container-lowest": "#060e20",
+              "on-surface": "#dae2fd",
+              "surface-variant": "#2d3449",
+              "on-primary": "#002e6a",
+              "tertiary-container": "#00a572",
+              "tertiary-fixed-dim": "#4edea3",
+              "on-tertiary-fixed": "#002113",
+              "primary-container": "#4d8eff",
+              "on-tertiary-container": "#00311f"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .sync-pulse {
+            box-shadow: 0 0 0 0 rgba(78, 222, 163, 0.4);
+        }
+        body {
+            background-color: #0b1326;
+            color: #dae2fd;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body selection:bg-primary/30">
+<!-- TopAppBar -->
+<header class="bg-[#0b1326] dark:bg-[#0b1326] fixed top-0 w-full z-50 shadow-[0_32px_32px_0_rgba(173,198,255,0.08)]">
+<div class="flex justify-between items-center px-5.5 h-16 w-full bg-[#131b2e]">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-xl bg-primary-container flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="User professional profile portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7d6C_4RQgcqy_HMZR2uidlfBLb9umpjC0fUBs_q23EJN3H3aO7Jzi_j7ro3O6OY1n2LIHoA6kgicTXPUpKWN5JiWCH_ATTbEHqnZE8sDADPyAHEEXV8-LtOG0zmQ6mj4tpGg5yUmdw-jKUIoLvS1gs1XFOBsRJokawLp3xg5PiKYyUmJ8ottXcWh1jvjHdPq1gKOw7LSnpWF57Gi_vq0oEKMV_oSC6tOcP2Hey9b8uAz8CH0_xXV3QcpkYOj4nITYSjflifcyFdc"/>
+</div>
+<h1 class="text-xl font-bold tracking-tighter text-[#adc6ff] font-['Space_Grotesk'] uppercase text-sm font-bold tracking-wide">Obsidian Architect</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-[#adc6ff] hover:bg-[#171f33] transition-colors p-2 rounded-lg active:scale-95 duration-200">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-32 px-6 max-w-7xl mx-auto">
+<!-- Dashboard Header -->
+<section class="mb-10">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<span class="font-headline text-tertiary text-sm tracking-[0.2em] uppercase font-bold">Neural Uplink</span>
+<h2 class="font-headline text-4xl md:text-5xl font-bold text-on-surface mt-2 tracking-tight">Shared Memory Hub</h2>
+<p class="text-on-surface-variant mt-4 max-w-xl text-lg leading-relaxed">Centralized synchronization grid for multi-agent cognitive assets. Real-time parity monitoring active.</p>
+</div>
+<div class="flex gap-4">
+<div class="bg-surface-container px-6 py-4 rounded-xl border-l-4 border-tertiary">
+<div class="text-on-surface-variant text-xs font-bold uppercase tracking-widest mb-1">Active Syncs</div>
+<div class="text-2xl font-headline font-bold text-tertiary">14 Nodes</div>
+</div>
+<div class="bg-surface-container px-6 py-4 rounded-xl border-l-4 border-primary">
+<div class="text-on-surface-variant text-xs font-bold uppercase tracking-widest mb-1">Latency</div>
+<div class="text-2xl font-headline font-bold text-primary">0.42 ms</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Bento Grid: Memory Blocks -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Memory Block: Project Alpha -->
+<div class="md:col-span-8 bg-surface-container rounded-xl p-6 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4">
+<div class="flex items-center gap-2 px-3 py-1 bg-tertiary/10 border border-tertiary/20 rounded-full">
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+<span class="text-[10px] font-bold text-tertiary uppercase tracking-widest">Live Sync</span>
+</div>
+</div>
+<div class="flex flex-col h-full">
+<div class="mb-8">
+<span class="material-symbols-outlined text-primary mb-4 text-3xl" data-icon="layers">layers</span>
+<h3 class="text-2xl font-headline font-bold text-on-surface mb-2">Project Alpha Context</h3>
+<p class="text-on-surface-variant text-sm max-w-md">Comprehensive architectural constraints and stakeholder requirements for the Obsidian core development.</p>
+</div>
+<div class="mt-auto">
+<div class="flex flex-wrap gap-8">
+<div class="flex flex-col gap-3">
+<span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Authorized Agents</span>
+<div class="flex -space-x-2">
+<div class="w-10 h-10 rounded-full border-2 border-surface-container overflow-hidden" title="Architect-01">
+<img class="w-full h-full object-cover" data-alt="Abstract cybernetic avatar profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDpU8ASinTFZTwfTwcQ9DccthDKFbuZEBd3sCHACvfzdZ1SNOpKeMxLn7ljlRkEDZSX69klTj0tq88v8HHpcWgKRQNzGw77TpOysLhyo-1iI-Egr1VHS9ryZkJa2QXc4HlLYYgK3TkWItvUEPWCGzRBWcqGawMaPLcW0sChoxzoAm6xSbcxNM3kayXE4WuJWoq1wwLDmjBPmVHk4VU_5ic4BSXrQr4g36sliZybuA1hooBgZ6Z5TE66xlfwqgiTPX31xNrZ41DdJI"/>
+</div>
+<div class="w-10 h-10 rounded-full border-2 border-surface-container overflow-hidden" title="Logic-04">
+<img class="w-full h-full object-cover" data-alt="Digital human representation" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD49brlswFQKh5evIKsHlPFZSSbJQLGvBC1AAxYpVI7iafZIQ463KElOQov1BG-lsvuM9w9kJjVs8aYb0xzhPSHAajSk7P_pLyNjM0hABCuXdBL0qRn8wAm40wPfH64xlEcxiYOmbwX83YLNVPyNtSf4BweCzeGiYqfIqWnvevbY1a0YRl0dUdsyN9NWMl1EN8kBT0GItzzbSc3arZqCJQelHal_YLhh7Q7c0HaPzVn4-6JyFOv1s9vLrfwOEC8DJciFl-9dXgXpoc"/>
+</div>
+<div class="w-10 h-10 rounded-full border-2 border-surface-container overflow-hidden" title="Data-Scanner">
+<img class="w-full h-full object-cover" data-alt="Neon lighting portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzugakg9G0BRC6kA1YXpYO14UPaIb95mT5Di-vfcgvW4By9Ox_BVSczSfCzqpyHgxVSUZSOymgVvIymdQkGFxUdroaMpWcq2YZTkj30dtWRSZpzVALdZFwIvNPYWJTGWWwTH1coRuigvPT6k3JafraOZ93A7LepfsJPB1V87ijx0q5y3N5ZGIRXMbhOziXsCmgIFVbqgbe2hU32fnQY28hIfDAunsDUZmN6mVG4Z0AJ_aUiD4fe6JXjo07e5BxiZLS9GgGCSr9ouY"/>
+</div>
+<div class="w-10 h-10 rounded-full border-2 border-surface-container bg-surface-container-high flex items-center justify-center text-xs font-bold text-primary">
+                                        +5
+                                    </div>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Last Modified</span>
+<span class="text-on-surface text-sm font-medium">2 minutes ago</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Block Hash</span>
+<span class="text-primary text-sm font-mono tracking-tighter">0x4F...E8A2</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Memory Block: User Preferences -->
+<div class="md:col-span-4 bg-surface-container rounded-xl p-6 flex flex-col">
+<div class="mb-6 flex justify-between items-start">
+<span class="material-symbols-outlined text-tertiary text-3xl" data-icon="settings_account_box">settings_account_box</span>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+<h3 class="text-xl font-headline font-bold text-on-surface mb-2">User Preferences</h3>
+<p class="text-on-surface-variant text-sm mb-8">Personalized interaction patterns and stylistic overrides for UI generation.</p>
+<div class="space-y-4 mt-auto">
+<div class="flex items-center justify-between text-xs">
+<span class="text-on-surface-variant">Sync Health</span>
+<span class="text-tertiary font-bold">99.9%</span>
+</div>
+<div class="w-full bg-surface-container-high h-1 rounded-full overflow-hidden">
+<div class="bg-tertiary h-full w-[99.9%]"></div>
+</div>
+<div class="flex items-center gap-2 mt-4 pt-4 border-t border-outline-variant/15">
+<div class="w-8 h-8 rounded-lg bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-xs text-primary" data-icon="robot_2">robot_2</span>
+</div>
+<span class="text-xs text-on-surface">Agent <span class="font-bold">Sentience-X</span> currently parsing</span>
+</div>
+</div>
+</div>
+<!-- Memory Block: Historical Decisions -->
+<div class="md:col-span-4 bg-surface-container rounded-xl p-6 border border-outline-variant/10">
+<div class="mb-6">
+<span class="material-symbols-outlined text-secondary text-3xl" data-icon="history_edu">history_edu</span>
+</div>
+<h3 class="text-xl font-headline font-bold text-on-surface mb-2">Historical Decisions</h3>
+<p class="text-on-surface-variant text-sm mb-6">Archive of prior design choices and system architecture pivots.</p>
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between bg-surface-container-low p-3 rounded-lg">
+<span class="text-xs font-mono text-on-surface-variant">DEC-2024-001</span>
+<span class="text-[10px] uppercase font-bold text-primary">Archived</span>
+</div>
+<div class="flex items-center justify-between bg-surface-container-low p-3 rounded-lg">
+<span class="text-xs font-mono text-on-surface-variant">DEC-2024-008</span>
+<span class="text-[10px] uppercase font-bold text-tertiary font-variation-settings-fill">Locked</span>
+</div>
+</div>
+</div>
+<!-- Sync Activity Monitor -->
+<div class="md:col-span-8 bg-surface-container-low rounded-xl p-6 border border-primary/10">
+<div class="flex items-center justify-between mb-8">
+<h3 class="font-headline font-bold text-lg text-primary tracking-wide uppercase">Real-Time Sync Stream</h3>
+<div class="flex gap-2">
+<div class="w-2 h-2 rounded-full bg-tertiary"></div>
+<div class="w-2 h-2 rounded-full bg-outline-variant"></div>
+<div class="w-2 h-2 rounded-full bg-outline-variant"></div>
+</div>
+</div>
+<div class="space-y-4">
+<!-- Stream Item 1 -->
+<div class="flex items-center gap-4 py-3 px-4 bg-surface-container rounded-lg group hover:bg-surface-container-high transition-colors cursor-default">
+<span class="material-symbols-outlined text-tertiary" data-icon="sync_alt">sync_alt</span>
+<div class="flex-1">
+<div class="text-xs text-on-surface font-medium"><span class="text-primary">Agent-04</span> push to <span class="text-tertiary">Memory_Block_Alpha</span></div>
+<div class="text-[10px] text-on-surface-variant uppercase mt-0.5">Vector update successful</div>
+</div>
+<span class="text-[10px] font-mono text-on-surface-variant">12:44:02.1</span>
+</div>
+<!-- Stream Item 2 -->
+<div class="flex items-center gap-4 py-3 px-4 bg-surface-container rounded-lg group hover:bg-surface-container-high transition-colors cursor-default">
+<span class="material-symbols-outlined text-primary" data-icon="cloud_download">cloud_download</span>
+<div class="flex-1">
+<div class="text-xs text-on-surface font-medium"><span class="text-primary">Global_Relay</span> fetching <span class="text-secondary">User_Prefs_V4</span></div>
+<div class="text-[10px] text-on-surface-variant uppercase mt-0.5">Integrity check passed</div>
+</div>
+<span class="text-[10px] font-mono text-on-surface-variant">12:43:58.9</span>
+</div>
+<!-- Stream Item 3 -->
+<div class="flex items-center gap-4 py-3 px-4 bg-surface-container/50 rounded-lg group">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="lock">lock</span>
+<div class="flex-1">
+<div class="text-xs text-on-surface-variant font-medium">Memory Encryption Cycle Initiation</div>
+<div class="text-[10px] text-on-surface-variant uppercase mt-0.5">Protocol: AES-256-GCM</div>
+</div>
+<span class="text-[10px] font-mono text-on-surface-variant">12:43:45.0</span>
+</div>
+</div>
+<div class="mt-6 flex justify-center">
+<button class="text-primary text-[10px] font-bold uppercase tracking-[0.2em] hover:tracking-[0.3em] transition-all">
+                        View Full System Logs
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="bg-[#0b1326]/90 backdrop-blur-xl fixed bottom-0 w-full z-50 pb-safe border-t border-[#424754]/15">
+<div class="flex justify-around items-center h-20 px-4 w-full">
+<a class="flex flex-col items-center justify-center text-[#94a3b8] px-3 py-1 hover:text-[#adc6ff] active:translate-y-0.5 transition-all" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="home">home</span>
+<span class="font-['Inter'] text-[10px] font-medium tracking-tight">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#94a3b8] px-3 py-1 hover:text-[#adc6ff] active:translate-y-0.5 transition-all" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="Suffix">subscript</span>
+<span class="font-['Inter'] text-[10px] font-medium tracking-tight">Projects</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#94a3b8] px-3 py-1 hover:text-[#adc6ff] active:translate-y-0.5 transition-all" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="construction">construction</span>
+<span class="font-['Inter'] text-[10px] font-medium tracking-tight">Tools</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#adc6ff] bg-[#171f33] rounded-xl px-3 py-1 active:translate-y-0.5 transition-all" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="memory">memory</span>
+<span class="font-['Inter'] text-[10px] font-medium tracking-tight">Memory</span>
+</a>
+</div>
+</nav>
+<!-- FAB (Suppressed on this view per rules, but showing context-aware action if needed) -->
+<!-- Suppression logic applied: Focused navigation hub, suppress generic FAB -->
+</body></html>

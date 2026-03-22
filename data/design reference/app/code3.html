@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+
+<html class="light" lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Skill Registry</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .headline-lg { font-size: 2rem; line-height: 2.25rem; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-variant": "#e4e2e2",
+                        "error": "#ba1a1a",
+                        "outline-variant": "#c1c6d5",
+                        "surface-container-highest": "#e4e2e2",
+                        "tertiary": "#ab3409",
+                        "secondary-container": "#619efe",
+                        "primary-container": "#0875e1",
+                        "on-surface-variant": "#414753",
+                        "on-secondary": "#ffffff",
+                        "primary": "#005db5",
+                        "inverse-primary": "#a9c7ff",
+                        "surface-container-low": "#f5f3f3",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-container": "#cd4c22",
+                        "surface": "#fbf9f8",
+                        "primary-fixed-dim": "#a9c7ff",
+                        "on-background": "#1b1c1c",
+                        "secondary": "#015cb9",
+                        "on-secondary-container": "#00346e",
+                        "on-primary": "#ffffff",
+                        "surface-bright": "#fbf9f8",
+                        "on-tertiary-fixed": "#3a0a00",
+                        "on-primary-container": "#ffffff",
+                        "on-surface": "#1b1c1c",
+                        "on-error-container": "#93000a",
+                        "surface-container-lowest": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "background": "#fbf9f8",
+                        "primary-fixed": "#d6e3ff",
+                        "surface-container-high": "#eae8e7",
+                        "secondary-fixed-dim": "#aac7ff",
+                        "on-tertiary-fixed-variant": "#852300",
+                        "surface-container": "#f0eded",
+                        "secondary-fixed": "#d7e3ff",
+                        "outline": "#717785",
+                        "on-primary-fixed-variant": "#00468c",
+                        "on-error": "#ffffff",
+                        "surface-tint": "#005db7",
+                        "on-secondary-fixed": "#001b3e",
+                        "surface-dim": "#dbd9d9",
+                        "inverse-surface": "#303030",
+                        "tertiary-fixed": "#ffdbd0",
+                        "on-tertiary-container": "#ffffff",
+                        "on-primary-fixed": "#001b3d",
+                        "inverse-on-surface": "#f2f0f0",
+                        "tertiary-fixed-dim": "#ffb59f",
+                        "on-secondary-fixed-variant": "#00458e"
+                    },
+                    fontFamily: {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#fbf9f8] flex items-center h-16 px-6 w-full max-w-none">
+<div class="flex items-center gap-4 w-full">
+<button class="active:scale-95 duration-200 transition-colors hover:bg-[#f5f3f3] p-2 rounded-full">
+<span class="material-symbols-outlined text-[#005db5]" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="font-['Inter'] headline-lg font-bold tracking-tight text-[#1b1c1c]">Skill Registry</h1>
+<div class="ml-auto">
+<span class="material-symbols-outlined text-[#1b1c1c]/60" data-icon="search">search</span>
+</div>
+</div>
+</header>
+<main class="pt-20 px-4 space-y-8">
+<!-- Models Selection Section -->
+<section>
+<div class="flex items-center justify-between mb-4">
+<h2 class="text-label-md font-bold uppercase tracking-wider text-on-surface/50">Models (모델별 스킬 구성)</h2>
+<button class="text-primary text-sm font-semibold">View All</button>
+</div>
+<div class="flex gap-4 overflow-x-auto no-scrollbar pb-2">
+<!-- Active Model -->
+<div class="min-w-[160px] bg-surface-container-lowest p-5 rounded-xl border-b-2 border-primary shadow-sm flex flex-col gap-3">
+<div class="flex justify-between items-start">
+<div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="code_blocks">code_blocks</span>
+</div>
+<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-primary text-white uppercase">Active</span>
+</div>
+<div>
+<p class="font-bold text-on-surface">Codex</p>
+<p class="text-xs text-on-surface/60 line-clamp-1">Multi-modal Engineering</p>
+</div>
+</div>
+<!-- Planned Model -->
+<div class="min-w-[160px] bg-surface-container-low p-5 rounded-xl flex flex-col gap-3 transition-colors hover:bg-surface-container">
+<div class="flex justify-between items-start">
+<div class="w-10 h-10 rounded-lg bg-on-surface/5 flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface/40" data-icon="terminal">terminal</span>
+</div>
+<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-on-surface/10 text-on-surface/60 uppercase">Planned</span>
+</div>
+<div>
+<p class="font-bold text-on-surface/70">Claude Code</p>
+<p class="text-xs text-on-surface/40 line-clamp-1">Logic &amp; Optimization</p>
+</div>
+</div>
+<!-- Another Model -->
+<div class="min-w-[160px] bg-surface-container-low p-5 rounded-xl flex flex-col gap-3 transition-colors hover:bg-surface-container">
+<div class="flex justify-between items-start">
+<div class="w-10 h-10 rounded-lg bg-on-surface/5 flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface/40" data-icon="cli">terminal</span>
+</div>
+<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-on-surface/10 text-on-surface/60 uppercase">Planned</span>
+</div>
+<div>
+<p class="font-bold text-on-surface/70">Gemini CLI</p>
+<p class="text-xs text-on-surface/40 line-clamp-1">Rapid Prototyping</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Installed Skills Section -->
+<section class="space-y-6">
+<div class="flex items-center justify-between">
+<h2 class="text-label-md font-bold uppercase tracking-wider text-on-surface/50">Installed Skills</h2>
+<div class="flex items-center gap-2 text-xs font-medium text-primary bg-primary/5 px-3 py-1 rounded-full">
+<span class="material-symbols-outlined text-sm" data-icon="filter_list">filter_list</span>
+<span>Recent First</span>
+</div>
+</div>
+<!-- Skill Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg group">
+<div class="p-6 space-y-4">
+<div class="flex justify-between items-start">
+<div class="space-y-1">
+<div class="flex items-center gap-2">
+<span class="text-[10px] font-bold text-primary tracking-widest uppercase">INSTALLED</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="text-[10px] font-medium text-on-surface/40">v2.4.0</span>
+</div>
+<h3 class="text-xl font-bold text-on-surface group-hover:text-primary transition-colors">architect-agent-ko</h3>
+</div>
+<div class="px-2 py-1 bg-surface-container rounded text-[10px] font-bold text-on-surface-variant">CODEX</div>
+</div>
+<p class="text-sm leading-relaxed text-on-surface/70">
+                        소프트웨어 아키텍처 설계 및 인프라 구조를 분석하여 최적의 기술 스택을 제안하고 시스템 다이어그램 초안을 생성하는 전문 에이전트입니다.
+                    </p>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 rounded-full bg-on-primary-fixed-variant/10 text-on-primary-fixed-variant text-[11px] font-bold tracking-tight">SPECIALIST</span>
+<span class="px-3 py-1 rounded-full bg-on-primary-fixed-variant/10 text-on-primary-fixed-variant text-[11px] font-bold tracking-tight">ARCHITECTURE</span>
+</div>
+<!-- Details Accordion-like Section -->
+<div class="pt-4 border-t border-surface-container space-y-4">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-sm mt-0.5" data-icon="bolt">bolt</span>
+<div class="space-y-1">
+<span class="text-[11px] font-bold text-on-surface/40 uppercase tracking-widest">Trigger</span>
+<p class="text-xs font-mono text-on-surface-variant bg-surface-container-low px-2 py-1 rounded">metadata.type == 'system-design'</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-sm mt-0.5" data-icon="folder_open">folder_open</span>
+<div class="space-y-2">
+<span class="text-[11px] font-bold text-on-surface/40 uppercase tracking-widest">Memory / Path</span>
+<ul class="text-xs text-on-surface-variant space-y-1 list-disc list-inside marker:text-primary/40">
+<li>/core/architecture/templates/*</li>
+<li>/docs/specs/v2_architecture.md</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Skill Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg group">
+<div class="p-6 space-y-4">
+<div class="flex justify-between items-start">
+<div class="space-y-1">
+<div class="flex items-center gap-2">
+<span class="text-[10px] font-bold text-primary tracking-widest uppercase">INSTALLED</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="text-[10px] font-medium text-on-surface/40">v1.1.2</span>
+</div>
+<h3 class="text-xl font-bold text-on-surface group-hover:text-primary transition-colors">design-trend-agent-ko</h3>
+</div>
+<div class="px-2 py-1 bg-surface-container rounded text-[10px] font-bold text-on-surface-variant">CODEX</div>
+</div>
+<p class="text-sm leading-relaxed text-on-surface/70">
+                        최신 UI/UX 트렌드를 분석하고 브랜드 가이드라인에 맞춘 인터페이스 디자인 방향성을 제시하며, 디자인 시스템 토큰 생성을 지원합니다.
+                    </p>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 rounded-full bg-on-primary-fixed-variant/10 text-on-primary-fixed-variant text-[11px] font-bold tracking-tight">SPECIALIST</span>
+<span class="px-3 py-1 rounded-full bg-on-primary-fixed-variant/10 text-on-primary-fixed-variant text-[11px] font-bold tracking-tight">DESIGN</span>
+</div>
+<div class="pt-4 border-t border-surface-container space-y-4">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-sm mt-0.5" data-icon="bolt">bolt</span>
+<div class="space-y-1">
+<span class="text-[11px] font-bold text-on-surface/40 uppercase tracking-widest">Trigger</span>
+<p class="text-xs font-mono text-on-surface-variant bg-surface-container-low px-2 py-1 rounded">context.intent == 'design_review'</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-sm mt-0.5" data-icon="folder_open">folder_open</span>
+<div class="space-y-2">
+<span class="text-[11px] font-bold text-on-surface/40 uppercase tracking-widest">Memory / Path</span>
+<ul class="text-xs text-on-surface-variant space-y-1 list-disc list-inside marker:text-primary/40">
+<li>/assets/design-system/tokens.json</li>
+<li>/research/trends/2024_report.pdf</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full h-20 bg-[#ffffff] flex justify-around items-center px-4 pb-safe z-50 rounded-t-xl shadow-[0_-4px_20px_rgba(27,28,28,0.04)] border-t border-[#f5f3f3]/15">
+<a class="flex flex-col items-center justify-center text-[#1b1c1c]/50 font-medium hover:text-[#005db5] transition-all active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="Model_Training">model_training</span>
+<span class="font-['Inter'] text-[11px] font-medium tracking-wide uppercase">Models</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#005db5] font-bold active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="App_Registration" style="font-variation-settings: 'FILL' 1;">app_registration</span>
+<span class="font-['Inter'] text-[11px] font-medium tracking-wide uppercase">Registry</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#1b1c1c]/50 font-medium hover:text-[#005db5] transition-all active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="Memory">memory</span>
+<span class="font-['Inter'] text-[11px] font-medium tracking-wide uppercase">Memory</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#1b1c1c]/50 font-medium hover:text-[#005db5] transition-all active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="Settings">settings</span>
+<span class="font-['Inter'] text-[11px] font-medium tracking-wide uppercase">Settings</span>
+</a>
+</nav>
+<!-- Floating Action Button - Only for Primary Action -->
+<button class="fixed right-6 bottom-24 w-14 h-14 bg-gradient-to-br from-primary to-primary-container text-white rounded-full shadow-lg flex items-center justify-center active:scale-95 transition-transform z-40">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+</body></html>

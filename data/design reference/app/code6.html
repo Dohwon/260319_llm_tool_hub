@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AgentOS - Project Recommender</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container-lowest": "#ffffff",
+              "primary": "#005db5",
+              "inverse-primary": "#a9c7ff",
+              "on-surface-variant": "#414753",
+              "on-primary-fixed-variant": "#00468c",
+              "on-tertiary-container": "#ffffff",
+              "error-container": "#ffdad6",
+              "on-tertiary-fixed-variant": "#852300",
+              "error": "#ba1a1a",
+              "tertiary-fixed": "#ffdbd0",
+              "tertiary": "#ab3409",
+              "on-secondary-fixed": "#001b3e",
+              "on-secondary-container": "#00346e",
+              "on-primary-fixed": "#001b3d",
+              "tertiary-container": "#cd4c22",
+              "primary-container": "#0875e1",
+              "surface-container": "#f0eded",
+              "on-error-container": "#93000a",
+              "tertiary-fixed-dim": "#ffb59f",
+              "on-secondary": "#ffffff",
+              "surface-variant": "#e4e2e2",
+              "secondary-container": "#619efe",
+              "on-tertiary-fixed": "#3a0a00",
+              "background": "#fbf9f8",
+              "secondary": "#015cb9",
+              "secondary-fixed-dim": "#aac7ff",
+              "outline": "#717785",
+              "on-secondary-fixed-variant": "#00458e",
+              "surface-tint": "#005db7",
+              "surface-container-highest": "#e4e2e2",
+              "on-error": "#ffffff",
+              "surface-dim": "#dbd9d9",
+              "outline-variant": "#c1c6d5",
+              "surface-bright": "#fbf9f8",
+              "on-tertiary": "#ffffff",
+              "on-surface": "#1b1c1c",
+              "on-primary-container": "#ffffff",
+              "primary-fixed-dim": "#a9c7ff",
+              "primary-fixed": "#d6e3ff",
+              "surface-container-low": "#f5f3f3",
+              "on-primary": "#ffffff",
+              "inverse-surface": "#303030",
+              "inverse-on-surface": "#f2f0f0",
+              "surface-container-high": "#eae8e7",
+              "secondary-fixed": "#d7e3ff",
+              "surface": "#fbf9f8",
+              "on-background": "#1b1c1c"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .headline-lg { font-size: 2rem; line-height: 2.5rem; font-weight: 700; }
+        .label-sm { font-size: 0.75rem; line-height: 1rem; }
+        .body-md { font-size: 0.875rem; line-height: 1.25rem; }
+        
+        /* Hide scrollbar for horizontal chips */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#fbf9f8] dark:bg-slate-950 flex justify-between items-center px-6 h-16">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white overflow-hidden">
+<img alt="User Avatar" data-alt="User profile avatar circle" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8O1jOEbfB-QbAVAfm7umUfyUVvP-PRlf35_7PsdVDhNYfI4lr_6busf9xqbOLXJEGlO_fPs8Yoz4a7gX-XpeR5WfCsGu0NWmFYdTbjnr1ruLlBghviO2J4zNsJE9zoXXn--hcLWItO_9dDpCfSF6COabB9L2ddEquudcpA3BoNXYmxHmoLnyhzOEROTqGjOBGBA2qzwMJ3UQorhn_Ly27dwMwQ5gfLINsomI2E1XDPHb0HYhymZ8hbYxRX0MFucKhIjDkJI7Nk8A"/>
+</div>
+<span class="text-xl font-bold text-[#1b1c1c] dark:text-slate-100 font-headline tracking-tight">AgentOS</span>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-[#f5f3f3] transition-colors">
+<span class="material-symbols-outlined text-[#005db5]">search</span>
+</button>
+</header>
+<main class="pt-20 px-4 space-y-8 max-w-2xl mx-auto">
+<!-- Page Title -->
+<section>
+<h1 class="text-[32px] font-bold text-on-background leading-tight">Project Recommender</h1>
+<p class="text-on-surface-variant body-md mt-1">Optimize your stack with AI-driven intelligence.</p>
+</section>
+<!-- Command Center (Project Brief Input) -->
+<section class="bg-surface-container-lowest rounded-xl p-6 shadow-sm border-b-2 border-primary/10">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary">terminal</span>
+<span class="label-md font-bold uppercase tracking-widest text-primary">Command Center</span>
+</div>
+<div class="space-y-4">
+<div class="relative">
+<textarea class="w-full bg-surface-container-low border-none rounded-lg p-4 body-md focus:ring-2 focus:ring-primary transition-all min-h-[120px] text-on-surface" placeholder="Describe your project goals, stack, and constraints..."></textarea>
+</div>
+<button class="w-full bg-gradient-to-r from-primary to-primary-container text-white font-semibold py-4 rounded-xl flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-transform">
+<span>Analyze Project</span>
+<span class="material-symbols-outlined">auto_awesome</span>
+</button>
+</div>
+</section>
+<!-- Current Arsenal (Horizontal Scroll) -->
+<section class="space-y-4">
+<div class="flex items-center justify-between px-1">
+<h2 class="text-xl font-semibold text-on-background">Current Arsenal</h2>
+<button class="text-primary font-medium text-sm">View All</button>
+</div>
+<div class="flex overflow-x-auto gap-3 no-scrollbar pb-2">
+<!-- Chip 1 -->
+<div class="flex-shrink-0 bg-surface-container-lowest rounded-xl p-3 border border-outline-variant/20 flex items-center gap-3 min-w-[160px]">
+<div class="w-10 h-10 rounded-lg bg-surface-container-low flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">bolt</span>
+</div>
+<div class="flex flex-col">
+<span class="font-semibold text-sm">DeepSeek-V3</span>
+<div class="flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+<span class="text-[10px] text-on-surface-variant uppercase font-bold">Connected</span>
+</div>
+</div>
+</div>
+<!-- Chip 2 -->
+<div class="flex-shrink-0 bg-surface-container-lowest rounded-xl p-3 border border-outline-variant/20 flex items-center gap-3 min-w-[160px]">
+<div class="w-10 h-10 rounded-lg bg-surface-container-low flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">code</span>
+</div>
+<div class="flex flex-col">
+<span class="font-semibold text-sm">Codex CLI</span>
+<div class="flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+<span class="text-[10px] text-on-surface-variant uppercase font-bold">Active</span>
+</div>
+</div>
+</div>
+<!-- Chip 3 -->
+<div class="flex-shrink-0 bg-surface-container-lowest rounded-xl p-3 border border-outline-variant/20 flex items-center gap-3 min-w-[160px]">
+<div class="w-10 h-10 rounded-lg bg-surface-container-low flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">psychology</span>
+</div>
+<div class="flex flex-col">
+<span class="font-semibold text-sm">Aider</span>
+<div class="flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+<span class="text-[10px] text-on-surface-variant uppercase font-bold">Standby</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Suggested Stack (Bento Style Cards) -->
+<section class="space-y-4">
+<h2 class="text-2xl font-semibold text-on-background px-1">Suggested Stack</h2>
+<div class="grid grid-cols-1 gap-4">
+<!-- Recommendation 1 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm border border-outline-variant/10">
+<div class="h-1 bg-gradient-to-r from-primary to-secondary-container"></div>
+<div class="p-5">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-primary/5 rounded-lg">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">stars</span>
+</div>
+<div>
+<h3 class="text-lg font-bold">GPT-5.x / Codex</h3>
+<p class="text-xs text-on-surface-variant font-medium">Enterprise Development</p>
+</div>
+</div>
+<span class="bg-primary/10 text-primary text-[10px] font-bold px-2 py-1 rounded-full">98% MATCH</span>
+</div>
+<p class="body-md text-on-surface-variant mb-5">Superior logic for complex system architecture and legacy refactoring. Recommended for your project's security requirements.</p>
+<div class="flex gap-2">
+<button class="flex-1 bg-surface-container-low text-primary font-bold text-sm py-2 rounded-lg hover:bg-surface-container-high transition-colors">Compare</button>
+<button class="flex-1 bg-primary text-white font-bold text-sm py-2 rounded-lg shadow-md">Deploy</button>
+</div>
+</div>
+</div>
+<!-- Recommendation 2 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm border border-outline-variant/10">
+<div class="p-5">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-secondary-container/10 rounded-lg">
+<span class="material-symbols-outlined text-secondary">memory</span>
+</div>
+<div>
+<h3 class="text-lg font-bold text-on-surface">DeepSeek-V3.2</h3>
+<p class="text-xs text-on-surface-variant font-medium">High-Efficiency API</p>
+</div>
+</div>
+<span class="bg-surface-container-high text-on-surface-variant text-[10px] font-bold px-2 py-1 rounded-full">85% MATCH</span>
+</div>
+<p class="body-md text-on-surface-variant mb-5">Optimized for rapid prototyping and low-latency API responses. Ideal for the frontend scaffolding phase.</p>
+<div class="flex gap-2">
+<button class="flex-1 bg-surface-container-low text-primary font-bold text-sm py-2 rounded-lg">Details</button>
+<button class="flex-1 bg-surface-container-low text-primary font-bold text-sm py-2 rounded-lg">Quick Add</button>
+</div>
+</div>
+</div>
+<!-- Ad-hoc Recommendation -->
+<div class="bg-primary-container rounded-xl p-5 text-on-primary-container relative overflow-hidden">
+<div class="relative z-10">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined">lightbulb</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">Architect's Note</span>
+</div>
+<h3 class="text-lg font-bold leading-tight mb-2">Consider augmenting with Aider for real-time pairing.</h3>
+<p class="text-sm opacity-90 mb-4">Users with similar profiles saw a 40% increase in PR velocity.</p>
+<button class="bg-white text-primary px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-wider">Integrate Now</button>
+</div>
+<!-- Decorative background shape -->
+<div class="absolute -right-10 -bottom-10 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-2xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl flex justify-around items-center h-20 pb-safe px-4 border-t border-[#1b1c1c]/5 shadow-[0_-4px_20px_rgba(0,0,0,0.04)]">
+<!-- Dashboard -->
+<a class="flex flex-col items-center justify-center text-[#1b1c1c]/50 dark:text-slate-500 hover:text-[#005db5] transition-all duration-300" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-wider mt-1">Dashboard</span>
+</a>
+<!-- Agents -->
+<a class="flex flex-col items-center justify-center text-[#005db5] dark:text-[#0875e1] bg-[#619efe]/10 rounded-xl px-3 py-1 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">memory</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-wider mt-1">Agents</span>
+</a>
+<!-- Projects (Active based on context) -->
+<a class="flex flex-col items-center justify-center text-[#1b1c1c]/50 dark:text-slate-500 hover:text-[#005db5] transition-all duration-300" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-wider mt-1">Projects</span>
+</a>
+<!-- Settings -->
+<a class="flex flex-col items-center justify-center text-[#1b1c1c]/50 dark:text-slate-500 hover:text-[#005db5] transition-all duration-300" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-wider mt-1">Settings</span>
+</a>
+</nav>
+</body></html>

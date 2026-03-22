@@ -1,0 +1,145 @@
+{
+  "playbooks": [
+    {
+      "name": "레포 규모가 큰 실제 코딩 프로젝트",
+      "priority": "high",
+      "scope": "coding",
+      "summary": "실제 수정, 테스트, 리팩터링, 긴 세션이 모두 필요한 경우.",
+      "primary_model": "GPT-5.3-Codex",
+      "primary_tool": "Codex CLI or Cursor",
+      "memory_stack": "AGENTS.md + Cursor Rules",
+      "why": [
+        "대형 레포 장기 세션과 도구 사용이 강하다",
+        "400K 컨텍스트와 agentic coding 최적화가 유리하다",
+        "프로젝트 규칙을 AGENTS.md로 공유하기 쉽다"
+      ],
+      "switch_when": [
+        "설계/문서 중심 비중이 더 높아지면 Claude Code 비중을 높인다",
+        "비용이 민감하면 GPT-5 mini 또는 DeepSeek 보조 루프로 내린다"
+      ]
+    },
+    {
+      "name": "설계 품질이 중요한 코드베이스",
+      "priority": "high",
+      "scope": "coding + docs",
+      "summary": "문서화, 아키텍처 논리, 차분한 코드 리뷰가 중요한 경우.",
+      "primary_model": "Claude Sonnet 4",
+      "primary_tool": "Claude Code",
+      "memory_stack": "CLAUDE.md + source_of_truth.md",
+      "why": [
+        "코드 설명과 설계 리뷰가 강하다",
+        "CLAUDE.md 재귀 메모리 체계가 명확하다",
+        "사람 검토형 pair programming과 궁합이 좋다"
+      ],
+      "switch_when": [
+        "대형 자동 수정과 병렬 실행이 핵심이면 Codex나 Cursor로 이동",
+        "초장문 컨텍스트가 핵심이면 Gemini 2.5 Pro를 보조로 붙인다"
+      ]
+    },
+    {
+      "name": "긴 문서와 로그를 많이 보는 프로젝트",
+      "priority": "high",
+      "scope": "analysis",
+      "summary": "수십만 토큰 단위 입력, PDF, 로그, 회의록을 자주 다루는 경우.",
+      "primary_model": "Gemini 2.5 Pro",
+      "primary_tool": "Gemini CLI or custom batch runner",
+      "memory_stack": "GEMINI.md + source_of_truth.md",
+      "why": [
+        "1,048,576 입력 토큰 윈도우가 강력하다",
+        "문서와 코드를 같이 압축/분석하기 좋다",
+        "긴 컨텍스트를 그대로 살린 대화가 가능하다"
+      ],
+      "switch_when": [
+        "실제 코드 수정 비중이 커지면 Codex/Claude Code를 앞세운다",
+        "비용과 속도가 더 중요하면 Flash 또는 Flash-Lite로 내려간다"
+      ]
+    },
+    {
+      "name": "저비용 대량 평가와 자동화",
+      "priority": "high",
+      "scope": "eval",
+      "summary": "대량 배치, 자동 분류, 실험 반복이 핵심인 경우.",
+      "primary_model": "deepseek-chat / deepseek-reasoner",
+      "primary_tool": "Aider, Cline, custom OpenAI-compatible harness",
+      "memory_stack": "source_of_truth.md + OpenAI-compatible system prompt",
+      "why": [
+        "비용 대비 성능이 매우 좋다",
+        "OpenAI 호환 API라 기존 스크립트에 붙이기 쉽다",
+        "thinking / non-thinking 모드를 분리하기 쉽다"
+      ],
+      "switch_when": [
+        "정밀한 품질과 설명력이 더 중요하면 Claude/OpenAI를 judge로 붙인다",
+        "보안상 외부 API가 어려우면 로컬 Qwen/Mistral 스택으로 이동"
+      ]
+    },
+    {
+      "name": "오픈모델 기반 프라이빗 스택",
+      "priority": "medium",
+      "scope": "private",
+      "summary": "사내망, 데이터 프라이버시, 비용 통제가 우선인 경우.",
+      "primary_model": "Qwen3-Coder or Mistral/Ministral",
+      "primary_tool": "Ollama or LM Studio + Continue/Cline",
+      "memory_stack": "AGENTS.md + local JSON memory profile",
+      "why": [
+        "로그인 없이 로컬 실행 가능",
+        "메모리와 데이터가 내부에 남는다",
+        "오픈 호환성이 좋아 툴 조합을 마음대로 바꿀 수 있다"
+      ],
+      "switch_when": [
+        "성능 한계가 오면 hosted frontier model을 특정 태스크에만 섞는다",
+        "IDE 생산성이 더 중요하면 Cursor/Windsurf와 결합한다"
+      ]
+    },
+    {
+      "name": "실시간 검색/뉴스/트렌드 의존 작업",
+      "priority": "medium",
+      "scope": "research",
+      "summary": "최신성, 웹 탐색, 실시간 맥락이 핵심인 경우.",
+      "primary_model": "Grok 4.1 or o3-deep-research",
+      "primary_tool": "web-enabled agent",
+      "memory_stack": "source_of_truth.md + research log",
+      "why": [
+        "실시간 검색과 최신성 처리에 유리하다",
+        "조사형 질의에 적합한 모델 특성이 있다"
+      ],
+      "switch_when": [
+        "결과를 코드나 설계에 바로 반영해야 하면 Codex/Claude Code로 후속 넘김",
+        "장문 문서 인풋이 더 중요하면 Gemini 2.5 Pro를 붙인다"
+      ]
+    },
+    {
+      "name": "IDE 안에서 빠르게 돌려보는 웹/앱 개발",
+      "priority": "medium",
+      "scope": "product",
+      "summary": "화면 확인, 편집, 프리뷰가 자주 오가는 UI 중심 프로젝트.",
+      "primary_model": "GPT-5.3-Codex or Claude Sonnet 4",
+      "primary_tool": "Cursor or Windsurf",
+      "memory_stack": "AGENTS.md + project rules + design notes",
+      "why": [
+        "IDE 안에서 편집과 미리보기가 빠르다",
+        "규칙과 메모리를 프로젝트별로 관리하기 쉽다"
+      ],
+      "switch_when": [
+        "완전한 프라이빗 로컬이 필요하면 Continue + Ollama로 이동",
+        "터미널 중심 자동화가 많아지면 Codex CLI/Claude Code로 전환"
+      ]
+    },
+    {
+      "name": "멀티유저 운영 비서 / 메모리 우선 에이전트",
+      "priority": "medium",
+      "scope": "ops",
+      "summary": "사용자별 기억, 업무 스타일, 문서 기억이 누적되는 agent를 만들 때.",
+      "primary_model": "Claude or GPT backend + memory layer",
+      "primary_tool": "OpenClaw style agent or custom orchestrator",
+      "memory_stack": "canonical memory JSON + per-tool adapters + project registry",
+      "why": [
+        "모델 성능보다 메모리 구조가 더 중요하다",
+        "멀티유저와 long-term preference를 다뤄야 한다"
+      ],
+      "switch_when": [
+        "개발용 코딩 생산성이 핵심이면 코딩 전용 agent stack으로 분리",
+        "실시간 뉴스가 핵심이면 별도 research agent를 분리"
+      ]
+    }
+  ]
+}

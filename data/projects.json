@@ -1,0 +1,163 @@
+{
+  "projects": [
+    {
+      "id": "portfolio-homepage",
+      "name": "Portfolio Homepage",
+      "status": "live",
+      "stage": "운영",
+      "runtime": "Railway + Node",
+      "location": "Railway public deployment / repo: portfolio-homepage",
+      "stack": "Node.js, static frontend, Railway",
+      "owner": "Dowon",
+      "visibility": "public",
+      "last_verified": "2026-03-19",
+      "summary": "프로젝트 카드, 블로그, 타임라인을 제공하는 현재 운영 중 홈페이지.",
+      "working_memory": "portfolio-homepage repo rules + deploy notes + content update checklist",
+      "handover_brief": "운영 중인 공개 홈페이지라 안정성이 가장 중요하다. 링크/콘텐츠 수정은 영향 범위를 먼저 확인해야 한다.",
+      "handover_bundle": [
+        "운영 링크와 배포 상태",
+        "프로젝트 카드/블로그/타임라인 영향 범위",
+        "댓글/블로그 API 관련 주의사항",
+        "원본 서비스이므로 직접 수정 시 검증 필수"
+      ],
+      "next_model": "Codex or Claude Code",
+      "risk": "현재 운영 서비스이므로 원본 직접 수정 리스크가 높다.",
+      "links": [
+        {
+          "label": "Live",
+          "url": "https://homepage-dowon-production.up.railway.app/"
+        }
+      ]
+    },
+    {
+      "id": "llm-tool-hub",
+      "name": "LLM Tool Hub",
+      "status": "live",
+      "stage": "구축 + 운영",
+      "runtime": "Railway + Python static",
+      "location": "Railway public deployment + local source: /home/dowon/securedir/git/codex/projects/260319_llm_tool_hub",
+      "stack": "HTML, CSS, JS, Python static server, Railway",
+      "owner": "Dowon",
+      "visibility": "public",
+      "last_verified": "2026-03-19",
+      "summary": "모델/툴/전역 메모리/프로젝트 런타임을 한 번에 보는 추천 허브. 공개 도메인 배포 완료.",
+      "working_memory": "manager_memory/short-term + mid-term + long-term + global_memory exports",
+      "handover_brief": "Shared Memory Hub가 핵심인 허브 프로젝트다. 모델 추천보다 handover 구조와 메모리 가시화가 더 중요하다.",
+      "handover_bundle": [
+        "canonical memory JSON",
+        "project runtime registry",
+        "tool adapter files",
+        "Railway live URL",
+        "설치 가이드와 리밋 레지스트리"
+      ],
+      "next_model": "Codex -> Claude Code -> Gemini CLI",
+      "risk": "registry.json, projects.json, source_of_truth.md 간 동기화가 어긋나면 추천 결과가 흔들릴 수 있다.",
+      "links": [
+        {
+          "label": "Local",
+          "url": "http://127.0.0.1:4219"
+        },
+        {
+          "label": "Live",
+          "url": "https://celebrated-enjoyment-production.up.railway.app/"
+        }
+      ]
+    },
+    {
+      "id": "moe-prompt-routing",
+      "name": "260315_MoE_Prompt_Routing",
+      "status": "internal",
+      "stage": "실험",
+      "runtime": "Local Python CLI",
+      "location": "/home/dowon/securedir/git/codex/projects/260315_MoE_Prompt_Routing",
+      "stack": "Python, XLSX, prompt routing harness",
+      "owner": "Dowon",
+      "visibility": "private",
+      "last_verified": "2026-03-18",
+      "summary": "1차 family classifier와 2차 expert routing 구조를 검증하는 핵심 실험 프로젝트.",
+      "working_memory": "project root + experiment spreadsheets + routing notes",
+      "handover_brief": "분류 기준과 expert routing 규칙이 핵심이다. 결과 시트와 routing logic를 함께 넘겨야 재현이 된다.",
+      "handover_bundle": [
+        "family classifier 규칙",
+        "expert routing 조건",
+        "실험 입력/출력 시트",
+        "재현용 CLI 실행 흐름"
+      ],
+      "next_model": "Codex or Gemini CLI",
+      "risk": "실험 시트와 프롬프트 규칙이 분리되면 결과 재현성이 떨어진다.",
+      "links": []
+    },
+    {
+      "id": "desktop-scheduler",
+      "name": "260317_desktop_scheduler",
+      "status": "internal",
+      "stage": "개인 운영",
+      "runtime": "Windows local desktop",
+      "location": "Windows desktop shortcut + local SQLite",
+      "stack": "Python, Tkinter, SQLite",
+      "owner": "Dowon",
+      "visibility": "private",
+      "last_verified": "2026-03-17",
+      "summary": "월간/주간 흐름을 바탕화면에서 바로 보는 개인 데스크톱 스케줄러.",
+      "working_memory": "Windows local notes + SQLite schema + shortcut config",
+      "handover_brief": "UI보다 실제 일정 흐름과 데이터 저장 구조가 중요하다. Windows 로컬 제약을 같이 넘겨야 한다.",
+      "handover_bundle": [
+        "로컬 SQLite 스키마",
+        "윈도우 실행 경로와 바로가기",
+        "월간/주간 화면 우선순위",
+        "개인용 운영 메모"
+      ],
+      "next_model": "Codex",
+      "risk": "Windows 전용 경로와 로컬 DB 상태가 다른 환경에서 바로 재현되지 않을 수 있다.",
+      "links": []
+    },
+    {
+      "id": "todack",
+      "name": "Todack",
+      "status": "in-progress",
+      "stage": "제품 개발",
+      "runtime": "Local web + mobile app",
+      "location": "/home/dowon/securedir/git/codex/projects/Todack",
+      "stack": "HTML, CSS, JS, mobile Expo app",
+      "owner": "Dowon",
+      "visibility": "private",
+      "last_verified": "2026-03-19",
+      "summary": "감정 기록과 음성 코칭을 연결하는 웰니스 프로젝트.",
+      "working_memory": "web prototype notes + mobile Expo flow + product concept docs",
+      "handover_brief": "감정 기록, 음성 코칭, 모바일 UX가 얽혀 있어서 제품 시나리오와 화면 흐름을 같이 넘겨야 한다.",
+      "handover_bundle": [
+        "웹/모바일 플로우",
+        "감정 기록 구조",
+        "음성 코칭 시나리오",
+        "브랜딩과 UX 방향"
+      ],
+      "next_model": "Claude Code or Cursor",
+      "risk": "제품 톤과 UX 목표가 흐려지면 기능만 남고 경험이 약해질 수 있다.",
+      "links": []
+    },
+    {
+      "id": "gemini-multiturn-tester-v3",
+      "name": "gemini_multiturn_tester_v3",
+      "status": "internal",
+      "stage": "벤치마크",
+      "runtime": "Local CLI batch runner",
+      "location": "/home/dowon/securedir/git/codex/projects/gemini_multiturn_tester_v3",
+      "stack": "Python, Gemini API, JSONL, XLSX",
+      "owner": "Dowon",
+      "visibility": "private",
+      "last_verified": "2026-03-19",
+      "summary": "Gemini 멀티턴 시나리오를 대량으로 테스트하는 벤치.",
+      "working_memory": "JSONL scenario set + XLSX output review + API config notes",
+      "handover_brief": "멀티턴 시나리오 세트와 배치 평가 흐름이 핵심이다. 실험 조건을 보존한 handover가 필요하다.",
+      "handover_bundle": [
+        "JSONL 시나리오 세트",
+        "Gemini API 설정",
+        "XLSX 결과 분석 포인트",
+        "반복 평가용 배치 러너 흐름"
+      ],
+      "next_model": "Gemini CLI or Codex",
+      "risk": "API 설정과 시나리오 버전이 어긋나면 벤치마크 비교가 깨진다.",
+      "links": []
+    }
+  ]
+}

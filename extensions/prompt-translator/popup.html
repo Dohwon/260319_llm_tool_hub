@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prompt Translator</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <p class="eyebrow">Prompt Translator</p>
+      <h1>Port prompts between Korean and English</h1>
+      <p class="hero-copy">Free for 3 AI translations. Then upgrade to Pro for $4.99/month or $39/year with a 300-use monthly cap.</p>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Access</h2>
+        <span id="plan-badge" class="pill">Free</span>
+      </div>
+      <div class="access-grid">
+        <div class="stat-card">
+          <span class="stat-label">This Month</span>
+          <strong id="quota-value">3 / 3</strong>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Limit</span>
+          <strong id="runtime-value">Not connected</strong>
+        </div>
+      </div>
+      <p id="access-message" class="meta">Checking access status...</p>
+      <label class="field">
+        <span>Pro code</span>
+        <div class="inline-row">
+          <input id="redeem-code" type="text" placeholder="Enter upgrade code">
+          <button id="redeem-button" class="ghost-button" type="button">Redeem</button>
+        </div>
+      </label>
+      <a id="checkout-link" class="primary-link" href="#" target="_blank" rel="noreferrer">Upgrade to Pro</a>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Original Prompt</h2>
+      </div>
+      <textarea id="source-prompt" rows="8" placeholder="Paste the prompt you want to translate."></textarea>
+      <p id="selection-meta" class="meta">Paste a full prompt here, then run AI translation.</p>
+    </section>
+
+    <section class="panel">
+      <h2>Translate</h2>
+      <div class="grid">
+        <label class="field">
+          <span>From</span>
+          <select id="source-language">
+            <option value="auto">Auto detect</option>
+            <option value="ko">Korean</option>
+            <option value="en">English</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>To</span>
+          <select id="target-language">
+            <option value="en">English</option>
+            <option value="ko">Korean</option>
+          </select>
+        </label>
+      </div>
+
+      <label class="checkbox-row">
+        <input id="preserve-sections" type="checkbox" checked>
+        <span>Preserve section headings and ordering</span>
+      </label>
+      <label class="checkbox-row">
+        <input id="add-translation-note" type="checkbox" checked>
+        <span>Add a reviewer note when literal translation may hurt prompt quality</span>
+      </label>
+
+      <button id="translate" class="primary-button" type="button">Translate with AI</button>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Result</h2>
+        <button id="copy-result" class="ghost-button" type="button">Copy</button>
+      </div>
+      <textarea id="result" rows="12" readonly placeholder="Translated prompt appears here."></textarea>
+      <p id="status" class="status">No translation generated yet.</p>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Recent</h2>
+        <button id="clear-history" class="ghost-button" type="button">Clear</button>
+      </div>
+      <div id="history" class="history-list">
+        <p class="empty">No recent translations yet.</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="popup.js"></script>
+</body>
+</html>

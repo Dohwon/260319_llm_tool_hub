@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AgentOS | Multi-Agent Manager</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-container": "#619efe",
+              "on-tertiary-fixed": "#3a0a00",
+              "on-surface-variant": "#414753",
+              "surface-variant": "#e4e2e2",
+              "primary-container": "#0875e1",
+              "primary": "#005db5",
+              "on-background": "#1b1c1c",
+              "tertiary": "#ab3409",
+              "secondary-fixed": "#d7e3ff",
+              "on-secondary-container": "#00346e",
+              "inverse-surface": "#303030",
+              "on-primary-fixed-variant": "#00468c",
+              "on-secondary-fixed": "#001b3e",
+              "surface-container-low": "#f5f3f3",
+              "inverse-primary": "#a9c7ff",
+              "secondary-fixed-dim": "#aac7ff",
+              "background": "#fbf9f8",
+              "on-primary-fixed": "#001b3d",
+              "surface-container-high": "#eae8e7",
+              "on-tertiary-container": "#ffffff",
+              "secondary": "#015cb9",
+              "surface-container-highest": "#e4e2e2",
+              "on-secondary": "#ffffff",
+              "outline-variant": "#c1c6d5",
+              "on-secondary-fixed-variant": "#00458e",
+              "tertiary-fixed": "#ffdbd0",
+              "outline": "#717785",
+              "on-surface": "#1b1c1c",
+              "primary-fixed-dim": "#a9c7ff",
+              "on-error-container": "#93000a",
+              "tertiary-fixed-dim": "#ffb59f",
+              "surface-container": "#f0eded",
+              "primary-fixed": "#d6e3ff",
+              "on-primary-container": "#ffffff",
+              "on-primary": "#ffffff",
+              "surface": "#fbf9f8",
+              "on-tertiary": "#ffffff",
+              "surface-dim": "#dbd9d9",
+              "error-container": "#ffdad6",
+              "error": "#ba1a1a",
+              "tertiary-container": "#cd4c22",
+              "surface-tint": "#005db7",
+              "surface-container-lowest": "#ffffff",
+              "inverse-on-surface": "#f2f0f0",
+              "on-tertiary-fixed-variant": "#852300",
+              "surface-bright": "#fbf9f8",
+              "on-error": "#ffffff"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.5rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+        }
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased overflow-hidden">
+<div class="flex h-screen w-full">
+<!-- SideNavBar Component -->
+<aside class="fixed left-0 top-0 h-full flex flex-col py-6 z-50 bg-[#005db5] text-white font-['Inter'] font-medium text-sm w-64 shadow-xl dark:shadow-none">
+<div class="px-6 mb-8 flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">hub</span>
+</div>
+<div>
+<h1 class="text-white font-black text-lg leading-tight">Manager Console</h1>
+<p class="text-white/60 text-[10px] uppercase tracking-widest">Enterprise Tier</p>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-[#619efe]/20 text-white shadow-[inset_4px_0_0_0_#ffffff] transition-all duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 hover:text-white hover:bg-[#0875e1] transition-all duration-200" href="#">
+<span class="material-symbols-outlined">smart_toy</span>
+<span>Agent Registry</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 hover:text-white hover:bg-[#0875e1] transition-all duration-200" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span>Analysis Hub</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 hover:text-white hover:bg-[#0875e1] transition-all duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+<div class="px-4 mt-auto space-y-6">
+<button class="w-full py-3 bg-white text-primary font-bold rounded-lg shadow-lg hover:bg-surface-container-lowest transition-all Active:scale-[0.98]">
+                    Deploy New Agent
+                </button>
+<div class="pt-6 border-t border-white/10 space-y-1">
+<a class="flex items-center gap-3 px-4 py-2 rounded-lg text-white/70 hover:text-white hover:bg-[#0875e1] transition-all text-xs" href="#">
+<span class="material-symbols-outlined text-sm">cloud_done</span>
+<span>System Status</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 rounded-lg text-white/70 hover:text-white hover:bg-[#0875e1] transition-all text-xs" href="#">
+<span class="material-symbols-outlined text-sm">menu_book</span>
+<span>Documentation</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 ml-64 overflow-y-auto bg-surface h-full">
+<!-- TopNavBar Component -->
+<header class="flex justify-between items-center w-full px-8 py-3 h-16 sticky top-0 z-40 bg-[#fbf9f8] dark:bg-slate-950 font-['Inter'] antialiased tracking-tight">
+<div class="flex items-center gap-4">
+<span class="text-xl font-bold text-[#005db5] dark:text-[#0875e1] tracking-tighter">AgentOS</span>
+<div class="h-6 w-[1px] bg-outline-variant/30 mx-2"></div>
+<span class="text-sm font-medium text-slate-500">Project: Alpha-Scale-24</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-600 hover:bg-slate-100 rounded-full transition-colors"><span class="material-symbols-outlined">notifications</span></button>
+<button class="p-2 text-slate-600 hover:bg-slate-100 rounded-full transition-colors"><span class="material-symbols-outlined">help</span></button>
+<button class="p-2 text-slate-600 hover:bg-slate-100 rounded-full transition-colors"><span class="material-symbols-outlined">apps</span></button>
+</div>
+<div class="flex items-center gap-3 pl-4 border-l border-outline-variant/30">
+<div class="text-right">
+<p class="text-xs font-bold text-on-surface">Alex Rivera</p>
+<p class="text-[10px] text-slate-500">System Architect</p>
+</div>
+<img alt="User profile avatar" class="w-10 h-10 rounded-full object-cover ring-2 ring-primary/10" data-alt="User profile avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuANUmyljaaUwQyy_-q_My1YeNrTG_W8g2EhT7j0-CMkMgK01dJjqn3Itl36uH9bRvbY0V-77-HCxlZIXc8SYNU2ReM9lZiqcbU87aZjhlQ_XTMJ0sYwotadVCyGdgrcTDIvX6z7-JVaGWPEs-FDieIG6GSUb4j78O5eQHdKpjDSdse8pFew1J6a1UaGsnxHDKkB1T85iRGzNmIbX67RkY0g19Otc-nlFo3ce0-2MO4NlQgcn6qqDVuBp8mncBfGiaWHhAYnqcWqJVU"/>
+</div>
+</div>
+</header>
+<!-- Dashboard Content -->
+<div class="p-8 max-w-[1600px] mx-auto space-y-8">
+<!-- 1. Top Analysis Search -->
+<section class="relative">
+<div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm">
+<div class="max-w-4xl mx-auto text-center space-y-6">
+<h2 class="text-3xl font-bold tracking-tight text-on-surface">Analyze Project &amp; Recommend Agents</h2>
+<div class="relative flex gap-3 p-2 bg-surface-container-low rounded-xl border border-outline-variant/20 shadow-inner">
+<span class="material-symbols-outlined absolute left-6 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full bg-transparent border-none focus:ring-0 pl-12 py-3 text-on-surface placeholder:text-outline" placeholder="Paste your project brief, repository URL, or architectural requirements here..." type="text"/>
+<button class="px-8 py-3 bg-gradient-to-br from-primary to-primary-container text-white font-semibold rounded-lg shadow-md hover:opacity-90 transition-all Active:scale-95">
+                                    Analyze
+                                </button>
+</div>
+</div>
+</div>
+</section>
+<!-- 2. Active Agents Overview -->
+<section class="space-y-4">
+<div class="flex justify-between items-end">
+<h3 class="text-lg font-bold tracking-tight text-on-surface">Deployed Strategic Agents</h3>
+<a class="text-sm font-semibold text-primary hover:underline" href="#">View Performance Metrics</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Agent Card 1 -->
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-transparent hover:border-primary/20 transition-all group">
+<div class="flex justify-between items-start mb-6">
+<div class="w-12 h-12 rounded-lg bg-black/5 flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Abstract neural network icon for GPT-4o" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKSHQCv0Az2GUpS1CqbRayPD0vB9fcYMpYSnXeWueJkKnCI9vOIdlfyxDxs-Mvtc2vnAXFnrWDJDlHAkcKmnnCKgfidkZQ-Jm06ct1pZdRcaUIsaSkcow-bHTzI5UC9p-HI27Wxe7L8Pfh8kah-y6xeHap0ejfbzreD-cMajyAfpZqs0-pCRn0Se_cpGA5FVEjDA4lmtKo3R8tbb_TLLBtfNcRtYV-zHqNU6rVhmklXXVSQ21mNYT-D1xSkrncSRwKW0HEsUBB3iA"/>
+</div>
+<span class="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-700">Active</span>
+</div>
+<h4 class="text-xl font-bold mb-1">GPT-4o</h4>
+<p class="text-sm text-outline mb-4">Reasoning &amp; Synthesis Engine</p>
+<div class="space-y-4 mb-6">
+<div>
+<p class="text-[10px] font-bold text-outline uppercase tracking-widest mb-2">Strengths</p>
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-1 bg-surface-container text-[11px] font-medium rounded">Logic Flow</span>
+<span class="px-2 py-1 bg-surface-container text-[11px] font-medium rounded">Multi-modal</span>
+</div>
+</div>
+<div>
+<p class="text-[10px] font-bold text-outline uppercase tracking-widest mb-2">Current Project</p>
+<p class="text-sm font-semibold text-primary truncate">Alpha-Scale Optimization</p>
+</div>
+</div>
+<button class="w-full py-2 border border-outline-variant/30 rounded-lg text-xs font-bold text-on-surface hover:bg-surface-container-low transition-colors">
+                                View Agent Logs
+                            </button>
+</div>
+<!-- Agent Card 2 -->
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-transparent hover:border-primary/20 transition-all group">
+<div class="flex justify-between items-start mb-6">
+<div class="w-12 h-12 rounded-lg bg-amber-500/10 flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Creative abstract pattern for Claude agent" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDveLxBPNtngPQxo6EhY4oJm6RBS27N6ru7LEL0m8LT3SUJkiev6BIV-z6tcbkXbtSTYnVKYm6GjNibgfoWxSidGhawqLXR3bz4VZNCkA9lIkIihFcf2rn7VTkL8UJGxp_8TeUmuvtPPIMN8pCAgZo-ELG9FkVhnYcFk8WQ84WuFEiCvUWlR4FY319gxtNH2Z3MRnD4ogIc_8jAQyQPi3OrITotr6avL7HtYqsWOfTMj5WZLJb5pYQ-qpdyiJj79DcbrV79OPvS2Ac"/>
+</div>
+<span class="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-700">Active</span>
+</div>
+<h4 class="text-xl font-bold mb-1">Claude 3.5 Sonnet</h4>
+<p class="text-sm text-outline mb-4">Coding &amp; Refinement Specialist</p>
+<div class="space-y-4 mb-6">
+<div>
+<p class="text-[10px] font-bold text-outline uppercase tracking-widest mb-2">Strengths</p>
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-1 bg-surface-container text-[11px] font-medium rounded">Python/JS</span>
+<span class="px-2 py-1 bg-surface-container text-[11px] font-medium rounded">Nuance</span>
+</div>
+</div>
+<div>
+<p class="text-[10px] font-bold text-outline uppercase tracking-widest mb-2">Current Project</p>
+<p class="text-sm font-semibold text-primary truncate">UI Component Refactoring</p>
+</div>
+</div>
+<button class="w-full py-2 border border-outline-variant/30 rounded-lg text-xs font-bold text-on-surface hover:bg-surface-container-low transition-colors">
+                                View Agent Logs
+                            </button>
+</div>
+<!-- Agent Card 3 -->
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-transparent hover:border-primary/20 transition-all group">
+<div class="flex justify-between items-start mb-6">
+<div class="w-12 h-12 rounded-lg bg-blue-500/10 flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Modern blue gradient for Gemini agent" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTtketoHMhUjpEwJL_zGti3geGilcV_5PMOSdj_SSbfZHc0LNUvpApgwB15H7WMg2DEThp7oCNsufBl3CEI4E4p2JHg7E6rzWHuTvH3rDbrwfBvu9RhPaazGhrOsQwhRWPbLpAJJ67pPJISp5y6wdgAiyuzOcuQNb4tgwTZJAKSt92uesnFrx0gdK9RYYyI9yXdnCEnRZmb7veSLigeDNYXV_BW7xF1GZinfV5_usOrHSJ852WD9Jv4t1HqMI9pXQDkEf__uHe0BQ"/>
+</div>
+<span class="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider bg-slate-200 text-slate-500">Standby</span>
+</div>
+<h4 class="text-xl font-bold mb-1">Gemini 1.5 Pro</h4>
+<p class="text-sm text-outline mb-4">Massive Context Retrieval</p>
+<div class="space-y-4 mb-6">
+<div>
+<p class="text-[10px] font-bold text-outline uppercase tracking-widest mb-2">Strengths</p>
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-1 bg-surface-container text-[11px] font-medium rounded">1M Token Window</span>
+<span class="px-2 py-1 bg-surface-container text-[11px] font-medium rounded">Search</span>
+</div>
+</div>
+<div>
+<p class="text-[10px] font-bold text-outline uppercase tracking-widest mb-2">Current Project</p>
+<p class="text-sm font-semibold text-primary truncate">Awaiting Task Assignment</p>
+</div>
+</div>
+<button class="w-full py-2 border border-outline-variant/30 rounded-lg text-xs font-bold text-on-surface hover:bg-surface-container-low transition-colors">
+                                View Agent Logs
+                            </button>
+</div>
+</div>
+</section>
+<!-- 3. Infrastructure Status -->
+<section class="space-y-4">
+<h3 class="text-lg font-bold tracking-tight text-on-surface">Infrastructure Status</h3>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Main Resource Card -->
+<div class="lg:col-span-2 bg-surface-container-lowest p-8 rounded-xl shadow-sm overflow-hidden relative">
+<div class="flex justify-between items-center mb-10">
+<div>
+<h4 class="text-xl font-bold">Real-time Resource Distribution</h4>
+<p class="text-sm text-outline">Cluster Node: US-EAST-1A</p>
+</div>
+<div class="text-right">
+<span class="text-xs font-bold text-emerald-600 flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span> 
+                                        System Optimal
+                                    </span>
+</div>
+</div>
+<div class="space-y-8">
+<div class="space-y-3">
+<div class="flex justify-between text-xs font-bold uppercase tracking-widest">
+<span>Compute Cluster (H100)</span>
+<span>78% Utilization</span>
+</div>
+<div class="h-3 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[78%] rounded-full"></div>
+</div>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between text-xs font-bold uppercase tracking-widest">
+<span>Memory Sync Latency</span>
+<span>12ms</span>
+</div>
+<div class="h-3 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-secondary-container w-[34%] rounded-full"></div>
+</div>
+</div>
+</div>
+<div class="mt-10 grid grid-cols-3 gap-8 pt-8 border-t border-surface-container">
+<div>
+<p class="text-[10px] font-bold text-outline uppercase tracking-widest mb-1">Total Threads</p>
+<p class="text-2xl font-black text-on-surface">1,024</p>
+</div>
+<div>
+<p class="text-[10px] font-bold text-outline uppercase tracking-widest mb-1">Context Cache</p>
+<p class="text-2xl font-black text-on-surface">4.2 TB</p>
+</div>
+<div>
+<p class="text-[10px] font-bold text-outline uppercase tracking-widest mb-1">Active Hooks</p>
+<p class="text-2xl font-black text-on-surface">158</p>
+</div>
+</div>
+</div>
+<!-- Secondary Metrics -->
+<div class="space-y-6">
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">memory</span>
+</div>
+<h4 class="font-bold">Persistent Memory</h4>
+</div>
+<p class="text-sm text-outline mb-4">Cross-agent knowledge synchronization status.</p>
+<div class="flex items-center justify-between">
+<span class="text-xs font-semibold px-2 py-1 rounded bg-blue-50 text-blue-700">99.9% Sync Integrity</span>
+<span class="text-[10px] text-outline">Last sync: 2s ago</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-10 h-10 rounded-lg bg-tertiary-container/10 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined">security</span>
+</div>
+<h4 class="font-bold">Access Control</h4>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center text-sm">
+<span class="text-outline">Active Permissions</span>
+<span class="font-bold">High</span>
+</div>
+<div class="flex justify-between items-center text-sm">
+<span class="text-outline">API Tokens</span>
+<span class="font-bold">12/15</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+</div>
+</body></html>

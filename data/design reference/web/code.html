@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ARCHITECT_OS | Multi-Agent Manager</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "inverse-on-surface": "#283044",
+                        "on-tertiary": "#3c0091",
+                        "on-primary": "#002d6e",
+                        "error": "#ffb4ab",
+                        "surface-container": "#171f33",
+                        "tertiary-container": "#8252ec",
+                        "surface-tint": "#b0c6ff",
+                        "primary-fixed-dim": "#b0c6ff",
+                        "secondary-fixed": "#6ffbbe",
+                        "outline-variant": "#424656",
+                        "surface-variant": "#2d3449",
+                        "surface-container-low": "#131b2e",
+                        "surface-container-high": "#222a3d",
+                        "on-tertiary-fixed": "#23005c",
+                        "on-primary-fixed": "#001944",
+                        "primary": "#b0c6ff",
+                        "secondary": "#4edea3",
+                        "on-secondary-container": "#00311f",
+                        "on-background": "#dae2fd",
+                        "on-tertiary-container": "#fdf6ff",
+                        "tertiary": "#d0bcff",
+                        "surface": "#0b1326",
+                        "on-surface": "#dae2fd",
+                        "on-secondary": "#003824",
+                        "inverse-surface": "#dae2fd",
+                        "on-surface-variant": "#c2c6d8",
+                        "outline": "#8c90a1",
+                        "surface-container-highest": "#2d3449",
+                        "surface-dim": "#0b1326",
+                        "background": "#0b1326",
+                        "on-secondary-fixed-variant": "#005236",
+                        "surface-container-lowest": "#060e20",
+                        "on-error-container": "#ffdad6",
+                        "primary-container": "#0a6bee",
+                        "tertiary-fixed": "#e9ddff",
+                        "on-error": "#690005",
+                        "secondary-fixed-dim": "#4edea3",
+                        "error-container": "#93000a",
+                        "inverse-primary": "#0058ca",
+                        "primary-fixed": "#d9e2ff",
+                        "on-primary-fixed-variant": "#00429b",
+                        "on-tertiary-fixed-variant": "#5516be",
+                        "secondary-container": "#00a572",
+                        "on-secondary-fixed": "#002113",
+                        "tertiary-fixed-dim": "#d0bcff",
+                        "surface-bright": "#31394d",
+                        "on-primary-container": "#f8f7ff"
+                    },
+                    fontFamily: {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Inter"],
+                        "label": ["Space Grotesk"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #0b1326;
+            color: #dae2fd;
+            font-family: 'Inter', sans-serif;
+        }
+        .glass-panel {
+            background: rgba(49, 57, 77, 0.6);
+            backdrop-filter: blur(20px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="bg-[#0b1326] dark:bg-[#0b1326] w-full top-0 sticky z-50">
+<div class="flex justify-between items-center px-6 h-16 w-full bg-[#131b2e]">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center overflow-hidden">
+<img alt="User profile avatar" class="w-full h-full object-cover" data-alt="Close up professional male headshot avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdhZBlBnw9lSgCJpk9AVHItiDHz4jG_4Nu6h5NihMhhzmxwLDIYMpgubiBBUl4ZuijN7yjkQlGwX_7PXq_ZsJdMMfCgVSI2CNxGQW5n7c_-EXStzfaMXnHqSBhRLeyQtISDlaOVCrN8X2B-p75HCf_duzHU9oQDRElj-tqPDF7eGXUuoOlmca-QweJ0uM7JiwN3Dt_klc0YGjfDAi-ctJYgnsjKNBPoaU4Yq-XtGOY-yojoslRmwvSWe7XAm25VPYjSyi3GWEkWcg"/>
+</div>
+<span class="font-['Space_Grotesk'] font-bold text-[#b0c6ff] tracking-[0.05rem]">ARCHITECT_OS</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-[#b0c6ff] hover:bg-[#222a3d] transition-colors duration-200 active:scale-95">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</div>
+</div>
+</header>
+<main class="max-w-7xl mx-auto px-6 pt-12 space-y-16">
+<!-- Smart Tool Recommender Section -->
+<section class="max-w-4xl mx-auto text-center space-y-8">
+<div class="space-y-2">
+<h1 class="font-headline text-5xl font-bold tracking-tight text-on-background">Orchestrate Your <span class="text-primary">Intelligence</span></h1>
+<p class="font-body text-on-surface-variant max-w-xl mx-auto">Input your project parameters to receive immediate architectural agent recommendations and skill clusters.</p>
+</div>
+<div class="relative group">
+<div class="absolute -inset-1 bg-gradient-to-r from-primary-container/20 to-tertiary-container/20 rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+<div class="relative flex items-center bg-surface-container-low p-2 rounded-lg border-b border-outline-variant/15">
+<span class="material-symbols-outlined ml-4 text-outline">search</span>
+<input class="w-full bg-transparent border-none focus:ring-0 text-on-surface font-body px-4 py-4 placeholder:text-outline/50" placeholder="Describe your project for tool recommendations..." type="text"/>
+<button class="bg-primary-container hover:scale-105 active:scale-95 transition-all text-on-primary-container px-6 py-3 rounded font-label font-bold uppercase text-xs tracking-widest flex items-center gap-2">
+                        Analyze <span class="material-symbols-outlined text-sm">bolt</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Skill Trigger Prompt -->
+<div class="bg-surface-container border-l-2 border-primary py-4 px-6 flex items-center justify-between max-w-4xl mx-auto rounded-r-lg">
+<div class="flex items-center gap-4">
+<div class="p-2 bg-primary/10 rounded">
+<span class="material-symbols-outlined text-primary">psychology</span>
+</div>
+<div>
+<span class="font-label text-xs uppercase tracking-widest text-primary font-bold">Recommended Skill Trigger</span>
+<p class="text-on-surface font-body text-sm">Mentioning "Project Phoenix" will activate the <span class="text-secondary font-medium">Global Tool Analysis Skill</span>.</p>
+</div>
+</div>
+<button class="text-primary hover:underline font-label text-xs font-bold uppercase tracking-tighter transition-all">Enable Auto-Trigger</button>
+</div>
+<!-- Model Grid & Projects -->
+<section class="space-y-8">
+<div class="flex justify-between items-end">
+<div class="space-y-1">
+<h2 class="font-headline text-2xl font-semibold tracking-tighter">ACTIVE_ORCHESTRATION</h2>
+<p class="font-label text-xs text-outline uppercase tracking-[0.2rem]">Current Model Infrastructure</p>
+</div>
+<div class="flex gap-4">
+<span class="flex items-center gap-2 font-label text-[10px] text-secondary font-bold tracking-widest">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span> SYSTEM_HEALTH_OPTIMAL
+                    </span>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- GPT-4o Card -->
+<div class="bg-surface-container-high rounded-lg p-6 flex flex-col justify-between group hover:bg-surface-bright transition-all duration-300 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4">
+<span class="bg-secondary-container text-on-secondary-container text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1">
+<span class="w-1 h-1 rounded-full bg-white"></span> ACTIVE
+                        </span>
+</div>
+<div class="space-y-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-white rounded flex items-center justify-center">
+<img alt="OpenAI Logo" class="w-8 h-8 object-contain" data-alt="Minimalist abstract circular tech logo black on white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsA4qfniPQs5eWS1xABu48kbsuCXkWcx4cWjnr9e5PTQUvX3BcUdIvH8JTK07Q22CQN57HPyrovumhSFLaE8f7fyD1v4FeYBFNSk7TFEgNT9F4MMmHbD62CQcvReexg48GeVP4HmT8VPPrwZd6KK6B3oUNf2icEw-dQ8xlkqVovo8OFAW8qClaxhbojJA-E05JGqWsmzWYqmnD9NTM7uZMavySvFk3LB9RmzbLz5En5qgE466VTmaNGIjLz1OMC2h7an3rwk9oFCI"/>
+</div>
+<div>
+<h3 class="font-headline font-bold text-lg text-on-background">GPT-4o</h3>
+<p class="font-label text-[10px] text-outline tracking-wider">PROJECT: DATA_MINING_ALPHA</p>
+</div>
+</div>
+<div class="space-y-3">
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-secondary text-sm">add_circle</span>
+<p class="text-xs text-on-surface-variant font-body leading-relaxed">Multimodal reasoning &amp; speed dominance.</p>
+</div>
+<div class="flex items-start gap-2 opacity-60">
+<span class="material-symbols-outlined text-error text-sm">remove_circle</span>
+<p class="text-xs text-on-surface-variant font-body leading-relaxed">Rate limit saturation in peak hours.</p>
+</div>
+</div>
+</div>
+<div class="mt-8 flex items-center justify-between border-t border-outline-variant/10 pt-4">
+<span class="text-[10px] font-label text-outline uppercase tracking-widest">LATENCY: 42ms</span>
+<span class="material-symbols-outlined text-primary group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</div>
+</div>
+<!-- Claude 3.5 Card -->
+<div class="bg-surface-container-high rounded-lg p-6 flex flex-col justify-between group hover:bg-surface-bright transition-all duration-300 relative">
+<div class="absolute top-0 left-0 w-1 h-full bg-tertiary"></div>
+<div class="absolute top-0 right-0 p-4">
+<span class="bg-tertiary-container text-on-tertiary-container text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[10px]" data-weight="fill">database</span> MEMORY_SYNC
+                        </span>
+</div>
+<div class="space-y-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-[#D97757] rounded flex items-center justify-center">
+<img alt="Anthropic Logo" class="w-8 h-8 object-contain" data-alt="Geometric triangular abstract logo orange background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbE_dOTNqQ9lOr9upM9cG4eikrAIJZs_deLiJKurUwy2kihkFmMq8sHs5lTI-zkxC9MFDQBNhxjrVYQ9QxntBj5aFkw2LB5wO5iFjLzzdoDaEYgKSJpRPxwpelG4QFsIIiL-0LOwJa1OK3q5gj1lzl02wHCm4AIQZA-tWJ9b3ko4-e59diBHHfXbZZtcpssH1anSQToHGtlBzEDHw9U7sXgzNDYhe2158Yy_aE12l1OYo3qm7XtWBWsRfbWkInA0rIj-_bb83DCbk"/>
+</div>
+<div>
+<h3 class="font-headline font-bold text-lg text-on-background">Claude 3.5 Sonnet</h3>
+<p class="font-label text-[10px] text-outline tracking-wider">PROJECT: CODE_GEN_BETA</p>
+</div>
+</div>
+<div class="space-y-3">
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-secondary text-sm">add_circle</span>
+<p class="text-xs text-on-surface-variant font-body leading-relaxed">Superior coding logic &amp; nuance.</p>
+</div>
+<div class="flex items-start gap-2 opacity-60">
+<span class="material-symbols-outlined text-error text-sm">remove_circle</span>
+<p class="text-xs text-on-surface-variant font-body leading-relaxed">Higher context cost per token.</p>
+</div>
+</div>
+</div>
+<div class="mt-8 flex items-center justify-between border-t border-outline-variant/10 pt-4">
+<span class="text-[10px] font-label text-outline uppercase tracking-widest">TOKENS: 1.2M IN_USE</span>
+<span class="material-symbols-outlined text-primary group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</div>
+</div>
+<!-- Gemini 1.5 Card -->
+<div class="bg-surface-container-high rounded-lg p-6 flex flex-col justify-between group hover:bg-surface-bright transition-all duration-300">
+<div class="space-y-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-[#4285F4] rounded flex items-center justify-center">
+<img alt="Google Logo" class="w-8 h-8 object-contain" data-alt="Blue and white minimal tech icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfgESa5BdocZPSnEJiXJDczNNd_zf7FZdaNGQfJfNurAfMAp6JWqZFObXnKqMDMjuU8TN_TMy6MO98IvaiFsAy4kVVWmsxxPhsF_yOnVCiEf76HMkogrbKRrOZ_igyZD4HZZwVGe0HHaA_N7LpxNy4mm9flMOHb6V6ZvXyNgfg6YrvOKCUDruGpMH7QmtEcKr9ziWge9XOttCzEKE_s7LNagcyE3CW2QjLGPYhjmaldWMzRbxR04CdvsmzqHU_WFGMZWADEjocWn0"/>
+</div>
+<div>
+<h3 class="font-headline font-bold text-lg text-on-background">Gemini 1.5 Pro</h3>
+<p class="font-label text-[10px] text-outline tracking-wider">PROJECT: VIDEO_PARSE_GAMMA</p>
+</div>
+</div>
+<div class="space-y-3">
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-secondary text-sm">add_circle</span>
+<p class="text-xs text-on-surface-variant font-body leading-relaxed">Massive 2M context window.</p>
+</div>
+<div class="flex items-start gap-2 opacity-60">
+<span class="material-symbols-outlined text-error text-sm">remove_circle</span>
+<p class="text-xs text-on-surface-variant font-body leading-relaxed">Variable consistency on short tasks.</p>
+</div>
+</div>
+</div>
+<div class="mt-8 flex items-center justify-between border-t border-outline-variant/10 pt-4">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-outline"></span>
+<span class="text-[10px] font-label text-outline uppercase tracking-widest">IDLE_QUEUE</span>
+</div>
+<span class="material-symbols-outlined text-primary group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Memory Clusters / Recent Threads -->
+<section class="grid grid-cols-1 lg:grid-cols-2 gap-8 pb-24">
+<div class="space-y-6">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary">database</span>
+<h2 class="font-headline text-xl font-semibold">SHARED_MEMORY_CLUSTERS</h2>
+</div>
+<div class="space-y-3">
+<!-- Memory Item -->
+<div class="bg-surface-container-low p-4 rounded flex items-center justify-between border-l-2 border-tertiary">
+<div class="flex flex-col">
+<span class="font-label text-[10px] text-tertiary uppercase font-bold tracking-widest">Global Memory</span>
+<span class="text-sm font-body text-on-surface">Common project dependencies defined across 4 agents.</span>
+</div>
+<span class="material-symbols-outlined text-outline text-sm">more_vert</span>
+</div>
+<!-- Memory Item -->
+<div class="bg-surface-container-low p-4 rounded flex items-center justify-between border-l-2 border-tertiary">
+<div class="flex flex-col">
+<span class="font-label text-[10px] text-tertiary uppercase font-bold tracking-widest">Token Optimization</span>
+<span class="text-sm font-body text-on-surface">Recursive caching enabled for Claude instances.</span>
+</div>
+<span class="material-symbols-outlined text-outline text-sm">more_vert</span>
+</div>
+</div>
+</div>
+<div class="space-y-6">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">analytics</span>
+<h2 class="font-headline text-xl font-semibold">RESOURCE_DISTRIBUTION</h2>
+</div>
+<div class="bg-surface-container p-6 rounded-lg space-y-4">
+<div class="flex justify-between items-center text-[10px] font-label text-outline uppercase tracking-widest">
+<span>CPU Allocation</span>
+<span>84%</span>
+</div>
+<div class="h-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[84%]"></div>
+</div>
+<div class="flex justify-between items-center text-[10px] font-label text-outline uppercase tracking-widest">
+<span>Memory Load</span>
+<span>2.4 TB / 4.0 TB</span>
+</div>
+<div class="h-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-tertiary w-[60%]"></div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-none bg-[#131b2e]/80 backdrop-blur-xl border-t border-[#424656]/15 shadow-[0px_-10px_30px_rgba(6,14,32,0.4)]">
+<div class="flex justify-around items-center h-20 px-4 pb-safe">
+<a class="flex flex-col items-center justify-center text-[#b0c6ff] bg-[#0a6bee]/10 rounded-xl py-1 px-3 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-['Space_Grotesk'] text-[10px] font-medium tracking-wide">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#dae2fd]/60 hover:text-[#b0c6ff] active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-['Space_Grotesk'] text-[10px] font-medium tracking-wide">Analysis</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#dae2fd]/60 hover:text-[#b0c6ff] active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">database</span>
+<span class="font-['Space_Grotesk'] text-[10px] font-medium tracking-wide">Memory</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#dae2fd]/60 hover:text-[#b0c6ff] active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-['Space_Grotesk'] text-[10px] font-medium tracking-wide">Settings</span>
+</a>
+</div>
+</nav>
+</body></html>

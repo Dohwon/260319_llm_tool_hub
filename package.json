@@ -1,0 +1,9 @@
+{
+  "name": "llm-tool-hub",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static recommendation hub for LLM models, tools, limits, installs, and shared memory.",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
