@@ -1,4 +1,4 @@
-# 260319_llm_tool_hub
+# 260319-llm-tool-hub
 
 LLM 모델, 코딩 에이전트 툴, 프로젝트 런타임, 전역 메모리 어댑터를 한 화면에서 관리하는 경량 허브다.
 
@@ -103,3 +103,6 @@ python3 scripts/sync_global_memory.py
 - `scripts/sync_global_memory.py`: 메모리 어댑터 생성 스크립트
 - `scripts/sync_skill_registry.py`: 모델별 스킬/계층도 데이터 재생성
 - `skill_dist/llm-tool-advisor-ko/`: 전역 설치용 추천 스킬 패키지
+
+## Last Updated
+- 2026-03-23

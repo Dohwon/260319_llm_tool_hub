@@ -41,3 +41,29 @@ Thumbs.db
 
 # windows metadata
 *:Zone.Identifier
+
+# >>> codex-sensitive-ignore >>>
+# env/secrets
+.env
+.env.*
+!.env.example
+!.env.sample
+env.template
+
+# prompt/core assets
+prompts/
+prompt/
+*_prompt.txt
+*_prompt.md
+judge_prompt.txt
+model_a_prompt.txt
+model_b_prompt.txt
+
+# local/private artifacts
+*.db
+*.sqlite
+*.sqlite3
+*.key
+*.pem
+*:Zone.Identifier
+# <<< codex-sensitive-ignore <<<
