@@ -1,12 +1,13 @@
-# Prompt Generator MVP
+# Prompt Generator
 
-Simple Chrome Extension MVP that captures selected page text and turns it into a structured prompt template.
+Chrome Extension for structured prompt generation with free trial + Pro gating.
 
 ## What it does
 
-- Saves the latest highlighted text from the current page
-- Builds a prompt from goal, tone, audience, and output format
-- Stores recent prompt drafts in `chrome.storage.local`
+- Developer mode에서는 자동으로 로컬 테스트 서버(`http://127.0.0.1:4299`)를 사용
+- Web Store/배포본은 Railway 라이브 서버를 사용
+- 무료 3회, 월 300회, 1회 2000자 제한
+- 최근 프롬프트를 `chrome.storage.local`에 저장
 
 ## Local install
 
@@ -24,6 +25,6 @@ cd /home/dowon/securedir/git/codex/projects/260319_llm_tool_hub/extensions/promp
 zip -r ../prompt-generator.zip .
 ```
 
-## Limits
+## Developer Mode Test
 
-This MVP is local-only. It does not call an LLM API yet.
+전체 순서는 [docs/extension-dev-test.md](/home/dowon/securedir/git/codex/projects/260319_llm_tool_hub/docs/extension-dev-test.md)를 보면 된다.

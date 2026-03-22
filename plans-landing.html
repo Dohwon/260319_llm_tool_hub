@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prompt Studio Pricing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --surface: rgba(255, 255, 255, 0.9);
+      --surface-strong: #ffffff;
+      --line: #d7dde8;
+      --text: #202733;
+      --muted: #657083;
+      --blue: #165dff;
+      --blue-strong: #0f42b8;
+      --green: #1f8f5f;
+      --pink: #d9467f;
+      --shadow: 0 28px 70px rgba(26, 39, 68, 0.08);
+      --radius-xl: 32px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --font-display: "Manrope", sans-serif;
+      --font-body: "Inter", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font-body);
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(22, 93, 255, 0.14), transparent 25%),
+        radial-gradient(circle at top right, rgba(217, 70, 127, 0.14), transparent 20%),
+        linear-gradient(180deg, #fcfdff 0%, #f4f7fb 48%, #eef2f8 100%);
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .page-shell {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 28px 20px 80px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 0 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-mark {
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      font-family: var(--font-display);
+      font-weight: 800;
+      color: white;
+      background: linear-gradient(135deg, var(--blue) 0%, var(--pink) 100%);
+      box-shadow: 0 16px 32px rgba(22, 93, 255, 0.18);
+    }
+
+    .brand-copy strong {
+      display: block;
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .brand-copy span {
+      display: block;
+      margin-top: 3px;
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .topbar-links {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .topbar-links a {
+      padding: 11px 15px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(215, 221, 232, 0.8);
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .hero {
+      margin-top: 18px;
+      padding: 64px 36px;
+      border: 1px solid rgba(215, 221, 232, 0.9);
+      border-radius: var(--radius-xl);
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(240, 244, 251, 0.96) 100%);
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 0 14px;
+      border-radius: 999px;
+      background: rgba(22, 93, 255, 0.08);
+      color: var(--blue-strong);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .hero h1,
+    .section-head h2,
+    .card h3 {
+      margin: 0;
+      font-family: var(--font-display);
+      letter-spacing: -0.05em;
+    }
+
+    .hero h1 {
+      margin-top: 18px;
+      font-size: clamp(2.5rem, 6vw, 4.6rem);
+      line-height: 0.98;
+    }
+
+    .hero p {
+      max-width: 760px;
+      margin: 18px auto 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.7;
+    }
+
+    .hero-highlights {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+
+    .hero-chip {
+      padding: 12px 16px;
+      border-radius: 999px;
+      background: var(--surface-strong);
+      border: 1px solid rgba(215, 221, 232, 0.84);
+      color: var(--text);
+      font-weight: 700;
+      box-shadow: 0 12px 28px rgba(26, 39, 68, 0.04);
+    }
+
+    .pricing-section {
+      margin-top: 26px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .card {
+      position: relative;
+      padding: 30px;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(215, 221, 232, 0.88);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .card.featured {
+      border: 1.5px solid rgba(22, 93, 255, 0.22);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.97) 0%, rgba(239, 244, 255, 0.98) 100%);
+    }
+
+    .tag {
+      position: absolute;
+      top: -13px;
+      right: 22px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--blue) 0%, var(--pink) 100%);
+      color: white;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      box-shadow: 0 14px 28px rgba(22, 93, 255, 0.24);
+    }
+
+    .card-copy p,
+    .feature-list,
+    .note,
+    .table-wrap td,
+    .table-wrap th {
+      color: var(--muted);
+    }
+
+    .plan-label {
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--blue-strong);
+    }
+
+    .plan-price {
+      margin-top: 18px;
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+    }
+
+    .plan-price strong {
+      font-family: var(--font-display);
+      font-size: 3.4rem;
+      line-height: 0.95;
+      letter-spacing: -0.06em;
+      color: var(--text);
+    }
+
+    .plan-price span {
+      margin-bottom: 4px;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    .feature-list {
+      margin: 24px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 12px;
+    }
+
+    .feature-list li {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      line-height: 1.55;
+    }
+
+    .check {
+      width: 22px;
+      height: 22px;
+      margin-top: 1px;
+      flex: 0 0 auto;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: rgba(22, 93, 255, 0.1);
+      color: var(--blue-strong);
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .featured .check {
+      background: rgba(31, 143, 95, 0.14);
+      color: var(--green);
+    }
+
+    .actions {
+      margin-top: 26px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 52px;
+      padding: 0 18px;
+      border-radius: 16px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      transition: 160ms ease;
+    }
+
+    .button.primary {
+      color: white;
+      background: linear-gradient(135deg, var(--blue) 0%, var(--blue-strong) 100%);
+      box-shadow: 0 18px 34px rgba(22, 93, 255, 0.18);
+    }
+
+    .button.secondary {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid rgba(215, 221, 232, 0.9);
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+    }
+
+    .note {
+      margin-top: 14px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .table-wrap {
+      margin-top: 24px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid rgba(215, 221, 232, 0.88);
+      background: rgba(255, 255, 255, 0.88);
+      box-shadow: var(--shadow);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead {
+      background: linear-gradient(135deg, var(--blue) 0%, var(--pink) 100%);
+      color: white;
+    }
+
+    th,
+    td {
+      padding: 18px 20px;
+      text-align: left;
+      border-bottom: 1px solid rgba(215, 221, 232, 0.62);
+      vertical-align: top;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .faq-grid {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .faq-card {
+      padding: 24px;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(215, 221, 232, 0.84);
+      background: rgba(255, 255, 255, 0.82);
+      box-shadow: 0 14px 34px rgba(26, 39, 68, 0.05);
+    }
+
+    .faq-card strong {
+      display: block;
+      font-size: 1rem;
+      margin-bottom: 10px;
+      letter-spacing: -0.03em;
+    }
+
+    .footer-note {
+      margin-top: 28px;
+      padding: 18px 20px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.84);
+      border: 1px solid rgba(215, 221, 232, 0.9);
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    @media (max-width: 920px) {
+      .pricing-section,
+      .faq-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .page-shell {
+        padding: 20px 16px 64px;
+      }
+
+      .hero {
+        padding: 48px 22px;
+      }
+
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">PS</div>
+        <div class="brand-copy">
+          <strong>Prompt Studio</strong>
+          <span>Generator + Translator Pricing</span>
+        </div>
+      </div>
+      <nav class="topbar-links">
+        <a href="#plans">Plans</a>
+        <a href="#compare">Compare</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <span class="eyebrow">Subscription Plans</span>
+      <h1>무료 체험 후<br />Pro로 전환하세요</h1>
+      <p>
+        Prompt Generator와 Prompt Translator는 무료 3회까지 바로 테스트할 수 있습니다.
+        그 뒤에는 Pro로 전환하면 월 300회, 1회 2000자 제한 안에서 안정적으로 계속 사용할 수 있습니다.
+      </p>
+      <div class="hero-highlights">
+        <span class="hero-chip">무료 3회 체험</span>
+        <span class="hero-chip">월 300회</span>
+        <span class="hero-chip">1회 2000자</span>
+        <span class="hero-chip">토스페이먼츠 연동 예정</span>
+      </div>
+    </section>
+
+    <section id="plans" class="pricing-section">
+      <article class="card">
+        <div class="card-copy">
+          <div class="plan-label">Free</div>
+          <h3>기능 확인용 체험 플랜</h3>
+          <div class="plan-price">
+            <strong>₩0</strong>
+            <span>/ 설치 후 체험</span>
+          </div>
+          <ul class="feature-list">
+            <li><span class="check">✓</span><span>Prompt Generator와 Translator 모두 각 3회까지 체험</span></li>
+            <li><span class="check">✓</span><span>1회 입력 최대 2000자</span></li>
+            <li><span class="check">✓</span><span>개발자 모드/실사용 흐름 확인 가능</span></li>
+            <li><span class="check">✓</span><span>API 키 직접 입력 불필요</span></li>
+          </ul>
+        </div>
+        <div class="actions">
+          <a class="button secondary" href="/#prompt-tailor">무료로 먼저 써보기</a>
+        </div>
+        <p class="note">무료 체험은 성능 확인용입니다. 반복 사용은 Pro 전환을 전제로 설계했습니다.</p>
+      </article>
+
+      <article class="card featured">
+        <span class="tag">Recommended</span>
+        <div class="card-copy">
+          <div class="plan-label">Pro Lite</div>
+          <h3>개인 사용자를 위한 기본 유료 플랜</h3>
+          <div class="plan-price">
+            <strong>₩4,900</strong>
+            <span>/ 월</span>
+          </div>
+          <ul class="feature-list">
+            <li><span class="check">✓</span><span>월 300회 사용</span></li>
+            <li><span class="check">✓</span><span>Prompt Generator / Translator 공통 정책</span></li>
+            <li><span class="check">✓</span><span>1회 입력 최대 2000자</span></li>
+            <li><span class="check">✓</span><span>서버 관리형 AI 호출, 사용량 차감, Pro 잠금 해제</span></li>
+            <li><span class="check">✓</span><span>연간 결제 기준 안내 가격: ₩39,000</span></li>
+          </ul>
+        </div>
+        <div class="actions">
+          <a class="button primary" href="/#prompt-tailor">토스페이먼츠 연동 준비 중</a>
+          <a class="button secondary" href="mailto:dowon@example.com?subject=Prompt%20Studio%20Pro%20Waitlist">사전 신청 메일 보내기</a>
+        </div>
+        <p class="note">현재 이 페이지는 결제 랜딩 준비 버전입니다. 토스페이먼츠 연동 후 버튼을 실제 결제 플로우로 교체하면 됩니다.</p>
+      </article>
+    </section>
+
+    <section id="compare" class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>항목</th>
+            <th>Free</th>
+            <th>Pro Lite</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>월 요금</td>
+            <td>₩0</td>
+            <td>₩4,900</td>
+          </tr>
+          <tr>
+            <td>체험/사용량</td>
+            <td>총 3회</td>
+            <td>월 300회</td>
+          </tr>
+          <tr>
+            <td>1회 최대 입력</td>
+            <td>2000자</td>
+            <td>2000자</td>
+          </tr>
+          <tr>
+            <td>사용 가능 기능</td>
+            <td>생성기 / 번역기 체험</td>
+            <td>생성기 / 번역기 계속 사용</td>
+          </tr>
+          <tr>
+            <td>AI 호출 방식</td>
+            <td>서버 관리형</td>
+            <td>서버 관리형</td>
+          </tr>
+          <tr>
+            <td>결제 방식</td>
+            <td>없음</td>
+            <td>토스페이먼츠 연동 예정</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="faq" class="faq-grid">
+      <article class="faq-card">
+        <strong>왜 무료를 3회까지만 주나요?</strong>
+        <div>API 키를 사용자 기기에 두지 않고 서버에서만 호출하기 때문에, 무제한 무료는 비용 통제가 어렵습니다. 3회 체험 후 Pro로 넘기는 구조가 가장 안전합니다.</div>
+      </article>
+      <article class="faq-card">
+        <strong>왜 월 300회인가요?</strong>
+        <div>초기 사용량과 API 원가를 고려했을 때, 개인 유저가 충분히 체감하면서도 운영자가 적자 위험을 낮출 수 있는 가장 현실적인 상한입니다.</div>
+      </article>
+      <article class="faq-card">
+        <strong>토스페이먼츠는 언제 붙이나요?</strong>
+        <div>현재는 랜딩과 정책이 먼저 준비된 상태입니다. 다음 단계는 토스페이먼츠 결제창, webhook, Pro 코드 또는 구독 반영을 연결하는 것입니다.</div>
+      </article>
+    </section>
+
+    <div class="footer-note">
+      이 랜딩은 Chrome Web Store 외부 결제 유도를 위한 정적 페이지입니다.
+      실제 판매 전에는 토스페이먼츠 버튼, 개인정보처리방침, 환불 정책, 고객 문의 메일을 함께 연결하는 것이 맞습니다.
+    </div>
+  </div>
+</body>
+</html>

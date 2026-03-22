@@ -64,6 +64,7 @@ PROMPT_PRO_MONTHLY_USD = float(os.environ.get("PROMPT_PRO_MONTHLY_USD", "4.99"))
 PROMPT_PRO_YEARLY_USD = float(os.environ.get("PROMPT_PRO_YEARLY_USD", "39"))
 PROMPT_MONTHLY_LIMIT = int(os.environ.get("PROMPT_MONTHLY_LIMIT", "300"))
 PROMPT_CHAR_LIMIT = int(os.environ.get("PROMPT_CHAR_LIMIT", "2000"))
+PROMPT_DEV_MOCK = os.environ.get("PROMPT_DEV_MOCK", "").strip().lower() in {"1", "true", "yes", "on"}
 PROMPT_ACCESS_LOCK = threading.Lock()
 
 
@@ -559,6 +560,41 @@ class StaticHandler(SimpleHTTPRequestHandler):
             "label": f"{provider}:{model}",
         }
 
+    def _estimate_mock_usage(self, source_text, output_text):
+        input_tokens = max(1, len(str(source_text or "").strip()) // 4)
+        output_tokens = max(1, len(str(output_text or "").strip()) // 4)
+        return {
+            "input_tokens": input_tokens,
+            "output_tokens": output_tokens,
+            "total_tokens": input_tokens + output_tokens,
+        }
+
+    def _build_mock_tailor_prompt(self, user_prompt):
+        compact = str(user_prompt or "").strip()
+        return (
+            "[Role]\n"
+            "You are a pragmatic specialist who turns rough requests into clear execution plans.\n\n"
+            "[Task]\n"
+            "Rewrite the user's request into a concrete prompt with specific output requirements.\n\n"
+            "[Input]\n"
+            f"{compact}\n\n"
+            "[Output]\n"
+            "1. Short conclusion\n"
+            "2. Prioritized action steps\n"
+            "3. Risks or assumptions\n"
+            "4. Final deliverable format"
+        )
+
+    def _build_mock_translation(self, source_text, source_language, target_language, preserve_structure):
+        target_label = "Korean" if target_language == "ko" else "English"
+        preserve_label = "yes" if preserve_structure else "no"
+        return (
+            f"[Mock Translation: {source_language} -> {target_language}]\n"
+            f"[Target Language]\n{target_label}\n\n"
+            f"[Preserve Structure]\n{preserve_label}\n\n"
+            f"{str(source_text or '').strip()}"
+        )
+
     def _validate_extension_client_id(self, client_id):
         value = str(client_id or "").strip()
         if not value:
@@ -936,10 +972,13 @@ class StaticHandler(SimpleHTTPRequestHandler):
 
             self._require_prompt_access(session_payload)
             runtime = self._get_managed_runtime("tailor")
-            if not runtime["provider"] or not runtime["model"] or not runtime["api_key"]:
-                raise ProviderAPIError(503, "PROMPT_TAILOR_PROVIDER, PROMPT_TAILOR_MODEL, PROMPT_TAILOR_API_KEY 환경변수를 먼저 설정하세요.")
-
-            prompt, usage = self._call_provider(runtime["provider"], runtime["model"], runtime["api_key"], system_prompt, user_prompt)
+            if PROMPT_DEV_MOCK and not runtime["api_key"]:
+                prompt = self._build_mock_tailor_prompt(user_prompt)
+                usage = self._estimate_mock_usage(user_prompt, prompt)
+            else:
+                if not runtime["provider"] or not runtime["model"] or not runtime["api_key"]:
+                    raise ProviderAPIError(503, "PROMPT_TAILOR_PROVIDER, PROMPT_TAILOR_MODEL, PROMPT_TAILOR_API_KEY 환경변수를 먼저 설정하세요.")
+                prompt, usage = self._call_provider(runtime["provider"], runtime["model"], runtime["api_key"], system_prompt, user_prompt)
             updated_access = self._record_prompt_usage(session_payload, usage)
             self._send_json(
                 200,
@@ -976,21 +1015,25 @@ class StaticHandler(SimpleHTTPRequestHandler):
 
             self._require_prompt_access(session_payload)
             runtime = self._get_managed_runtime("translate")
-            if not runtime["provider"] or not runtime["model"] or not runtime["api_key"]:
-                raise ProviderAPIError(503, "PROMPT_TRANSLATE_PROVIDER, PROMPT_TRANSLATE_MODEL, PROMPT_TRANSLATE_API_KEY 환경변수를 먼저 설정하세요.")
+            if PROMPT_DEV_MOCK and not runtime["api_key"]:
+                translated = self._build_mock_translation(source_text, source_language, target_language, preserve_structure)
+                usage = self._estimate_mock_usage(source_text, translated)
+            else:
+                if not runtime["provider"] or not runtime["model"] or not runtime["api_key"]:
+                    raise ProviderAPIError(503, "PROMPT_TRANSLATE_PROVIDER, PROMPT_TRANSLATE_MODEL, PROMPT_TRANSLATE_API_KEY 환경변수를 먼저 설정하세요.")
 
-            system_prompt = (
-                "You are a professional prompt translator.\n"
-                "Preserve intent, section structure, and operational constraints.\n"
-                "Return only the translated prompt, with no explanation."
-            )
-            user_prompt = (
-                f"[Source Language]\n{source_language}\n\n"
-                f"[Target Language]\n{target_language}\n\n"
-                f"[Preserve Structure]\n{'yes' if preserve_structure else 'no'}\n\n"
-                f"[Prompt]\n{source_text}"
-            )
-            translated, usage = self._call_provider(runtime["provider"], runtime["model"], runtime["api_key"], system_prompt, user_prompt)
+                system_prompt = (
+                    "You are a professional prompt translator.\n"
+                    "Preserve intent, section structure, and operational constraints.\n"
+                    "Return only the translated prompt, with no explanation."
+                )
+                user_prompt = (
+                    f"[Source Language]\n{source_language}\n\n"
+                    f"[Target Language]\n{target_language}\n\n"
+                    f"[Preserve Structure]\n{'yes' if preserve_structure else 'no'}\n\n"
+                    f"[Prompt]\n{source_text}"
+                )
+                translated, usage = self._call_provider(runtime["provider"], runtime["model"], runtime["api_key"], system_prompt, user_prompt)
             updated_access = self._record_prompt_usage(session_payload, usage)
             self._send_json(
                 200,
@@ -1025,10 +1068,13 @@ class StaticHandler(SimpleHTTPRequestHandler):
 
             self._require_extension_access(client_id)
             runtime = self._get_managed_runtime("tailor")
-            if not runtime["provider"] or not runtime["model"] or not runtime["api_key"]:
-                raise ProviderAPIError(503, "PROMPT_TAILOR_PROVIDER, PROMPT_TAILOR_MODEL, PROMPT_TAILOR_API_KEY 환경변수를 먼저 설정하세요.")
-
-            prompt, usage = self._call_provider(runtime["provider"], runtime["model"], runtime["api_key"], system_prompt, user_prompt)
+            if PROMPT_DEV_MOCK and not runtime["api_key"]:
+                prompt = self._build_mock_tailor_prompt(user_prompt)
+                usage = self._estimate_mock_usage(user_prompt, prompt)
+            else:
+                if not runtime["provider"] or not runtime["model"] or not runtime["api_key"]:
+                    raise ProviderAPIError(503, "PROMPT_TAILOR_PROVIDER, PROMPT_TAILOR_MODEL, PROMPT_TAILOR_API_KEY 환경변수를 먼저 설정하세요.")
+                prompt, usage = self._call_provider(runtime["provider"], runtime["model"], runtime["api_key"], system_prompt, user_prompt)
             updated_access = self._record_extension_usage(client_id)
             self._send_json(200, {"ok": True, "prompt": prompt, "usage": usage, "access": updated_access, "label": runtime["label"]})
         except ProviderAPIError as error:
@@ -1055,21 +1101,25 @@ class StaticHandler(SimpleHTTPRequestHandler):
 
             self._require_extension_access(client_id)
             runtime = self._get_managed_runtime("translate")
-            if not runtime["provider"] or not runtime["model"] or not runtime["api_key"]:
-                raise ProviderAPIError(503, "PROMPT_TRANSLATE_PROVIDER, PROMPT_TRANSLATE_MODEL, PROMPT_TRANSLATE_API_KEY 환경변수를 먼저 설정하세요.")
+            if PROMPT_DEV_MOCK and not runtime["api_key"]:
+                translated = self._build_mock_translation(source_text, source_language, target_language, preserve_structure)
+                usage = self._estimate_mock_usage(source_text, translated)
+            else:
+                if not runtime["provider"] or not runtime["model"] or not runtime["api_key"]:
+                    raise ProviderAPIError(503, "PROMPT_TRANSLATE_PROVIDER, PROMPT_TRANSLATE_MODEL, PROMPT_TRANSLATE_API_KEY 환경변수를 먼저 설정하세요.")
 
-            system_prompt = (
-                "You are a professional prompt translator.\n"
-                "Preserve intent, section structure, and operational constraints.\n"
-                "Return only the translated prompt, with no explanation."
-            )
-            user_prompt = (
-                f"[Source Language]\n{source_language}\n\n"
-                f"[Target Language]\n{target_language}\n\n"
-                f"[Preserve Structure]\n{'yes' if preserve_structure else 'no'}\n\n"
-                f"[Prompt]\n{source_text}"
-            )
-            translated, usage = self._call_provider(runtime["provider"], runtime["model"], runtime["api_key"], system_prompt, user_prompt)
+                system_prompt = (
+                    "You are a professional prompt translator.\n"
+                    "Preserve intent, section structure, and operational constraints.\n"
+                    "Return only the translated prompt, with no explanation."
+                )
+                user_prompt = (
+                    f"[Source Language]\n{source_language}\n\n"
+                    f"[Target Language]\n{target_language}\n\n"
+                    f"[Preserve Structure]\n{'yes' if preserve_structure else 'no'}\n\n"
+                    f"[Prompt]\n{source_text}"
+                )
+                translated, usage = self._call_provider(runtime["provider"], runtime["model"], runtime["api_key"], system_prompt, user_prompt)
             updated_access = self._record_extension_usage(client_id)
             self._send_json(200, {"ok": True, "translation": translated, "usage": usage, "access": updated_access, "label": runtime["label"]})
         except ProviderAPIError as error:

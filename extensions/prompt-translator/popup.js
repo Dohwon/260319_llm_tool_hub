@@ -1,4 +1,6 @@
-const API_BASE = "https://celebrated-enjoyment-production.up.railway.app";
+const LIVE_API_BASE = "https://celebrated-enjoyment-production.up.railway.app";
+const LOCAL_DEV_API_BASE = "http://127.0.0.1:4299";
+const API_BASE = chrome.runtime.getManifest().update_url ? LIVE_API_BASE : LOCAL_DEV_API_BASE;
 const HISTORY_LIMIT = 8;
 const CLIENT_ID_KEY = "promptTranslatorClientId";
 const HISTORY_KEY = "promptTranslatorHistory";
@@ -73,7 +75,8 @@ function renderAccess(access) {
   elements.planBadge.textContent = plan;
   elements.quotaValue.textContent = `${monthlyRemaining} / ${monthlyLimit}`;
   elements.runtimeValue.textContent = `${charLimit} chars`;
-  elements.accessMessage.textContent = access?.message || "Connect your billing backend to continue.";
+  const modeLabel = API_BASE === LOCAL_DEV_API_BASE ? "Developer mode detected. Using local dev server." : "";
+  elements.accessMessage.textContent = [modeLabel, access?.message || "Connect your billing backend to continue."].filter(Boolean).join(" ");
 
   const checkoutUrl = String(access?.checkout_url || "").trim();
   elements.checkoutLink.href = checkoutUrl || "#";

@@ -38,3 +38,6 @@ venv/
 Thumbs.db
 .vscode/
 # <<< codex-auto-ignore <<<
+
+# windows metadata
+*:Zone.Identifier

@@ -1,12 +1,13 @@
-# Prompt Translator MVP
+# Prompt Translator
 
-Simple Chrome Extension MVP for translating or porting prompt structure between Korean and English.
+Chrome Extension for prompt translation with free trial + Pro gating.
 
 ## What it does
 
-- Pulls highlighted page text into the popup
-- Preserves common prompt section headers
-- Produces a translated draft that can be copied and refined
+- Developer mode에서는 자동으로 로컬 테스트 서버(`http://127.0.0.1:4299`)를 사용
+- Web Store/배포본은 Railway 라이브 서버를 사용
+- 무료 3회, 월 300회, 1회 2000자 제한
+- 최근 번역 결과를 `chrome.storage.local`에 저장
 
 ## Local install
 
@@ -24,6 +25,6 @@ cd /home/dowon/securedir/git/codex/projects/260319_llm_tool_hub/extensions/promp
 zip -r ../prompt-translator.zip .
 ```
 
-## Limits
+## Developer Mode Test
 
-This MVP does not call a translation API. It preserves structure and common section labels for a first shipping prototype.
+전체 순서는 [docs/extension-dev-test.md](/home/dowon/securedir/git/codex/projects/260319_llm_tool_hub/docs/extension-dev-test.md)를 보면 된다.
