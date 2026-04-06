@@ -240,18 +240,17 @@ class StaticHandler(SimpleHTTPRequestHandler):
 
     def _create_google_oauth_state(self, *, next_section):
         now = int(time.time())
-        nonce = secrets.token_urlsafe(24)
-        return nonce, self._encode_signed_payload(
+        return self._encode_signed_payload(
             {
-                "nonce": nonce,
+                "nonce": secrets.token_urlsafe(24),
                 "next_section": self._sanitize_next_section(next_section),
                 "created_at": now,
                 "expires_at": now + OAUTH_STATE_TTL_SECONDS,
             }
         )
 
-    def _get_google_oauth_state(self):
-        payload = self._decode_signed_payload(self._parse_cookies().get(GOOGLE_STATE_COOKIE_NAME, ""))
+    def _get_google_oauth_state(self, raw_state_token):
+        payload = self._decode_signed_payload(raw_state_token)
         if not payload:
             return None
         if int(payload.get("expires_at", 0) or 0) <= int(time.time()):
@@ -832,7 +831,7 @@ class StaticHandler(SimpleHTTPRequestHandler):
             self._send_redirect(self._build_post_auth_location(next_section, error_code="google_config_missing"))
             return
 
-        state_token, state_cookie_value = self._create_google_oauth_state(next_section=next_section)
+        state_token = self._create_google_oauth_state(next_section=next_section)
         auth_url = (
             "https://accounts.google.com/o/oauth2/v2/auth?"
             + urlparse.urlencode(
@@ -846,10 +845,7 @@ class StaticHandler(SimpleHTTPRequestHandler):
                 }
             )
         )
-        self._send_redirect(
-            auth_url,
-            cookie_headers=[self._build_cookie(GOOGLE_STATE_COOKIE_NAME, state_cookie_value, path="/api/auth/google/callback", max_age=OAUTH_STATE_TTL_SECONDS)],
-        )
+        self._send_redirect(auth_url)
 
     def handle_google_auth_callback(self, parsed):
         query = urlparse.parse_qs(parsed.query)
@@ -857,25 +853,17 @@ class StaticHandler(SimpleHTTPRequestHandler):
         state_token = str(query.get("state", [""])[0]).strip()
         code = str(query.get("code", [""])[0]).strip()
         oauth_error = str(query.get("error", [""])[0]).strip()
-        state_payload = self._get_google_oauth_state()
-        clear_state_cookie = self._clear_cookie(GOOGLE_STATE_COOKIE_NAME, path="/api/auth/google/callback")
+        state_payload = self._get_google_oauth_state(state_token)
 
         if state_payload:
             next_section = self._sanitize_next_section(state_payload.get("next_section"))
 
         if oauth_error:
-            self._send_redirect(
-                self._build_post_auth_location(next_section, error_code="google_denied"),
-                cookie_headers=[clear_state_cookie],
-            )
+            self._send_redirect(self._build_post_auth_location(next_section, error_code="google_denied"))
             return
 
-        cookie_nonce = str((state_payload or {}).get("nonce", "")).strip()
-        if not code or not state_token or state_token != cookie_nonce or not state_payload:
-            self._send_redirect(
-                self._build_post_auth_location(next_section, error_code="google_state_mismatch"),
-                cookie_headers=[clear_state_cookie],
-            )
+        if not code or not state_payload:
+            self._send_redirect(self._build_post_auth_location(next_section, error_code="google_state_mismatch"))
             return
 
         try:
@@ -918,7 +906,6 @@ class StaticHandler(SimpleHTTPRequestHandler):
             self._send_redirect(
                 self._build_post_auth_location(next_section, status="google"),
                 cookie_headers=[
-                    clear_state_cookie,
                     self._build_cookie(SESSION_COOKIE_NAME, session_id, max_age=SESSION_TTL_SECONDS),
                 ],
             )
@@ -927,10 +914,7 @@ class StaticHandler(SimpleHTTPRequestHandler):
                 401: "google_verify_failed",
                 403: "google_not_allowed",
             }.get(error.status_code, "google_failed")
-            self._send_redirect(
-                self._build_post_auth_location(next_section, error_code=error_code),
-                cookie_headers=[clear_state_cookie],
-            )
+            self._send_redirect(self._build_post_auth_location(next_section, error_code=error_code))
 
     def handle_dev_login(self):
         try:
