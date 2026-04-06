@@ -73,6 +73,8 @@ PROMPT_MONTHLY_LIMIT = int(os.environ.get("PROMPT_MONTHLY_LIMIT", "300"))
 PROMPT_CHAR_LIMIT = int(os.environ.get("PROMPT_CHAR_LIMIT", "2000"))
 PROMPT_DEV_MOCK = os.environ.get("PROMPT_DEV_MOCK", "").strip().lower() in {"1", "true", "yes", "on"}
 PROMPT_ACCESS_LOCK = threading.Lock()
+SESSION_STORE_PATH = ROOT / "data" / "auth_sessions.json"
+SESSION_STORE_LOCK = threading.Lock()
 
 
 class ProviderAPIError(Exception):
@@ -226,7 +228,37 @@ class StaticHandler(SimpleHTTPRequestHandler):
         return
 
     def _cleanup_expired_sessions(self):
-        return
+        state = self._load_session_store()
+        now = int(time.time())
+        expired_ids = [
+            session_id
+            for session_id, payload in state.items()
+            if not isinstance(payload, dict) or int(payload.get("expires_at", 0) or 0) <= now
+        ]
+        if not expired_ids:
+            return
+        for session_id in expired_ids:
+            state.pop(session_id, None)
+        self._save_session_store(state)
+
+    def _ensure_session_store(self):
+        with SESSION_STORE_LOCK:
+            SESSION_STORE_PATH.parent.mkdir(parents=True, exist_ok=True)
+            if not SESSION_STORE_PATH.exists():
+                SESSION_STORE_PATH.write_text("{}", encoding="utf-8")
+
+    def _load_session_store(self):
+        self._ensure_session_store()
+        with SESSION_STORE_LOCK:
+            try:
+                data = json.loads(SESSION_STORE_PATH.read_text(encoding="utf-8") or "{}")
+            except json.JSONDecodeError:
+                data = {}
+            return data if isinstance(data, dict) else {}
+
+    def _save_session_store(self, state):
+        with SESSION_STORE_LOCK:
+            SESSION_STORE_PATH.write_text(json.dumps(state, ensure_ascii=False, indent=2), encoding="utf-8")
 
     def _sign_value(self, value):
         return hmac.new(
@@ -259,16 +291,18 @@ class StaticHandler(SimpleHTTPRequestHandler):
 
     def _create_session(self, *, user, email="", picture="", auth_method="google"):
         now = int(time.time())
-        return self._encode_signed_payload(
-            {
-                "user": user,
-                "email": email,
-                "picture": picture,
-                "auth_method": auth_method,
-                "created_at": now,
-                "expires_at": now + SESSION_TTL_SECONDS,
-            }
-        )
+        session_id = secrets.token_urlsafe(32)
+        state = self._load_session_store()
+        state[session_id] = {
+            "user": user,
+            "email": email,
+            "picture": picture,
+            "auth_method": auth_method,
+            "created_at": now,
+            "expires_at": now + SESSION_TTL_SECONDS,
+        }
+        self._save_session_store(state)
+        return session_id
 
     def _create_google_oauth_state(self, *, next_section):
         now = int(time.time())
@@ -293,19 +327,18 @@ class StaticHandler(SimpleHTTPRequestHandler):
         return payload
 
     def _get_current_session(self):
-        payload = self._decode_signed_payload(self._parse_cookies().get(SESSION_COOKIE_NAME, ""))
-        if not payload:
+        self._cleanup_expired_sessions()
+        session_id = self._parse_cookies().get(SESSION_COOKIE_NAME, "")
+        if not session_id:
             return None
-        if int(payload.get("expires_at", 0) or 0) <= int(time.time()):
+        state = self._load_session_store()
+        payload = state.get(session_id)
+        if not isinstance(payload, dict):
             return None
-        return {
-            "user": str(payload.get("user", "")).strip(),
-            "email": str(payload.get("email", "")).strip(),
-            "picture": str(payload.get("picture", "")).strip(),
-            "auth_method": str(payload.get("auth_method", "")).strip(),
-            "created_at": int(payload.get("created_at", 0) or 0),
-            "expires_at": int(payload.get("expires_at", 0) or 0),
-        }
+        payload["expires_at"] = int(time.time()) + SESSION_TTL_SECONDS
+        state[session_id] = payload
+        self._save_session_store(state)
+        return payload
 
     def _require_session(self):
         session_payload = self._get_current_session()
@@ -974,6 +1007,12 @@ class StaticHandler(SimpleHTTPRequestHandler):
         self._send_json(401, {"ok": False, "message": "아이디 또는 비밀번호가 맞지 않습니다."})
 
     def handle_auth_logout(self):
+        session_id = self._parse_cookies().get(SESSION_COOKIE_NAME, "")
+        if session_id:
+            state = self._load_session_store()
+            if session_id in state:
+                state.pop(session_id, None)
+                self._save_session_store(state)
         self.send_response(200)
         body = json.dumps({"ok": True, "message": "로그아웃되었습니다."}).encode("utf-8")
         self.send_header("Content-Type", "application/json; charset=utf-8")
