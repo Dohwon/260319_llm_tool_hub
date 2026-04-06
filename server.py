@@ -6,6 +6,7 @@ import os
 import secrets
 import threading
 import time
+from datetime import datetime
 from http import cookies
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -380,20 +381,16 @@ class StaticHandler(SimpleHTTPRequestHandler):
             return None
         return payload if isinstance(payload, dict) else None
 
-    def _create_session(self, *, user, email="", picture="", auth_method="google"):
+    def _create_session_token(self, *, user, email="", picture="", auth_method="google"):
         now = int(time.time())
-        session_id = secrets.token_urlsafe(32)
-        state = self._load_session_store()
-        state[session_id] = {
+        return self._encode_signed_payload({
             "user": user,
             "email": email,
             "picture": picture,
             "auth_method": auth_method,
             "created_at": now,
             "expires_at": now + SESSION_TTL_SECONDS,
-        }
-        self._save_session_store(state)
-        return session_id
+        })
 
     def _create_auth_completion(self, *, user, email="", picture="", auth_method="google"):
         now = int(time.time())
@@ -448,17 +445,14 @@ class StaticHandler(SimpleHTTPRequestHandler):
         return payload
 
     def _get_current_session(self):
-        self._cleanup_expired_sessions()
-        session_id = self._parse_cookies().get(SESSION_COOKIE_NAME, "")
-        if not session_id:
+        session_token = self._parse_cookies().get(SESSION_COOKIE_NAME, "")
+        if not session_token:
             return None
-        state = self._load_session_store()
-        payload = state.get(session_id)
-        if not isinstance(payload, dict):
+        payload = self._decode_signed_payload(session_token)
+        if not payload:
             return None
-        payload["expires_at"] = int(time.time()) + SESSION_TTL_SECONDS
-        state[session_id] = payload
-        self._save_session_store(state)
+        if int(payload.get("expires_at", 0) or 0) <= int(time.time()):
+            return None
         return payload
 
     def _require_session(self):
@@ -522,6 +516,10 @@ class StaticHandler(SimpleHTTPRequestHandler):
         parsed = urlparse.urlparse(self.path)
         path = parsed.path
 
+        if path == "/api/analytics/counter":
+            self.handle_visit_counter_get()
+            return
+
         if path == "/api/auth/session":
             self.handle_auth_session()
             return
@@ -550,6 +548,10 @@ class StaticHandler(SimpleHTTPRequestHandler):
 
     def do_POST(self):
         path = self.path.split("?", 1)[0]
+
+        if path == "/api/analytics/visit":
+            self.handle_visit_counter_hit()
+            return
 
         if path == "/api/dev-login":
             self.handle_dev_login()
@@ -615,6 +617,14 @@ class StaticHandler(SimpleHTTPRequestHandler):
                 "picture": (session_payload or {}).get("picture", ""),
             },
         )
+
+    def handle_visit_counter_get(self):
+        counter = get_visit_counter(increment=False)
+        self._send_json(200, {"ok": True, **counter})
+
+    def handle_visit_counter_hit(self):
+        counter = get_visit_counter(increment=True)
+        self._send_json(200, {"ok": True, **counter})
 
     def _ensure_prompt_access_state(self):
         with PROMPT_ACCESS_LOCK:
@@ -1087,14 +1097,16 @@ class StaticHandler(SimpleHTTPRequestHandler):
 
             user_name = str(profile.get("name") or profile.get("given_name") or verified_claims.get("name") or email).strip()
             picture = str(profile.get("picture") or verified_claims.get("picture") or "").strip()
-            auth_token = self._create_auth_completion(
+            session_token = self._create_session_token(
                 user=user_name,
                 email=email,
                 picture=picture,
                 auth_method="google",
             )
+            session_cookie = self._build_cookie(SESSION_COOKIE_NAME, session_token, max_age=SESSION_TTL_SECONDS)
             self._send_redirect_page(
-                self._build_post_auth_location(next_section, status="google", auth_token=auth_token),
+                self._build_post_auth_location(next_section, status="google"),
+                cookie_headers=[session_cookie],
             )
         except ProviderAPIError as error:
             error_code = {
@@ -1104,37 +1116,19 @@ class StaticHandler(SimpleHTTPRequestHandler):
             self._send_redirect_page(self._build_post_auth_location(next_section, error_code=error_code))
 
     def handle_auth_complete(self):
-        try:
-            payload = self._read_json_payload()
-            completion_payload = self._consume_auth_completion(payload.get("token"))
-            if not completion_payload:
-                raise ProviderAPIError(401, "로그인 완료 토큰이 유효하지 않습니다. 다시 로그인하세요.")
-
-            session_id = self._create_session(
-                user=str(completion_payload.get("user", "")).strip(),
-                email=str(completion_payload.get("email", "")).strip(),
-                picture=str(completion_payload.get("picture", "")).strip(),
-                auth_method=str(completion_payload.get("auth_method", "google")).strip() or "google",
-            )
-            body = json.dumps(
-                {
-                    "ok": True,
-                    "method": completion_payload.get("auth_method", "google"),
-                    "user": completion_payload.get("user", ""),
-                    "email": completion_payload.get("email", ""),
-                    "picture": completion_payload.get("picture", ""),
-                }
-            ).encode("utf-8")
-            self.send_response(200)
-            self.send_header("Content-Type", "application/json; charset=utf-8")
-            self.send_header("Content-Length", str(len(body)))
-            self.send_header("Cache-Control", "no-store, max-age=0")
-            self.send_header("Pragma", "no-cache")
-            self.send_header("Set-Cookie", self._build_cookie(SESSION_COOKIE_NAME, session_id, max_age=SESSION_TTL_SECONDS))
-            self.end_headers()
-            self.wfile.write(body)
-        except ProviderAPIError as error:
-            self._send_json(error.status_code, {"ok": False, "message": error.message})
+        # Session is now set directly in the OAuth callback redirect.
+        # This endpoint is kept for backward compatibility but simply confirms the current session.
+        session_payload = self._get_current_session()
+        if session_payload:
+            self._send_json(200, {
+                "ok": True,
+                "method": session_payload.get("auth_method", "google"),
+                "user": session_payload.get("user", ""),
+                "email": session_payload.get("email", ""),
+                "picture": session_payload.get("picture", ""),
+            })
+        else:
+            self._send_json(401, {"ok": False, "message": "로그인 세션이 없습니다. 다시 로그인하세요."})
 
     def handle_dev_login(self):
         try:
@@ -1147,12 +1141,12 @@ class StaticHandler(SimpleHTTPRequestHandler):
         password = str(payload.get("password", "")).strip()
 
         if username == DEV_LOGIN_ID and password == DEV_LOGIN_PASSWORD:
-            session_id = self._create_session(user=username, auth_method="developer")
+            session_token = self._create_session_token(user=username, auth_method="developer")
             self.send_response(200)
             self.send_header("Content-Type", "application/json; charset=utf-8")
             self.send_header("Cache-Control", "no-store, max-age=0")
             self.send_header("Pragma", "no-cache")
-            self.send_header("Set-Cookie", self._build_cookie(SESSION_COOKIE_NAME, session_id, max_age=SESSION_TTL_SECONDS))
+            self.send_header("Set-Cookie", self._build_cookie(SESSION_COOKIE_NAME, session_token, max_age=SESSION_TTL_SECONDS))
             body = json.dumps({"ok": True, "method": "developer", "user": username}).encode("utf-8")
             self.send_header("Content-Length", str(len(body)))
             self.end_headers()
@@ -1162,12 +1156,6 @@ class StaticHandler(SimpleHTTPRequestHandler):
         self._send_json(401, {"ok": False, "message": "아이디 또는 비밀번호가 맞지 않습니다."})
 
     def handle_auth_logout(self):
-        session_id = self._parse_cookies().get(SESSION_COOKIE_NAME, "")
-        if session_id:
-            state = self._load_session_store()
-            if session_id in state:
-                state.pop(session_id, None)
-                self._save_session_store(state)
         self.send_response(200)
         body = json.dumps({"ok": True, "message": "로그아웃되었습니다."}).encode("utf-8")
         self.send_header("Content-Type", "application/json; charset=utf-8")
