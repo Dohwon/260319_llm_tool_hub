@@ -151,13 +151,17 @@ class StaticHandler(SimpleHTTPRequestHandler):
             return forwarded_proto.split(",", 1)[0].strip().lower() == "https"
         return False
 
-    def _build_cookie(self, name, value, *, path="/", max_age=None):
+    def _build_cookie(self, name, value, *, path="/", max_age=None, samesite="Lax"):
         jar = cookies.SimpleCookie()
         jar[name] = value
         jar[name]["path"] = path
         jar[name]["httponly"] = True
-        jar[name]["samesite"] = "Lax"
-        if self._is_secure_request():
+        effective_samesite = str(samesite or "Lax").strip() or "Lax"
+        is_secure = self._is_secure_request()
+        if effective_samesite.lower() == "none" and not is_secure:
+            effective_samesite = "Lax"
+        jar[name]["samesite"] = effective_samesite
+        if is_secure:
             jar[name]["secure"] = True
         if max_age is not None:
             jar[name]["max-age"] = str(max_age)
@@ -906,7 +910,7 @@ class StaticHandler(SimpleHTTPRequestHandler):
             self._send_redirect(
                 self._build_post_auth_location(next_section, status="google"),
                 cookie_headers=[
-                    self._build_cookie(SESSION_COOKIE_NAME, session_id, max_age=SESSION_TTL_SECONDS),
+                    self._build_cookie(SESSION_COOKIE_NAME, session_id, max_age=SESSION_TTL_SECONDS, samesite="None"),
                 ],
             )
         except ProviderAPIError as error:
@@ -932,7 +936,7 @@ class StaticHandler(SimpleHTTPRequestHandler):
             self.send_header("Content-Type", "application/json; charset=utf-8")
             self.send_header("Cache-Control", "no-store, max-age=0")
             self.send_header("Pragma", "no-cache")
-            self.send_header("Set-Cookie", self._build_cookie(SESSION_COOKIE_NAME, session_id, max_age=SESSION_TTL_SECONDS))
+            self.send_header("Set-Cookie", self._build_cookie(SESSION_COOKIE_NAME, session_id, max_age=SESSION_TTL_SECONDS, samesite="None"))
             body = json.dumps({"ok": True, "method": "developer", "user": username}).encode("utf-8")
             self.send_header("Content-Length", str(len(body)))
             self.end_headers()
