@@ -127,6 +127,34 @@ class StaticHandler(SimpleHTTPRequestHandler):
                 self.send_header("Set-Cookie", header)
         self.end_headers()
 
+    def _send_redirect_page(self, location, cookie_headers=None):
+        safe_location = str(location or "/").strip() or "/"
+        escaped_location = safe_location.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
+        body = f"""<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content="0;url={escaped_location}" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>Redirecting...</title>
+  </head>
+  <body>
+    <script>
+      window.location.replace({json.dumps(safe_location)});
+    </script>
+    <p>이동 중입니다. 자동으로 넘어가지 않으면 <a href="{escaped_location}">여기를 클릭하세요</a>.</p>
+  </body>
+</html>""".encode("utf-8")
+        self.send_response(200)
+        self.send_header("Content-Type", "text/html; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.send_header("Cache-Control", "no-store, max-age=0")
+        if cookie_headers:
+            for header in cookie_headers:
+                self.send_header("Set-Cookie", header)
+        self.end_headers()
+        self.wfile.write(body)
+
     def _read_json_payload(self):
         try:
             length = int(self.headers.get("Content-Length", "0"))
@@ -863,11 +891,11 @@ class StaticHandler(SimpleHTTPRequestHandler):
             next_section = self._sanitize_next_section(state_payload.get("next_section"))
 
         if oauth_error:
-            self._send_redirect(self._build_post_auth_location(next_section, error_code="google_denied"))
+            self._send_redirect_page(self._build_post_auth_location(next_section, error_code="google_denied"))
             return
 
         if not code or not state_payload:
-            self._send_redirect(self._build_post_auth_location(next_section, error_code="google_state_mismatch"))
+            self._send_redirect_page(self._build_post_auth_location(next_section, error_code="google_state_mismatch"))
             return
 
         try:
@@ -907,7 +935,7 @@ class StaticHandler(SimpleHTTPRequestHandler):
                 picture=picture,
                 auth_method="google",
             )
-            self._send_redirect(
+            self._send_redirect_page(
                 self._build_post_auth_location(next_section, status="google"),
                 cookie_headers=[
                     self._build_cookie(SESSION_COOKIE_NAME, session_id, max_age=SESSION_TTL_SECONDS, samesite="None"),
@@ -918,7 +946,7 @@ class StaticHandler(SimpleHTTPRequestHandler):
                 401: "google_verify_failed",
                 403: "google_not_allowed",
             }.get(error.status_code, "google_failed")
-            self._send_redirect(self._build_post_auth_location(next_section, error_code=error_code))
+            self._send_redirect_page(self._build_post_auth_location(next_section, error_code=error_code))
 
     def handle_dev_login(self):
         try:
