@@ -1,3 +1,6 @@
+import base64
+import hashlib
+import hmac
 import json
 import os
 import secrets
@@ -35,6 +38,12 @@ SESSION_COOKIE_NAME = "dowon_lab_session"
 GOOGLE_STATE_COOKIE_NAME = "dowon_lab_google_state"
 SESSION_TTL_SECONDS = int(os.environ.get("APP_SESSION_TTL_SECONDS", "43200"))
 OAUTH_STATE_TTL_SECONDS = 600
+SESSION_SIGNING_SECRET = (
+    os.environ.get("APP_SESSION_SECRET", "").strip()
+    or GOOGLE_OAUTH_CLIENT_SECRET
+    or DEV_LOGIN_PASSWORD
+    or "llm-tool-hub-dev-secret"
+)
 ALLOWED_SECTION_IDS = {
     "home",
     "memory",
@@ -44,8 +53,6 @@ ALLOWED_SECTION_IDS = {
     "prompt-tailor",
     "prompt-forge",
 }
-APP_SESSIONS = {}
-GOOGLE_OAUTH_STATES = {}
 PROMPT_ACCESS_STATE_PATH = ROOT / "data" / "prompt_access_state.json"
 PROMPT_FREE_LIMIT = int(os.environ.get("PROMPT_FREE_LIMIT", "3"))
 PROMPT_CHECKOUT_URL = os.environ.get("PROMPT_CHECKOUT_URL", "").strip()
@@ -184,48 +191,90 @@ class StaticHandler(SimpleHTTPRequestHandler):
         return f"/{query}#{self._sanitize_next_section(next_section)}"
 
     def _cleanup_expired_auth_state(self):
-        now = time.time()
-        expired = [
-            state_id
-            for state_id, payload in GOOGLE_OAUTH_STATES.items()
-            if payload.get("expires_at", 0) <= now
-        ]
-        for state_id in expired:
-            GOOGLE_OAUTH_STATES.pop(state_id, None)
+        return
 
     def _cleanup_expired_sessions(self):
-        now = time.time()
-        expired = [
-            session_id
-            for session_id, payload in APP_SESSIONS.items()
-            if payload.get("expires_at", 0) <= now
-        ]
-        for session_id in expired:
-            APP_SESSIONS.pop(session_id, None)
+        return
+
+    def _sign_value(self, value):
+        return hmac.new(
+            SESSION_SIGNING_SECRET.encode("utf-8"),
+            value.encode("utf-8"),
+            hashlib.sha256,
+        ).hexdigest()
+
+    def _encode_signed_payload(self, payload):
+        encoded_payload = base64.urlsafe_b64encode(
+            json.dumps(payload, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+        ).decode("ascii").rstrip("=")
+        signature = self._sign_value(encoded_payload)
+        return f"{encoded_payload}.{signature}"
+
+    def _decode_signed_payload(self, raw_value):
+        value = str(raw_value or "").strip()
+        if not value or "." not in value:
+            return None
+        encoded_payload, signature = value.rsplit(".", 1)
+        expected_signature = self._sign_value(encoded_payload)
+        if not hmac.compare_digest(signature, expected_signature):
+            return None
+        padded_payload = encoded_payload + "=" * (-len(encoded_payload) % 4)
+        try:
+            payload = json.loads(base64.urlsafe_b64decode(padded_payload.encode("ascii")).decode("utf-8"))
+        except Exception:
+            return None
+        return payload if isinstance(payload, dict) else None
 
     def _create_session(self, *, user, email="", picture="", auth_method="google"):
-        self._cleanup_expired_sessions()
-        session_id = secrets.token_urlsafe(32)
-        APP_SESSIONS[session_id] = {
-            "user": user,
-            "email": email,
-            "picture": picture,
-            "auth_method": auth_method,
-            "created_at": int(time.time()),
-            "expires_at": int(time.time()) + SESSION_TTL_SECONDS,
-        }
-        return session_id
+        now = int(time.time())
+        return self._encode_signed_payload(
+            {
+                "user": user,
+                "email": email,
+                "picture": picture,
+                "auth_method": auth_method,
+                "created_at": now,
+                "expires_at": now + SESSION_TTL_SECONDS,
+            }
+        )
+
+    def _create_google_oauth_state(self, *, next_section):
+        now = int(time.time())
+        nonce = secrets.token_urlsafe(24)
+        return nonce, self._encode_signed_payload(
+            {
+                "nonce": nonce,
+                "next_section": self._sanitize_next_section(next_section),
+                "created_at": now,
+                "expires_at": now + OAUTH_STATE_TTL_SECONDS,
+            }
+        )
+
+    def _get_google_oauth_state(self):
+        payload = self._decode_signed_payload(self._parse_cookies().get(GOOGLE_STATE_COOKIE_NAME, ""))
+        if not payload:
+            return None
+        if int(payload.get("expires_at", 0) or 0) <= int(time.time()):
+            return None
+        nonce = str(payload.get("nonce", "")).strip()
+        if not nonce:
+            return None
+        return payload
 
     def _get_current_session(self):
-        self._cleanup_expired_sessions()
-        session_id = self._parse_cookies().get(SESSION_COOKIE_NAME, "")
-        if not session_id:
+        payload = self._decode_signed_payload(self._parse_cookies().get(SESSION_COOKIE_NAME, ""))
+        if not payload:
             return None
-        session_payload = APP_SESSIONS.get(session_id)
-        if not session_payload:
+        if int(payload.get("expires_at", 0) or 0) <= int(time.time()):
             return None
-        session_payload["expires_at"] = int(time.time()) + SESSION_TTL_SECONDS
-        return session_payload
+        return {
+            "user": str(payload.get("user", "")).strip(),
+            "email": str(payload.get("email", "")).strip(),
+            "picture": str(payload.get("picture", "")).strip(),
+            "auth_method": str(payload.get("auth_method", "")).strip(),
+            "created_at": int(payload.get("created_at", 0) or 0),
+            "expires_at": int(payload.get("expires_at", 0) or 0),
+        }
 
     def _require_session(self):
         session_payload = self._get_current_session()
@@ -783,12 +832,7 @@ class StaticHandler(SimpleHTTPRequestHandler):
             self._send_redirect(self._build_post_auth_location(next_section, error_code="google_config_missing"))
             return
 
-        self._cleanup_expired_auth_state()
-        state_token = secrets.token_urlsafe(24)
-        GOOGLE_OAUTH_STATES[state_token] = {
-            "next_section": next_section,
-            "expires_at": time.time() + OAUTH_STATE_TTL_SECONDS,
-        }
+        state_token, state_cookie_value = self._create_google_oauth_state(next_section=next_section)
         auth_url = (
             "https://accounts.google.com/o/oauth2/v2/auth?"
             + urlparse.urlencode(
@@ -804,7 +848,7 @@ class StaticHandler(SimpleHTTPRequestHandler):
         )
         self._send_redirect(
             auth_url,
-            cookie_headers=[self._build_cookie(GOOGLE_STATE_COOKIE_NAME, state_token, path="/api/auth/google/callback", max_age=OAUTH_STATE_TTL_SECONDS)],
+            cookie_headers=[self._build_cookie(GOOGLE_STATE_COOKIE_NAME, state_cookie_value, path="/api/auth/google/callback", max_age=OAUTH_STATE_TTL_SECONDS)],
         )
 
     def handle_google_auth_callback(self, parsed):
@@ -813,8 +857,7 @@ class StaticHandler(SimpleHTTPRequestHandler):
         state_token = str(query.get("state", [""])[0]).strip()
         code = str(query.get("code", [""])[0]).strip()
         oauth_error = str(query.get("error", [""])[0]).strip()
-        cookie_state = self._parse_cookies().get(GOOGLE_STATE_COOKIE_NAME, "")
-        state_payload = GOOGLE_OAUTH_STATES.pop(state_token, None)
+        state_payload = self._get_google_oauth_state()
         clear_state_cookie = self._clear_cookie(GOOGLE_STATE_COOKIE_NAME, path="/api/auth/google/callback")
 
         if state_payload:
@@ -827,7 +870,8 @@ class StaticHandler(SimpleHTTPRequestHandler):
             )
             return
 
-        if not code or not state_token or state_token != cookie_state or not state_payload:
+        cookie_nonce = str((state_payload or {}).get("nonce", "")).strip()
+        if not code or not state_token or state_token != cookie_nonce or not state_payload:
             self._send_redirect(
                 self._build_post_auth_location(next_section, error_code="google_state_mismatch"),
                 cookie_headers=[clear_state_cookie],
@@ -875,7 +919,7 @@ class StaticHandler(SimpleHTTPRequestHandler):
                 self._build_post_auth_location(next_section, status="google"),
                 cookie_headers=[
                     clear_state_cookie,
-                    self._build_cookie(SESSION_COOKIE_NAME, session_id),
+                    self._build_cookie(SESSION_COOKIE_NAME, session_id, max_age=SESSION_TTL_SECONDS),
                 ],
             )
         except ProviderAPIError as error:
@@ -904,7 +948,7 @@ class StaticHandler(SimpleHTTPRequestHandler):
             self.send_header("Content-Type", "application/json; charset=utf-8")
             self.send_header("Cache-Control", "no-store, max-age=0")
             self.send_header("Pragma", "no-cache")
-            self.send_header("Set-Cookie", self._build_cookie(SESSION_COOKIE_NAME, session_id))
+            self.send_header("Set-Cookie", self._build_cookie(SESSION_COOKIE_NAME, session_id, max_age=SESSION_TTL_SECONDS))
             body = json.dumps({"ok": True, "method": "developer", "user": username}).encode("utf-8")
             self.send_header("Content-Length", str(len(body)))
             self.end_headers()
@@ -914,9 +958,6 @@ class StaticHandler(SimpleHTTPRequestHandler):
         self._send_json(401, {"ok": False, "message": "아이디 또는 비밀번호가 맞지 않습니다."})
 
     def handle_auth_logout(self):
-        session_cookie = self._parse_cookies().get(SESSION_COOKIE_NAME, "")
-        if session_cookie:
-            APP_SESSIONS.pop(session_cookie, None)
         self.send_response(200)
         body = json.dumps({"ok": True, "message": "로그아웃되었습니다."}).encode("utf-8")
         self.send_header("Content-Type", "application/json; charset=utf-8")
