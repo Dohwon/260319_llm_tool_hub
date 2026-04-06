@@ -677,6 +677,12 @@ async function init() {
     ...loadPersonalizationNotes()
   };
   const authFlash = consumeAuthFlash();
+  if (authFlash?.authToken) {
+    const completion = await completeAuthSession(authFlash.authToken);
+    if (!completion.ok && !authFlash.authError) {
+      authFlash.authError = completion.authError || "google_failed";
+    }
+  }
 
   const [authSession, registry, projects, recommendations, memory, skillRegistry, installMatrix, sourceOfTruth, shortTerm, midTerm, longTerm] = await Promise.all([
     fetchAuthSession(),
@@ -6848,20 +6854,48 @@ function consumeAuthFlash() {
   const currentUrl = new URL(window.location.href);
   const auth = currentUrl.searchParams.get("auth");
   const authError = currentUrl.searchParams.get("auth_error");
+  const authToken = currentUrl.searchParams.get("auth_token");
 
-  if (!auth && !authError) {
+  if (!auth && !authError && !authToken) {
     return null;
   }
 
   currentUrl.searchParams.delete("auth");
   currentUrl.searchParams.delete("auth_error");
+  currentUrl.searchParams.delete("auth_token");
   const nextLocation = `${currentUrl.pathname}${currentUrl.search}${currentUrl.hash}`;
   window.history.replaceState(null, "", nextLocation);
 
   return {
     auth: auth || "",
-    authError: authError || ""
+    authError: authError || "",
+    authToken: authToken || ""
   };
+}
+
+async function completeAuthSession(token) {
+  try {
+    const response = await fetch("/api/auth/complete", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      cache: "no-store",
+      credentials: "same-origin",
+      body: JSON.stringify({ token })
+    });
+    const payload = await response.json().catch(() => ({}));
+    if (!response.ok || !payload.ok) {
+      return {
+        ok: false,
+        authError: "google_failed"
+      };
+    }
+    return { ok: true };
+  } catch {
+    return {
+      ok: false,
+      authError: "google_failed"
+    };
+  }
 }
 
 async function fetchAuthSession() {

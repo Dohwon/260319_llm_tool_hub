@@ -75,6 +75,54 @@ PROMPT_DEV_MOCK = os.environ.get("PROMPT_DEV_MOCK", "").strip().lower() in {"1",
 PROMPT_ACCESS_LOCK = threading.Lock()
 SESSION_STORE_PATH = ROOT / "data" / "auth_sessions.json"
 SESSION_STORE_LOCK = threading.Lock()
+AUTH_COMPLETION_STORE_PATH = ROOT / "data" / "auth_completions.json"
+AUTH_COMPLETION_LOCK = threading.Lock()
+AUTH_COMPLETION_TTL_SECONDS = 300
+VISIT_COUNTER_PATH = ROOT / "data" / "visit_counter.json"
+VISIT_COUNTER_LOCK = threading.Lock()
+
+
+def _today_key():
+    return datetime.now().strftime("%Y-%m-%d")
+
+
+def _load_visit_counter_state():
+    VISIT_COUNTER_PATH.parent.mkdir(parents=True, exist_ok=True)
+    if not VISIT_COUNTER_PATH.exists():
+        VISIT_COUNTER_PATH.write_text(json.dumps({"total": 0, "by_day": {}}, ensure_ascii=False, indent=2), encoding="utf-8")
+    try:
+        data = json.loads(VISIT_COUNTER_PATH.read_text(encoding="utf-8") or "{}")
+    except json.JSONDecodeError:
+        data = {}
+    if not isinstance(data, dict):
+        data = {}
+    total = data.get("total", 0)
+    by_day = data.get("by_day", {})
+    if not isinstance(total, int):
+        total = 0
+    if not isinstance(by_day, dict):
+        by_day = {}
+    return {"total": max(0, total), "by_day": by_day}
+
+
+def _save_visit_counter_state(state):
+    VISIT_COUNTER_PATH.write_text(json.dumps(state, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+def get_visit_counter(*, increment=False):
+    with VISIT_COUNTER_LOCK:
+        state = _load_visit_counter_state()
+        today = _today_key()
+        if increment:
+            state["total"] = int(state.get("total", 0)) + 1
+            by_day = state.setdefault("by_day", {})
+            by_day[today] = int(by_day.get(today, 0)) + 1
+            _save_visit_counter_state(state)
+
+        by_day = state.get("by_day", {})
+        today_value = int(by_day.get(today, 0))
+        total_value = int(state.get("total", 0))
+        return {"today": today_value, "total": total_value, "date": today}
 
 
 class ProviderAPIError(Exception):
@@ -223,12 +271,14 @@ class StaticHandler(SimpleHTTPRequestHandler):
         candidate = str(section_id or "").strip()
         return candidate if candidate in ALLOWED_SECTION_IDS else "personalization"
 
-    def _build_post_auth_location(self, next_section, *, status="", error_code=""):
+    def _build_post_auth_location(self, next_section, *, status="", error_code="", auth_token=""):
         params = {}
         if status:
             params["auth"] = status
         if error_code:
             params["auth_error"] = error_code
+        if auth_token:
+            params["auth_token"] = auth_token
         query = f"?{urlparse.urlencode(params)}" if params else ""
         return f"/{query}#{self._sanitize_next_section(next_section)}"
 
@@ -267,6 +317,39 @@ class StaticHandler(SimpleHTTPRequestHandler):
     def _save_session_store(self, state):
         with SESSION_STORE_LOCK:
             SESSION_STORE_PATH.write_text(json.dumps(state, ensure_ascii=False, indent=2), encoding="utf-8")
+
+    def _ensure_auth_completion_store(self):
+        with AUTH_COMPLETION_LOCK:
+            AUTH_COMPLETION_STORE_PATH.parent.mkdir(parents=True, exist_ok=True)
+            if not AUTH_COMPLETION_STORE_PATH.exists():
+                AUTH_COMPLETION_STORE_PATH.write_text("{}", encoding="utf-8")
+
+    def _load_auth_completion_store(self):
+        self._ensure_auth_completion_store()
+        with AUTH_COMPLETION_LOCK:
+            try:
+                data = json.loads(AUTH_COMPLETION_STORE_PATH.read_text(encoding="utf-8") or "{}")
+            except json.JSONDecodeError:
+                data = {}
+            return data if isinstance(data, dict) else {}
+
+    def _save_auth_completion_store(self, state):
+        with AUTH_COMPLETION_LOCK:
+            AUTH_COMPLETION_STORE_PATH.write_text(json.dumps(state, ensure_ascii=False, indent=2), encoding="utf-8")
+
+    def _cleanup_expired_auth_completions(self):
+        state = self._load_auth_completion_store()
+        now = int(time.time())
+        expired_tokens = [
+            token
+            for token, payload in state.items()
+            if not isinstance(payload, dict) or int(payload.get("expires_at", 0) or 0) <= now
+        ]
+        if not expired_tokens:
+            return
+        for token in expired_tokens:
+            state.pop(token, None)
+        self._save_auth_completion_store(state)
 
     def _sign_value(self, value):
         return hmac.new(
@@ -311,6 +394,36 @@ class StaticHandler(SimpleHTTPRequestHandler):
         }
         self._save_session_store(state)
         return session_id
+
+    def _create_auth_completion(self, *, user, email="", picture="", auth_method="google"):
+        now = int(time.time())
+        token = secrets.token_urlsafe(32)
+        self._cleanup_expired_auth_completions()
+        state = self._load_auth_completion_store()
+        state[token] = {
+            "user": user,
+            "email": email,
+            "picture": picture,
+            "auth_method": auth_method,
+            "created_at": now,
+            "expires_at": now + AUTH_COMPLETION_TTL_SECONDS,
+        }
+        self._save_auth_completion_store(state)
+        return token
+
+    def _consume_auth_completion(self, token):
+        self._cleanup_expired_auth_completions()
+        token = str(token or "").strip()
+        if not token:
+            return None
+        state = self._load_auth_completion_store()
+        payload = state.pop(token, None)
+        self._save_auth_completion_store(state)
+        if not isinstance(payload, dict):
+            return None
+        if int(payload.get("expires_at", 0) or 0) <= int(time.time()):
+            return None
+        return payload
 
     def _create_google_oauth_state(self, *, next_section):
         now = int(time.time())
@@ -444,6 +557,10 @@ class StaticHandler(SimpleHTTPRequestHandler):
 
         if path == "/api/auth/logout":
             self.handle_auth_logout()
+            return
+
+        if path == "/api/auth/complete":
+            self.handle_auth_complete()
             return
 
         if path == "/api/prompt-forge":
@@ -970,17 +1087,14 @@ class StaticHandler(SimpleHTTPRequestHandler):
 
             user_name = str(profile.get("name") or profile.get("given_name") or verified_claims.get("name") or email).strip()
             picture = str(profile.get("picture") or verified_claims.get("picture") or "").strip()
-            session_id = self._create_session(
+            auth_token = self._create_auth_completion(
                 user=user_name,
                 email=email,
                 picture=picture,
                 auth_method="google",
             )
             self._send_redirect_page(
-                self._build_post_auth_location(next_section, status="google"),
-                cookie_headers=[
-                    self._build_cookie(SESSION_COOKIE_NAME, session_id, max_age=SESSION_TTL_SECONDS),
-                ],
+                self._build_post_auth_location(next_section, status="google", auth_token=auth_token),
             )
         except ProviderAPIError as error:
             error_code = {
@@ -988,6 +1102,39 @@ class StaticHandler(SimpleHTTPRequestHandler):
                 403: "google_not_allowed",
             }.get(error.status_code, "google_failed")
             self._send_redirect_page(self._build_post_auth_location(next_section, error_code=error_code))
+
+    def handle_auth_complete(self):
+        try:
+            payload = self._read_json_payload()
+            completion_payload = self._consume_auth_completion(payload.get("token"))
+            if not completion_payload:
+                raise ProviderAPIError(401, "로그인 완료 토큰이 유효하지 않습니다. 다시 로그인하세요.")
+
+            session_id = self._create_session(
+                user=str(completion_payload.get("user", "")).strip(),
+                email=str(completion_payload.get("email", "")).strip(),
+                picture=str(completion_payload.get("picture", "")).strip(),
+                auth_method=str(completion_payload.get("auth_method", "google")).strip() or "google",
+            )
+            body = json.dumps(
+                {
+                    "ok": True,
+                    "method": completion_payload.get("auth_method", "google"),
+                    "user": completion_payload.get("user", ""),
+                    "email": completion_payload.get("email", ""),
+                    "picture": completion_payload.get("picture", ""),
+                }
+            ).encode("utf-8")
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.send_header("Content-Length", str(len(body)))
+            self.send_header("Cache-Control", "no-store, max-age=0")
+            self.send_header("Pragma", "no-cache")
+            self.send_header("Set-Cookie", self._build_cookie(SESSION_COOKIE_NAME, session_id, max_age=SESSION_TTL_SECONDS))
+            self.end_headers()
+            self.wfile.write(body)
+        except ProviderAPIError as error:
+            self._send_json(error.status_code, {"ok": False, "message": error.message})
 
     def handle_dev_login(self):
         try:
