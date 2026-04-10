@@ -651,6 +651,7 @@ const elements = {
   authToggle: document.getElementById("auth-toggle"),
   authPopover: document.getElementById("auth-popover"),
   themeToggle: document.getElementById("theme-toggle"),
+  visitCounterFloating: document.getElementById("visit-counter-floating"),
   modal: document.getElementById("detail-modal"),
   modalKicker: document.getElementById("modal-kicker"),
   modalTitle: document.getElementById("modal-title"),
@@ -720,6 +721,7 @@ async function init() {
   });
   state.liveSync.lastSyncedAt = new Date();
   initializePromptWorkbenches();
+  void trackVisitAndRenderCounter();
 
   renderEnvironmentSelector();
   renderAll();
@@ -7703,6 +7705,39 @@ function definitionCard(label, value, note, changed = false) {
       <p>${escapeHtml(note)}</p>
     </article>
   `;
+}
+
+function renderVisitCounter(counter) {
+  const target = elements.visitCounterFloating;
+  if (!target || !counter) return;
+  target.textContent = `TODAY | ${Number(counter.today || 0)}  TOTAL | ${Number(counter.total || 0)}`;
+}
+
+async function trackVisitAndRenderCounter() {
+  try {
+    const hit = await fetch("/api/analytics/visit", {
+      method: "POST",
+      cache: "no-store",
+      credentials: "same-origin"
+    });
+    if (hit.ok) {
+      renderVisitCounter(await hit.json());
+      return;
+    }
+  } catch (_error) {
+    // Ignore counter hit failures.
+  }
+
+  try {
+    const response = await fetch("/api/analytics/counter", {
+      cache: "no-store",
+      credentials: "same-origin"
+    });
+    if (!response.ok) return;
+    renderVisitCounter(await response.json());
+  } catch (_error) {
+    // Ignore counter read failures.
+  }
 }
 
 async function fetchJson(path) {

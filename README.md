@@ -92,6 +92,17 @@ python3 scripts/sync_global_memory.py
 - `/home/dowon/securedir/git/codex/dowon_manager_agent_brief.md`를 읽어 Canonical Memory를 보강한다.
 - `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, Cursor/Windsurf 어댑터 파일을 재생성한다.
 
+## 스킬 점검
+
+```bash
+python3 scripts/list_skills.py
+python3 scripts/sync_skill_registry.py
+```
+
+- `scripts/list_skills.py`: 실설치 스킬 전체 목록, 레지스트리 diff, CODEX COMPANY 트리, Mermaid 코드를 한 번에 출력한다.
+- `scripts/sync_skill_registry.py`: `data/skill_registry.json`을 현재 설치 기준으로 다시 생성한다.
+- `docs/codex-company-skill-map.md`: 부서 구조와 Mermaid 다이어그램 문서.
+
 ## 핵심 파일
 
 - `data/registry.json`: 모델/툴 비교 레지스트리

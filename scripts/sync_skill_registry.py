@@ -25,10 +25,51 @@ ROLE_MAP = {
     "mortality-resident-ko": ("specialist", "wellbeing"),
     "personal-essay-writer-ko": ("specialist", "writing"),
     "portfolio-blog-writer-ko": ("specialist", "content"),
+    "imagegen": ("system", "image-generation"),
     "openai-docs": ("system", "docs"),
+    "plugin-creator": ("system", "plugin-authoring"),
     "skill-creator": ("system", "authoring"),
     "skill-installer": ("system", "installation")
 }
+
+DEPARTMENT_MAP = {
+    "multi-agent-manager-ko": ("Executive Office", "Operations Control"),
+    "llm-tool-advisor-ko": ("Executive Office", "Tool Strategy"),
+    "planner-agent-ko": ("Core Delivery HQ", "Planning"),
+    "architect-agent-ko": ("Core Delivery HQ", "Architecture"),
+    "implementer-agent-ko": ("Core Delivery HQ", "Implementation"),
+    "qa-agent-ko": ("Core Delivery HQ", "Quality Assurance"),
+    "idea-agent-ko": ("Core Delivery HQ", "Innovation"),
+    "design-trend-agent-ko": ("Creative Studio", "Design"),
+    "entp-clone-ko": ("Creative Studio", "Persona"),
+    "personal-essay-writer-ko": ("Creative Studio", "Writing"),
+    "portfolio-blog-writer-ko": ("Creative Studio", "Publishing"),
+    "startup-business-strategist-ko": ("Intelligence & Growth", "Business Strategy"),
+    "sql-data-insight-ko": ("Intelligence & Growth", "Data Intelligence"),
+    "prompt-personalization-ko": ("Intelligence & Growth", "Prompt Personalization"),
+    "mortality-resident-ko": ("Care Desk", "Mental Check-in"),
+    "openai-docs": ("Platform Services", "Docs Access"),
+    "imagegen": ("Platform Services", "Image Generation"),
+    "plugin-creator": ("Platform Services", "Plugin Scaffolding"),
+    "skill-creator": ("Platform Services", "Skill Authoring"),
+    "skill-installer": ("Platform Services", "Skill Installation")
+}
+
+DEPARTMENT_ORDER = [
+    "Executive Office",
+    "Core Delivery HQ",
+    "Creative Studio",
+    "Intelligence & Growth",
+    "Care Desk",
+    "Platform Services"
+]
+
+
+def normalize_frontmatter_value(value: str) -> str:
+    value = value.strip()
+    if len(value) >= 2 and value[0] == value[-1] and value[0] in {"'", '"'}:
+        return value[1:-1]
+    return value
 
 
 def parse_frontmatter(skill_md: Path) -> dict:
@@ -38,10 +79,10 @@ def parse_frontmatter(skill_md: Path) -> dict:
     _, frontmatter, _ = text.split("---", 2)
     data = {}
     for line in frontmatter.splitlines():
-      if ":" not in line:
-        continue
-      key, value = line.split(":", 1)
-      data[key.strip()] = value.strip()
+        if ":" not in line:
+            continue
+        key, value = line.split(":", 1)
+        data[key.strip()] = normalize_frontmatter_value(value)
     return {"name": data.get("name", skill_md.parent.name), "description": data.get("description", "")}
 
 
@@ -53,12 +94,15 @@ def collect_skills(base_dir: Path, status: str) -> list[dict]:
         skill_dir = skill_md.parent
         meta = parse_frontmatter(skill_md)
         role, scope = ROLE_MAP.get(meta["name"], ("specialist", "misc"))
+        department, team = DEPARTMENT_MAP.get(meta["name"], ("Special Projects", "Misc"))
         skills.append(
             {
                 "name": meta["name"],
                 "description": meta["description"],
                 "role": role,
                 "scope": scope,
+                "department": department,
+                "team": team,
                 "status": status,
                 "model_target": "codex",
                 "trigger": "metadata 기반 자동 트리거 또는 명시적 skill mention",
@@ -91,6 +135,33 @@ def merge_skills(installed: list[dict], staged: list[dict]) -> list[dict]:
     for skill in staged:
         merged.setdefault(skill["name"], skill)
     return sorted(merged.values(), key=lambda skill: skill["name"])
+
+
+def build_company_structure(skills: list[dict]) -> list[dict]:
+    by_department = {}
+    for skill in skills:
+        by_department.setdefault(skill["department"], []).append(skill)
+
+    payload = []
+    for department in DEPARTMENT_ORDER + sorted(set(by_department) - set(DEPARTMENT_ORDER)):
+        members = sorted(by_department.get(department, []), key=lambda skill: skill["name"])
+        if not members:
+            continue
+        payload.append(
+            {
+                "department": department,
+                "teams": [
+                    {
+                        "team": member["team"],
+                        "name": member["name"],
+                        "role": member["role"],
+                        "scope": member["scope"]
+                    }
+                    for member in members
+                ]
+            }
+        )
+    return payload
 
 
 def main() -> None:
@@ -129,7 +200,8 @@ def main() -> None:
             }
         ],
         "skills": skills,
-        "hierarchy": build_hierarchy(skills)
+        "hierarchy": build_hierarchy(skills),
+        "company_structure": build_company_structure(skills)
     }
     OUTPUT_PATH.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     print("skill registry synced")

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-21",
+  "generated_at": "2026-03-31",
   "models": [
     {
       "id": "codex",
@@ -7,7 +7,7 @@
       "status": "active",
       "runtime": "~/.codex/skills + AGENTS.md",
       "memory_mode": "global adapters",
-      "skill_count": 18,
+      "skill_count": 20,
       "summary": "현재 실제 스킬 시스템이 동작하는 주 런타임. 코덱스부터 기록."
     },
     {
@@ -31,21 +31,12 @@
   ],
   "skills": [
     {
-      "name": "\"openai-docs\"",
-      "description": "\"Use when the user asks how to build with OpenAI products or APIs and needs up-to-date official documentation with citations, help choosing the latest model for a use case, or explicit GPT-5.4 upgrade and prompt-upgrade guidance; prioritize OpenAI docs MCP tools, use bundled references only as helper context, and restrict any fallback browsing to official OpenAI domains.\"",
-      "role": "specialist",
-      "scope": "misc",
-      "status": "installed",
-      "model_target": "codex",
-      "trigger": "metadata 기반 자동 트리거 또는 명시적 skill mention",
-      "memory_pattern": "AGENTS.md / manager_memory / project references",
-      "path": "/home/dowon/.codex/skills/.system/openai-docs"
-    },
-    {
       "name": "architect-agent-ko",
       "description": "한국어 개발 설계 전문가 역할을 수행한다. multi-agent-manager-ko 체계에서 모든 사용자 요청마다 항상 실행되어 아키텍처, 인터페이스, 리스크를 정의하고 Markdown 업무 문서화를 지원할 때 사용한다.",
       "role": "specialist",
       "scope": "architecture",
+      "department": "Core Delivery HQ",
+      "team": "Architecture",
       "status": "installed",
       "model_target": "codex",
       "trigger": "metadata 기반 자동 트리거 또는 명시적 skill mention",
@@ -57,6 +48,8 @@
       "description": "20-30 타깃의 최신 디자인 트렌드를 반영해 웹 페이지, 앱 UI, 위젯 UI, PNG 아이콘을 설계하는 한국어 디자인 전문가 스킬이다. 신제품 UI를 처음 설계하거나 기존 기능 변경에 따라 화면 구조/컴포넌트 위치/비주얼 스타일을 재설계해야 할 때 사용한다. 반응형 레이아웃, 디자인 토큰, 아이콘 스펙, 구현 핸드오프를 다른 스킬(기획/설계/구현/QA)과 함께 정렬해야 하는 협업 상황에서 사용한다.",
       "role": "specialist",
       "scope": "design",
+      "department": "Creative Studio",
+      "team": "Design",
       "status": "installed",
       "model_target": "codex",
       "trigger": "metadata 기반 자동 트리거 또는 명시적 skill mention",
@@ -68,6 +61,8 @@
       "description": "한국어 사용자 페르소나 복제 스킬. 사용자가 \"나처럼 말해\", \"내 말투로 답해\", \"내 페르소나로 대화해\"처럼 요청할 때, references/user-profile.md의 성격/톤/문장 습관을 우선 적용해 답변할 때 사용한다.",
       "role": "specialist",
       "scope": "persona",
+      "department": "Creative Studio",
+      "team": "Persona",
       "status": "installed",
       "model_target": "codex",
       "trigger": "metadata 기반 자동 트리거 또는 명시적 skill mention",
@@ -79,6 +74,8 @@
       "description": "한국어 아이디어 전문가 역할을 수행한다. multi-agent-manager-ko 체계에서 모든 사용자 요청마다 항상 실행되어 개선안, 확장안, 실험안을 제시하고 Markdown 문서화를 지원할 때 사용한다.",
       "role": "specialist",
       "scope": "idea",
+      "department": "Core Delivery HQ",
+      "team": "Innovation",
       "status": "installed",
       "model_target": "codex",
       "trigger": "metadata 기반 자동 트리거 또는 명시적 skill mention",
@@ -86,10 +83,25 @@
       "path": "/home/dowon/.codex/skills/idea-agent-ko"
     },
     {
+      "name": "imagegen",
+      "description": "Generate or edit raster images when the task benefits from AI-created bitmap visuals such as photos, illustrations, textures, sprites, mockups, or transparent-background cutouts. Use when Codex should create a brand-new image, transform an existing image, or derive visual variants from references, and the output should be a bitmap asset rather than repo-native code or vector. Do not use when the task is better handled by editing existing SVG/vector/code-native assets, extending an established icon or logo system, or building the visual directly in HTML/CSS/canvas.",
+      "role": "system",
+      "scope": "image-generation",
+      "department": "Platform Services",
+      "team": "Image Generation",
+      "status": "installed",
+      "model_target": "codex",
+      "trigger": "metadata 기반 자동 트리거 또는 명시적 skill mention",
+      "memory_pattern": "AGENTS.md / manager_memory / project references",
+      "path": "/home/dowon/.codex/skills/.system/imagegen"
+    },
+    {
       "name": "implementer-agent-ko",
       "description": "한국어 구현 전문가 역할을 수행한다. multi-agent-manager-ko 체계에서 모든 사용자 요청마다 항상 실행되어 코드/설정/문서 변경을 수행하고 검증 결과를 Markdown으로 남길 때 사용한다. 구현 전에 가정을 명시하고 모호성을 질문으로 해소해야 하며, 과도한 추상화 없이 최소 변경으로 목표를 달성하고 검증 가능한 성공 기준을 기준으로 반복 수행해야 하는 작업에서 사용한다.",
       "role": "specialist",
       "scope": "implementation",
+      "department": "Core Delivery HQ",
+      "team": "Implementation",
       "status": "installed",
       "model_target": "codex",
       "trigger": "metadata 기반 자동 트리거 또는 명시적 skill mention",
@@ -101,6 +113,8 @@
       "description": "한국어 프로젝트 추천 스킬. 사용자가 새 프로젝트, 웹앱, 자동화, 에이전트, 서비스, 실험, 시스템 구축을 말하거나 모델/툴 선택, 설치 방법, 토큰 리밋, 메모리 공유를 물을 때, 최신 비교 레지스트리를 읽고 적합한 LLM 모델·코딩 툴·로컬 런타임·설치 방식·전역 메모리 구조를 추천한다.",
       "role": "advisor",
       "scope": "tool-recommendation",
+      "department": "Executive Office",
+      "team": "Tool Strategy",
       "status": "installed",
       "model_target": "codex",
       "trigger": "metadata 기반 자동 트리거 또는 명시적 skill mention",
@@ -112,6 +126,8 @@
       "description": "한국어 일기 피드백 스킬. 사용자가 일기, 메모, 붙여넣은 문장, 고민, 스트레스 상황을 주면 그 내용을 바탕으로 우울 악화 위험이 있는지 가볍게 판단하고, 인지심리학과 상담 관점을 섞은 200~300자 조언 또는 공감을 짧게 돌려줘야 할 때 사용한다. 위험 신호가 누적되거나 자살·자해 시도 방향으로 읽히면 즉시 외부 도움 연결 안내를 우선할 때 트리거한다.",
       "role": "specialist",
       "scope": "wellbeing",
+      "department": "Care Desk",
+      "team": "Mental Check-in",
       "status": "installed",
       "model_target": "codex",
       "trigger": "metadata 기반 자동 트리거 또는 명시적 skill mention",
@@ -123,6 +139,8 @@
       "description": "한국어 멀티 에이전트 총괄 관리자다. 사용자의 모든 요청에서 기획, 개발 설계, 구현, QA, 아이디어 5개 전문가 역할을 항상 동시에 가동하고 업무를 배분/통제/통합 보고한다. 모든 작업을 Markdown으로 문서화하고 장기/중기/단기 전략 파일을 관리해야 할 때 사용한다.",
       "role": "manager",
       "scope": "global-management",
+      "department": "Executive Office",
+      "team": "Operations Control",
       "status": "installed",
       "model_target": "codex",
       "trigger": "metadata 기반 자동 트리거 또는 명시적 skill mention",
@@ -130,10 +148,25 @@
       "path": "/home/dowon/.codex/skills/multi-agent-manager-ko"
     },
     {
+      "name": "openai-docs",
+      "description": "Use when the user asks how to build with OpenAI products or APIs and needs up-to-date official documentation with citations, help choosing the latest model for a use case, or explicit GPT-5.4 upgrade and prompt-upgrade guidance; prioritize OpenAI docs MCP tools, use bundled references only as helper context, and restrict any fallback browsing to official OpenAI domains.",
+      "role": "system",
+      "scope": "docs",
+      "department": "Platform Services",
+      "team": "Docs Access",
+      "status": "installed",
+      "model_target": "codex",
+      "trigger": "metadata 기반 자동 트리거 또는 명시적 skill mention",
+      "memory_pattern": "AGENTS.md / manager_memory / project references",
+      "path": "/home/dowon/.codex/skills/.system/openai-docs"
+    },
+    {
       "name": "personal-essay-writer-ko",
       "description": "한국어로 문학적인 일기, 에세이, 자기고백문, 감정 정리문을 쓸 때 사용하는 스킬. 사용자가 \"나처럼 써줘\", \"내 감정으로 글 써줘\", \"일기처럼 적어줘\", \"에세이처럼 다듬어줘\", \"내 말투를 반영해줘\", \"이 감정을 글로 써줘\"처럼 요청할 때 사용한다. 사용자의 현재 감정, 상태, 장면 기억, 말투, 리듬을 최대한 반영해 초안을 쓰고, 필요하면 같은 화자의 글처럼 한 번 더 문학적으로 검토하고 정리한다.",
       "role": "specialist",
       "scope": "writing",
+      "department": "Creative Studio",
+      "team": "Writing",
       "status": "installed",
       "model_target": "codex",
       "trigger": "metadata 기반 자동 트리거 또는 명시적 skill mention",
@@ -145,6 +178,8 @@
       "description": "한국어 기획 전문가 역할을 수행한다. multi-agent-manager-ko 체계에서 모든 사용자 요청마다 항상 실행되어 요구사항, 범위, 완료 기준을 정의하고 Markdown 업무 문서화를 지원할 때 사용한다.",
       "role": "specialist",
       "scope": "planning",
+      "department": "Core Delivery HQ",
+      "team": "Planning",
       "status": "installed",
       "model_target": "codex",
       "trigger": "metadata 기반 자동 트리거 또는 명시적 skill mention",
@@ -152,10 +187,25 @@
       "path": "/home/dowon/.codex/skills/planner-agent-ko"
     },
     {
+      "name": "plugin-creator",
+      "description": "Create and scaffold plugin directories for Codex with a required `.codex-plugin/plugin.json`, optional plugin folders/files, and baseline placeholders you can edit before publishing or testing. Use when Codex needs to create a new local plugin, add optional plugin structure, or generate or update repo-root `.agents/plugins/marketplace.json` entries for plugin ordering and availability metadata.",
+      "role": "system",
+      "scope": "plugin-authoring",
+      "department": "Platform Services",
+      "team": "Plugin Scaffolding",
+      "status": "installed",
+      "model_target": "codex",
+      "trigger": "metadata 기반 자동 트리거 또는 명시적 skill mention",
+      "memory_pattern": "AGENTS.md / manager_memory / project references",
+      "path": "/home/dowon/.codex/skills/.system/plugin-creator"
+    },
+    {
       "name": "portfolio-blog-writer-ko",
       "description": "한국어 프로젝트 런칭 회고형 블로그 글 작성 스킬. 새 프로젝트가 거의 완성됐을 때 브런치/티스토리에 어울리는 글을 쓰거나, 포트폴리오 홈페이지 하단 블로그에 올릴 글 초안과 메타데이터를 만들거나, 실제 홈페이지를 실행해 스크린샷을 캡처하고 글에 반영해야 할 때 사용한다. 작성 톤은 사용자의 빠른 리듬을 유지하되 과한 반말 대신 \"~입니다\", \"~에요\" 중심으로 맞춘다.",
       "role": "specialist",
       "scope": "content",
+      "department": "Creative Studio",
+      "team": "Publishing",
       "status": "installed",
       "model_target": "codex",
       "trigger": "metadata 기반 자동 트리거 또는 명시적 skill mention",
@@ -167,6 +217,8 @@
       "description": "한국어 감정 코칭 서비스에서 사용자 맞춤 프롬프트를 설계·압축·운영하는 스킬. gpt-4o-mini 같은 저비용 모델에서 토큰을 아끼면서 공감/분석/행동 품질을 유지해야 할 때, 시스템 프롬프트와 개인화 프로필을 분리 운영하고 주기적으로 업데이트할 때 사용한다.",
       "role": "specialist",
       "scope": "prompt",
+      "department": "Intelligence & Growth",
+      "team": "Prompt Personalization",
       "status": "installed",
       "model_target": "codex",
       "trigger": "metadata 기반 자동 트리거 또는 명시적 skill mention",
@@ -178,6 +230,8 @@
       "description": "한국어 QA 전문가 역할을 수행한다. multi-agent-manager-ko 체계에서 모든 사용자 요청마다 항상 실행되어 테스트, 결함 분석, 품질 게이트 판정을 수행하고 Markdown 문서화를 지원할 때 사용한다.",
       "role": "specialist",
       "scope": "qa",
+      "department": "Core Delivery HQ",
+      "team": "Quality Assurance",
       "status": "installed",
       "model_target": "codex",
       "trigger": "metadata 기반 자동 트리거 또는 명시적 skill mention",
@@ -189,6 +243,8 @@
       "description": "Guide for creating effective skills. This skill should be used when users want to create a new skill (or update an existing skill) that extends Codex's capabilities with specialized knowledge, workflows, or tool integrations.",
       "role": "system",
       "scope": "authoring",
+      "department": "Platform Services",
+      "team": "Skill Authoring",
       "status": "installed",
       "model_target": "codex",
       "trigger": "metadata 기반 자동 트리거 또는 명시적 skill mention",
@@ -200,6 +256,8 @@
       "description": "Install Codex skills into $CODEX_HOME/skills from a curated list or a GitHub repo path. Use when a user asks to list installable skills, install a curated skill, or install a skill from another repo (including private repos).",
       "role": "system",
       "scope": "installation",
+      "department": "Platform Services",
+      "team": "Skill Installation",
       "status": "installed",
       "model_target": "codex",
       "trigger": "metadata 기반 자동 트리거 또는 명시적 skill mention",
@@ -211,6 +269,8 @@
       "description": "10년차 수준의 SQL 개발과 엑셀·데이터베이스 기반 데이터 분석으로 실행 가능한 인사이트를 도출하는 한국어 전문가 스킬. 복잡한 SQL 쿼리 작성/리팩터링, 지표 정의, 데이터 정합성 검증, 엑셀+DB 교차 분석, 원인 분석, 의사결정 보고서 작성이 필요할 때 사용한다. 모든 작업에서 Markdown 작업 내역 문서화를 의무화해야 할 때 사용한다.",
       "role": "specialist",
       "scope": "data",
+      "department": "Intelligence & Growth",
+      "team": "Data Intelligence",
       "status": "installed",
       "model_target": "codex",
       "trigger": "metadata 기반 자동 트리거 또는 명시적 skill mention",
@@ -222,6 +282,8 @@
       "description": "한국어 스타트업 사업전략 페르소나로 아이템을 사업 관점에서 분석하고 실행 가능한 전략안을 만든다. 아이템 검증, 시장성 점검, SWOT 분석, 경쟁사 리서치, 포지셔닝, 가격/수익화 모델 설계, PMF 가설 수립, 초기 GTM 전략이 필요할 때 사용한다. multi-agent-manager-ko와 함께 동작할 때 기획/설계/구현 산출물을 비즈니스 관점으로 정렬하고 우선순위를 재조정해야 하는 상황에서 사용한다.",
       "role": "specialist",
       "scope": "business",
+      "department": "Intelligence & Growth",
+      "team": "Business Strategy",
       "status": "installed",
       "model_target": "codex",
       "trigger": "metadata 기반 자동 트리거 또는 명시적 skill mention",
@@ -268,10 +330,6 @@
       "role": "과장",
       "label": "Specialists",
       "members": [
-        {
-          "name": "\"openai-docs\"",
-          "summary": "misc"
-        },
         {
           "name": "architect-agent-ko",
           "summary": "architecture"
@@ -331,12 +389,176 @@
       "label": "System Utilities",
       "members": [
         {
+          "name": "imagegen",
+          "summary": "image-generation"
+        },
+        {
+          "name": "openai-docs",
+          "summary": "docs"
+        },
+        {
+          "name": "plugin-creator",
+          "summary": "plugin-authoring"
+        },
+        {
           "name": "skill-creator",
           "summary": "authoring"
         },
         {
           "name": "skill-installer",
           "summary": "installation"
+        }
+      ]
+    }
+  ],
+  "company_structure": [
+    {
+      "department": "Executive Office",
+      "teams": [
+        {
+          "team": "Tool Strategy",
+          "name": "llm-tool-advisor-ko",
+          "role": "advisor",
+          "scope": "tool-recommendation"
+        },
+        {
+          "team": "Operations Control",
+          "name": "multi-agent-manager-ko",
+          "role": "manager",
+          "scope": "global-management"
+        }
+      ]
+    },
+    {
+      "department": "Core Delivery HQ",
+      "teams": [
+        {
+          "team": "Architecture",
+          "name": "architect-agent-ko",
+          "role": "specialist",
+          "scope": "architecture"
+        },
+        {
+          "team": "Innovation",
+          "name": "idea-agent-ko",
+          "role": "specialist",
+          "scope": "idea"
+        },
+        {
+          "team": "Implementation",
+          "name": "implementer-agent-ko",
+          "role": "specialist",
+          "scope": "implementation"
+        },
+        {
+          "team": "Planning",
+          "name": "planner-agent-ko",
+          "role": "specialist",
+          "scope": "planning"
+        },
+        {
+          "team": "Quality Assurance",
+          "name": "qa-agent-ko",
+          "role": "specialist",
+          "scope": "qa"
+        }
+      ]
+    },
+    {
+      "department": "Creative Studio",
+      "teams": [
+        {
+          "team": "Design",
+          "name": "design-trend-agent-ko",
+          "role": "specialist",
+          "scope": "design"
+        },
+        {
+          "team": "Persona",
+          "name": "entp-clone-ko",
+          "role": "specialist",
+          "scope": "persona"
+        },
+        {
+          "team": "Writing",
+          "name": "personal-essay-writer-ko",
+          "role": "specialist",
+          "scope": "writing"
+        },
+        {
+          "team": "Publishing",
+          "name": "portfolio-blog-writer-ko",
+          "role": "specialist",
+          "scope": "content"
+        }
+      ]
+    },
+    {
+      "department": "Intelligence & Growth",
+      "teams": [
+        {
+          "team": "Prompt Personalization",
+          "name": "prompt-personalization-ko",
+          "role": "specialist",
+          "scope": "prompt"
+        },
+        {
+          "team": "Data Intelligence",
+          "name": "sql-data-insight-ko",
+          "role": "specialist",
+          "scope": "data"
+        },
+        {
+          "team": "Business Strategy",
+          "name": "startup-business-strategist-ko",
+          "role": "specialist",
+          "scope": "business"
+        }
+      ]
+    },
+    {
+      "department": "Care Desk",
+      "teams": [
+        {
+          "team": "Mental Check-in",
+          "name": "mortality-resident-ko",
+          "role": "specialist",
+          "scope": "wellbeing"
+        }
+      ]
+    },
+    {
+      "department": "Platform Services",
+      "teams": [
+        {
+          "team": "Image Generation",
+          "name": "imagegen",
+          "role": "system",
+          "scope": "image-generation"
+        },
+        {
+          "team": "Docs Access",
+          "name": "openai-docs",
+          "role": "system",
+          "scope": "docs"
+        },
+        {
+          "team": "Plugin Scaffolding",
+          "name": "plugin-creator",
+          "role": "system",
+          "scope": "plugin-authoring"
+        },
+        {
+          "team": "Skill Authoring",
+          "name": "skill-creator",
+          "role": "system",
+          "scope": "authoring"
+        },
+        {
+          "team": "Skill Installation",
+          "name": "skill-installer",
+          "role": "system",
+          "scope": "installation"
         }
       ]
     }
